@@ -15,7 +15,7 @@ void (*single_add_fun)(void);
 void (*single_buzzer_fun)(void);
 void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
-static void Setup_Timer_Times(void);
+//static void Setup_Timer_Times(void);
 
 static void Timing_Handler(void);
 static void RunLocal_Smg_Process(void);
@@ -23,7 +23,7 @@ static void RunLocal_Smg_Process(void);
 static void DisplayPanel_DHT11_Value(void);
 static void SetTemperature_Function(void);
 static void Display_Works_Time_Fun(void);
-static void Send_WorksTime_ToApp_DonotDisplay_Fun(void);
+//static void Send_WorksTime_ToApp_DonotDisplay_Fun(void);
 
 
 
@@ -213,7 +213,7 @@ void RunPocess_Command_Handler(void)
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
             break;
         }
-		break;
+	
 	  break;
 
 	  case UPDATE_DATA: //3
@@ -376,6 +376,7 @@ static void Display_Works_Time_Fun(void)
 
 }
 
+#if 0
 static void Send_WorksTime_ToApp_DonotDisplay_Fun(void)
 {
 //send to APP works times every minute onece
@@ -408,6 +409,7 @@ static void Send_WorksTime_ToApp_DonotDisplay_Fun(void)
 	   SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
 	   }
 }
+#endif 
 /****************************************************************
  * 
  * Function Name:
