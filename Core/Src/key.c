@@ -168,8 +168,8 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t m,n,q,power_on_off_flag;
-  
+   static uint8_t m,n,p,q,power_on_off_flag;
+   static uint8_t power_flag;
     switch(keylabel){
 
       case POWER_KEY_ID:
@@ -402,8 +402,8 @@ void Process_Key_Handler(uint8_t keylabel)
 void SetTimer_Temperature_Number_Blink(void)
 {
 
-    static uint8_t m,n,p,q,counter_times;
-    static uint8_t timing_flag,set_timer_flag,set_temp_flag;
+    static uint8_t m,n,p,q,counter_timesb,send_timing_value,counter_times;
+    static uint8_t timing_flag,set_timer_flag,set_temp_flag,define_timer_times;
 	
 	//set timer timing value 
 	switch(run_t.temp_set_timer_timing_flag){
@@ -477,7 +477,7 @@ void SetTimer_Temperature_Number_Blink(void)
 		if(timing_flag > 3){
 			set_timer_flag=0;
 			timing_flag=0;
-		    
+		    send_timing_value = 1;
 		   	run_t.set_timer_special_value=0 ;
 			run_t.dispTime_minutes=0;
 			run_t.temp_set_timer_timing_flag=0;
@@ -487,7 +487,17 @@ void SetTimer_Temperature_Number_Blink(void)
 			run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours*60;
 			
 			run_t.gTimer_Counter=0;
-		
+			//while(send_timing_value == 1){
+			//   send_timing_value++;
+			//   SendData_Time_Data(run_t.dispTime_hours);
+			//   HAL_Delay(50);
+			//}
+			//run_t.send_app_timer_minutes_one = run_t.send_app_timer_total_minutes_data >> 8;
+		    //run_t.send_app_timer_minutes_two = run_t.send_app_timer_total_minutes_data & 0x00ff;
+            
+		 	
+		   // SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
+           //  HAL_Delay(50);
 			run_t.hours_two_bit=run_t.dispTime_hours  %10;
 			run_t.minutes_one_bit = p;
 		
@@ -554,7 +564,7 @@ void SetTimer_Temperature_Number_Blink(void)
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    #if 1
-  
+   static uint8_t power_on_off_flag;
    
    switch(GPIO_Pin){
 
