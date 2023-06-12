@@ -250,6 +250,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                 else parse_buf[2] =inputBuf[0];
 			    state=3;
 			}
+            else if(inputBuf[0]=='E'){
+                run_t.rx_mb_data_tag=ORDER_DATA;
+                state=3;
+            }
 			else{
 				state=0;
 				run_t.rx_mb_answer_tag=0;
@@ -266,6 +270,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                   state = 4; 
                 
              }
+			else if(run_t.rx_mb_data_tag==ORDER_DATA){
+
+			   outputBuf[0]=  inputBuf[0];  
+			state=0;
+			run_t.decodeFlag=1;
+			run_t.rx_mb_answer_tag=0;
+
+
+			}
             else {
 
 				parse_buf[3] =inputBuf[0];
