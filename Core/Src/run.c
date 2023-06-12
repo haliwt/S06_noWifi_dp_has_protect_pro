@@ -133,6 +133,37 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	  break;
 
+	  case ORDER_DATA:
+
+	   switch(outputBuf[0]){
+
+         case PTC_WARNING:
+		 	run_t.ptc_warning =1;
+
+	     break;
+
+		 case FAN_WARNING:
+		 	run_t.fan_warning =1;
+
+		 break;
+
+		 case FAN_REMOVE_WARNING:
+
+		   run_t.fan_warning =0;
+
+		 break;
+
+
+
+
+	   }
+
+	  
+
+
+
+	  break;
+
       
 
      

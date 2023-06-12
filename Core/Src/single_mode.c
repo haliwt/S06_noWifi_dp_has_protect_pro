@@ -181,6 +181,9 @@ void RunPocess_Command_Handler(void)
 		 switch(run_t.step_run_power_off_tag){
 
 			case 0:
+
+		    run_t.ptc_warning =0;
+		    run_t.fan_warning =0;
 			
             power_off_set_flag=0;
 		   

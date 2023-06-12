@@ -16,7 +16,12 @@ typedef enum WIFI_STATE_T{
     WIFI_SONIC_ON = 0x01,       //ultrasonic
     WIFI_SONIC_OFF = 0x11,
     WIFI_TEMPERATURE = 0xA0,
-    WIFI_POWER_ON_NORMAL= 0xB0
+    WIFI_POWER_ON_NORMAL= 0xB0,
+
+	PTC_WARNING= 0xE1,
+	FAN_WARNING = 0xE2,
+
+	FAN_REMOVE_WARNING = 0xF2
     
 
 
@@ -90,6 +95,9 @@ typedef struct __RUN{
  
    uint8_t  gDry;
    uint8_t  gBug;
+
+   uint8_t  ptc_warning;
+   uint8_t  fan_warning;
 
 
    uint8_t  gUltrasonic;
