@@ -23,7 +23,9 @@ static void RunLocal_Smg_Process(void);
 static void DisplayPanel_DHT11_Value(void);
 static void Display_SetTemperature_Value(void);
 static void Display_Works_Time_Fun(void);
-static void Send_WorksTime_ToApp_DonotDisplay_Fun(void);
+static void WorksTime_DonotDisplay_Fun(void);
+static void Timer_Timing_Donot_Display(void);
+
 
 
 
@@ -75,7 +77,7 @@ static void Display_Timing_Value(void)
 
 	   }
       
-       Send_WorksTime_ToApp_DonotDisplay_Fun();
+       WorksTime_DonotDisplay_Fun();
 	break;
 
 
@@ -95,7 +97,7 @@ static void Display_Timing_Value(void)
 
 	case timing_donot:
 		 
-
+         Timer_Timing_Donot_Display();
 	     Display_Works_Time_Fun();
 	     
 
@@ -383,7 +385,51 @@ static void Display_Works_Time_Fun(void)
 
 }
 
-static void Send_WorksTime_ToApp_DonotDisplay_Fun(void)
+/****************************************************************
+ * 
+ * Function Name: static void Timer_Timing_Donot_Display(void)
+ * Function :function of pointer 
+ * 
+ *
+ * 
+*****************************************************************/
+static void Timer_Timing_Donot_Display(void)
+{
+     if(run_t.gTimer_Counter > 59){
+	    run_t.gTimer_Counter =0;
+		run_t.timer_dispTime_minutes -- ;
+	
+	    if(run_t.timer_dispTime_minutes <  0 ){
+			 
+		   run_t.timer_dispTime_hours -- ;
+		   run_t.timer_dispTime_minutes =59;
+         }
+
+		
+		
+		 if(run_t.timer_dispTime_hours < 0 ){
+		 
+				
+			run_t.gTimer_Counter = 57 ;
+			run_t.timer_dispTime_hours=0;
+			run_t.timer_dispTime_minutes=0;
+			run_t.timer_timing_define_flag=timing_power_off;
+	
+		}
+		    
+        }
+
+}
+
+/****************************************************************
+ * 
+ * Function Name: static void WorksTime_DonotDisplay_Fun(void)
+ * Function :function of pointer 
+ * 
+ *
+ * 
+****************************************************************/
+static void WorksTime_DonotDisplay_Fun(void)
 {
 //send to APP works times every minute onece
    if(run_t.gTimes_time_seconds > 59 && run_t.timer_timing_define_flag ==timing_success && run_t.temp_set_timer_timing_flag ==0){
