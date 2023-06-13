@@ -446,11 +446,18 @@ void SetTimer_Temperature_Number_Value(void)
 	switch(run_t.temp_set_timer_timing_flag){
 
 	case TIMER_TIMING:
-	if(run_t.gTimer_key_timing > 5  && run_t.confirm_timer_input_number  ==0 && run_t.gPower_On==RUN_POWER_ON){
+	if(run_t.gTimer_key_timing > 4  && run_t.confirm_timer_input_number  ==1 && run_t.gPower_On==RUN_POWER_ON){
 		run_t.gTimer_key_timing =0;		
 		run_t.confirm_timer_input_number=2;
 	    run_t.input_timer_timing_numbers_flag =0;
+		
+		run_t.timer_dispTime_hours =0;
+		run_t.timer_dispTime_minutes =0;
+
 		run_t.timer_timing_define_flag=timing_donot;
+		run_t.ai_model_flag =1;
+		run_t.timer_works_transform_flag =0;
+        run_t.temp_set_timer_timing_flag=timing_null;
 		
         run_t.gTimer_Counter=0;
 		#if 0
@@ -477,14 +484,14 @@ void SetTimer_Temperature_Number_Value(void)
 	 switch(run_t.input_timer_timing_numbers_flag){
 
       case 1:
-           if(run_t.gTimer_smg_timing < 13){
+           if(run_t.gTimer_smg_timing < 26){
 	              LED_AI_ON();
            	}
-		   else if(run_t.gTimer_smg_timing > 12 && run_t.gTimer_smg_timing < 27){
+		   else if(run_t.gTimer_smg_timing > 24 && run_t.gTimer_smg_timing < 54){
 		   	     LED_AI_OFF();
 		   	
 		   	}
-		   else{
+		   else if(run_t.gTimer_smg_timing > 53){
 			run_t.gTimer_smg_timing=0;
 
 			

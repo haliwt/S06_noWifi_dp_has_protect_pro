@@ -32,7 +32,8 @@ typedef enum TIMING_T{
 
    timing_donot,
    timing_success ,
-   timing_power_off
+   timing_power_off,
+   timing_null
 }timing_t;
 
 
