@@ -374,7 +374,7 @@ static void Display_Works_Time_Fun(void)
 
        if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
           works_timing_flag=0;
-		  run_t.timer_works_transform_flag++;
+		  run_t.timer_works_transform_flag=1;
 		 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 	  
         }
