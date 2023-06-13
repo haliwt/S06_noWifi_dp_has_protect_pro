@@ -38,12 +38,13 @@ static void Send_WorksTime_ToApp_DonotDisplay_Fun(void);
 static void Display_Timing_Value(void)
 {
 
-  
+   static uint8_t timer_display_flag,timer_hasnot_flag ;
 	switch(run_t.timer_timing_define_flag){
 
 	case timing_success:
 	   if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
+		timer_display_flag=1;
 		run_t.timer_dispTime_minutes -- ;
 	
 	    if(run_t.timer_dispTime_minutes <  0 ){
@@ -65,6 +66,14 @@ static void Display_Timing_Value(void)
 		}
 		    
         }
+
+	   if(timer_display_flag==1 || timer_hasnot_flag ==0){
+		   timer_display_flag=0;
+		   timer_hasnot_flag++;
+
+           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+
+	   }
       
        Send_WorksTime_ToApp_DonotDisplay_Fun();
 	break;
@@ -85,6 +94,7 @@ static void Display_Timing_Value(void)
 
 
 	case timing_donot:
+		 timer_hasnot_flag =0;
 
 	     Display_Works_Time_Fun();
 	     
