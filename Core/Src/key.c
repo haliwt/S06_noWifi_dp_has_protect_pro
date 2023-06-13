@@ -448,6 +448,7 @@ void SetTimer_Temperature_Number_Value(void)
 			run_t.set_timer_special_value = timing_donot;
             run_t.timer_dispTime_minutes =0;
 			run_t.temp_set_timer_timing_flag=0;
+			run_t.timer_timing_define_flag=timing_donot;
 
 	    }
 		else{
@@ -490,7 +491,7 @@ void SetTimer_Temperature_Number_Value(void)
 		   	run_t.set_timer_special_value=0 ;
 			run_t.timer_dispTime_minutes=0;
 			run_t.temp_set_timer_timing_flag=0;
-		
+		    run_t.timer_timing_define_flag=timing_success;
 			
 			run_t.gTimer_Counter=0;
 		
