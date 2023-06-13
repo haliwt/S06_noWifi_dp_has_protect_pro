@@ -38,7 +38,7 @@ static void Send_WorksTime_ToApp_DonotDisplay_Fun(void);
 static void Display_Timing_Value(void)
 {
 
-   static uint8_t timer_display_flag,timer_hasnot_flag ;
+   static uint8_t timer_display_flag;
 	switch(run_t.timer_timing_define_flag){
 
 	case timing_success:
@@ -67,9 +67,9 @@ static void Display_Timing_Value(void)
 		    
         }
 
-	   if(timer_display_flag==1 || timer_hasnot_flag ==0){
+	   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
 		   timer_display_flag=0;
-		   timer_hasnot_flag++;
+		   run_t.timer_works_transform_flag=0;
 
            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
@@ -94,7 +94,7 @@ static void Display_Timing_Value(void)
 
 
 	case timing_donot:
-		 timer_hasnot_flag =0;
+		 
 
 	     Display_Works_Time_Fun();
 	     
@@ -346,10 +346,10 @@ static void Display_SetTemperature_Value(void)
 
 static void Display_Works_Time_Fun(void)
 {
-
+     static uint8_t works_timing_flag;
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
-          
+            works_timing_flag =1;
 			run_t.works_dispTime_minutes++; //1 minute 
 			run_t.send_app_wokes_total_minutes_data++;
             run_t.send_app_wokes_minutes_two++;
@@ -370,15 +370,16 @@ static void Display_Works_Time_Fun(void)
           
             }
 
-		Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+     	}
+
+       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
+          works_timing_flag=0;
+		  run_t.timer_works_transform_flag++;
+		 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 	  
         }
 
-	
-//     while(run_t.send_works_times_to_app==1){
-//            run_t.send_works_times_to_app=0;
-//        SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
-//        }
+
 
 }
 

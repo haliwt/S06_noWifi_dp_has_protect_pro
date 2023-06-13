@@ -121,7 +121,7 @@ typedef struct __RUN{
 
    uint8_t gTimer_display_dht11;
   
-   uint8_t gTimer_led_500ms;
+
    uint8_t first_power_on_times;
    
  
@@ -146,9 +146,8 @@ typedef struct __RUN{
  
    //usart ref
     uint8_t process_run_guarantee_flag;
-    uint8_t iwdg_feed_success_flag ;
-    uint8_t gTimer_check_iwdg_flag ;
-    uint8_t gTimer_iwdg ;
+    uint8_t timer_works_transform_flag;
+	
     
  
    /***/
@@ -186,7 +185,7 @@ typedef struct __RUN{
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
  
-   uint8_t gTimer_smg_display;
+ 
    
  
 
