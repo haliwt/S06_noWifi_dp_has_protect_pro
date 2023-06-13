@@ -441,25 +441,15 @@ void SetTimer_Temperature_Number_Value(void)
 		set_timer_flag++;
 		run_t.gTimer_key_timing =0;
         run_t.gTimer_Counter=0;
-		if(run_t.dispTime_hours ==0 ){
+		if(run_t.timer_dispTime_hours ==0 ){
 		  
 			set_timer_flag=0;
 			timing_flag=0;
 			run_t.set_timer_special_value = timing_donot;
-
+            run_t.timer_dispTime_minutes =0;
 			run_t.temp_set_timer_timing_flag=0;
 
-		
-			run_t.send_app_timer_minutes_one = 0;
-		    run_t.send_app_timer_minutes_two = 0;
-			
-	
-	        run_t.dispTime_hours = run_t.works_dispTime_hours;
-			run_t.dispTime_minutes = run_t.works_dispTime_minutes;
-		
-			
-
-		}
+	    }
 		else{
 			
 			run_t.set_timer_special_value = timing_success;
@@ -475,8 +465,8 @@ void SetTimer_Temperature_Number_Value(void)
 		   
 		if(run_t.gTimer_smg_timing < 13){
 
-			m=run_t.dispTime_hours  /10%10;
-			run_t.hours_two_bit=run_t.dispTime_hours  %10;//n=run_t.dispTime_hours  %10;
+			m=run_t.timer_dispTime_hours  /10;
+			run_t.hours_two_bit=run_t.timer_dispTime_hours  %10;//n=run_t.dispTime_hours  %10;
 			run_t.minutes_one_bit=0;//p =0;
 			q=  0;
 			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
@@ -498,16 +488,13 @@ void SetTimer_Temperature_Number_Value(void)
 			timing_flag=0;
 		    send_timing_value = 1;
 		   	run_t.set_timer_special_value=0 ;
-			run_t.dispTime_minutes=0;
+			run_t.timer_dispTime_minutes=0;
 			run_t.temp_set_timer_timing_flag=0;
 		
 			
-			run_t.define_initialization_timer_time_hours = run_t.dispTime_hours ;//* 60 
-			run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours*60;
-			
 			run_t.gTimer_Counter=0;
 		
-			run_t.hours_two_bit=run_t.dispTime_hours  %10;
+			run_t.hours_two_bit=run_t.timer_dispTime_hours  %10;
 			run_t.minutes_one_bit = p;
 		
 			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
