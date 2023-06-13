@@ -1,5 +1,6 @@
 #include "led.h"
 #include "run.h"
+#include "key.h"
 
 void (*panel_led_fun)(void);
 
@@ -112,7 +113,7 @@ void Panel_Led_OnOff_Function(void)
 {
 	
 	LED_POWER_ON();
-	if(run_t.ai_model_flag ==0){
+	if(run_t.ai_model_flag ==AI_MODE){
        LED_AI_ON();
 
 	}

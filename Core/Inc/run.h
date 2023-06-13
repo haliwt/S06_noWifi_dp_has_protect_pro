@@ -158,7 +158,7 @@ typedef struct __RUN{
    uint8_t gTimer_time_colon;
  
    uint8_t ai_model_flag;
-   uint8_t gTimer_wifi_connect_counter;
+
    uint8_t temp_set_timer_timing_flag;
    uint8_t gTimer_key_timing;
    uint8_t power_on_recoder_times;

@@ -101,11 +101,9 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //long key key if be pressed down 
 			{
-				if(++key_t.on_time>95000)// 80000 long key be down
+				if(++key_t.on_time>10000)// 80000 long key be down
 				{
-				    key_t.value = key_t.value|0x90; //key.value = 0x01 | 0x80  =0x81  
-					
-					if(key_t.value == 0x80) key_t.value = 0x90;
+				    key_t.value = key_t.value|0x80; //key.value = 0x02 | 0x80  =0x82
                     key_t.on_time = 0;
 					key_t.state   = finish;
 	               
@@ -193,38 +191,59 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  break;
 
-	  case LINK_WIFI_KEY_ID:
+	  case MODE_LONG_KEY_ID:
 	  	if(run_t.gPower_On ==RUN_POWER_ON){
 
-		    SendData_Set_Wifi(0x01);
-			HAL_Delay(50);
-	
-			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-         
-		
-			run_t.ai_model_flag =0;
-			run_t.gTimer_wifi_connect_counter=0;
+		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
+		  	   	SendData_Buzzer();//single_buzzer_fun();
+
+		    switch(run_t.ai_model_flag){
+
+			  case AI_NO_MODE:
+			  	  run_t.temp_set_timer_timing_flag =1;
+				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
+			      run_t.gTimer_key_timing=0;
+
+			  break;
+			  
+
+			
+		    }
 	       
 		 }
+	  	}
 		 run_t.keyvalue = 0xff;
 	  break;
 
-	  case MODEL_KEY_ID://model_key:
+	  case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
 		if(run_t.gPower_On ==RUN_POWER_ON){
-			run_t.temp_set_timer_timing_flag=1;
-			
+
+			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+
+
 			SendData_Buzzer();//single_buzzer_fun();
-			
-			run_t.gTimer_key_timing=0;
-			
+
+			if(run_t.ai_model_flag ==AI_MODE){
+				run_t.ai_model_flag =AI_NO_MODE;
+
+			}
+			else{
+				run_t.ai_model_flag =AI_MODE;
+
+			}
+
 				
-		 }
+
+			}
+		}
 	   run_t.keyvalue = 0xff;
 
 	  break;
 
 	  case ADD_KEY_ID://add_key:
 	  	 if(run_t.gPower_On ==RUN_POWER_ON){
+
+		   if(run_t.ptc_warning ==0){
 			SendData_Buzzer();//single_buzzer_fun();
 
 		  switch(run_t.temp_set_timer_timing_flag){
@@ -265,17 +284,21 @@ void Process_Key_Handler(uint8_t keylabel)
 				
 
 					 TM1639_Write_4Bit_Time(m,run_t.hours_two_bit, run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00" 
-				//    HAL_Delay(100);
+			
                 
 				
 	  	    }
+	  	   }
 	  	 }
 	  	 run_t.keyvalue = 0xff;
 	  break;
 
 	  case DEC_KEY_ID://dec_key:
 	   if(run_t.gPower_On ==RUN_POWER_ON){
-			SendData_Buzzer();//single_buzzer_fun();
+
+          if(run_t.ptc_warning ==0){
+	   
+			SendData_Buzzer();
 		 switch(run_t.temp_set_timer_timing_flag){
 
 		 	case 0: //set temperature value
@@ -322,13 +345,15 @@ void Process_Key_Handler(uint8_t keylabel)
 		  
 		  break;
 	   	  }
+	   	 
+	   	}
 	   	}
 		 run_t.keyvalue = 0xff;
 	  break;
 
 	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
           if(run_t.gPower_On ==RUN_POWER_ON){
-		
+		      if(run_t.ptc_warning ==0){
 			  if(run_t.gDry== 1){
 				    run_t.gDry =0;
 					SendData_Set_Command(DRY_OFF);
@@ -357,6 +382,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				   
 		       
 			 }
+          	}
            run_t.keyvalue = 0xff;
         break;
 
@@ -426,18 +452,10 @@ void SetTimer_Temperature_Number_Blink(void)
 			run_t.send_app_timer_minutes_one = 0;
 		    run_t.send_app_timer_minutes_two = 0;
 			
-		//	SendData_Time_Data(run_t.dispTime_hours);
-		//	HAL_Delay(100);
-            
-		 	//SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
-			//HAL_Delay(200);
-			
-					
-			//SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
-			//HAL_Delay(100);
+	
 	        run_t.dispTime_hours = run_t.works_dispTime_hours;
 			run_t.dispTime_minutes = run_t.works_dispTime_minutes;
-		//	Display_GMT(run_t.dispTime_hours,run_t.dispTime_minutes);
+		
 			
 
 		}
@@ -487,17 +505,7 @@ void SetTimer_Temperature_Number_Blink(void)
 			run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours*60;
 			
 			run_t.gTimer_Counter=0;
-			//while(send_timing_value == 1){
-			//   send_timing_value++;
-			//   SendData_Time_Data(run_t.dispTime_hours);
-			//   HAL_Delay(50);
-			//}
-			//run_t.send_app_timer_minutes_one = run_t.send_app_timer_total_minutes_data >> 8;
-		    //run_t.send_app_timer_minutes_two = run_t.send_app_timer_total_minutes_data & 0x00ff;
-            
-		 	
-		   // SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
-           //  HAL_Delay(50);
+		
 			run_t.hours_two_bit=run_t.dispTime_hours  %10;
 			run_t.minutes_one_bit = p;
 		
@@ -550,8 +558,7 @@ void SetTimer_Temperature_Number_Blink(void)
 			  m =  run_t.wifi_set_temperature / 10 ;
 			  n =  run_t.wifi_set_temperature % 10; //
 			  TM1639_Write_2bit_SetUp_TempData(m,n,0);
-	         // SendData_Temp_Data(run_t.wifi_set_temperature);
-              // HAL_Delay(50);
+	       
 	       }
 	  }
 	  break;
