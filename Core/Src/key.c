@@ -239,7 +239,25 @@ void Process_Key_Handler(uint8_t keylabel)
 			case 1:
 				run_t.confirm_timer_input_number=0;
 				run_t.input_timer_timing_numbers_flag =0;
-				run_t.timer_timing_define_flag=timing_success;
+			    if(run_t.timer_dispTime_hours >0){
+				 run_t.timer_timing_define_flag=timing_success;
+				 run_t.timer_timing_define_ok = 1;
+				 run_t.temp_set_timer_timing_flag=0;
+				
+				 
+
+			    }
+				else{
+
+				    run_t.timer_timing_define_ok = 0;
+					run_t.timer_timing_define_flag=timing_donot;
+					run_t.ai_model_flag =1;
+					run_t.timer_works_transform_flag =0;
+				   run_t.temp_set_timer_timing_flag=0;
+
+
+				}
+					
 				run_t.gTimer_Counter=0;
 			break;
 
@@ -457,7 +475,7 @@ void SetTimer_Temperature_Number_Value(void)
 		run_t.timer_timing_define_flag=timing_donot;
 		run_t.ai_model_flag =1;
 		run_t.timer_works_transform_flag =0;
-        run_t.temp_set_timer_timing_flag=timing_null;
+        run_t.temp_set_timer_timing_flag=0;
 		
         run_t.gTimer_Counter=0;
 		#if 0

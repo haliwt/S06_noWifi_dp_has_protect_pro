@@ -139,7 +139,7 @@ typedef struct __RUN{
    uint8_t rx_mb_answer_tag ;
 
    //timer ref
- 
+   uint8_t timer_timing_define_ok ;
    uint8_t timer_timing_define_flag;
    uint8_t input_timer_timing_numbers_flag;
    uint8_t confirm_timer_input_number;

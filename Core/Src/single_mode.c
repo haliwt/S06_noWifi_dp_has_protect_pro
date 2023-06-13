@@ -59,11 +59,18 @@ static void Display_Timing_Value(void)
 		
 		 if(run_t.timer_dispTime_hours < 0 ){
 		 
-				
-			run_t.gTimer_Counter = 57 ;
-			run_t.timer_dispTime_hours=0;
-			run_t.timer_dispTime_minutes=0;
-			run_t.timer_timing_define_flag=timing_power_off;
+			if(run_t.timer_timing_define_ok==1){ 
+				run_t.gTimer_Counter = 57 ;
+				run_t.timer_dispTime_hours=0;
+				run_t.timer_dispTime_minutes=0;
+				run_t.timer_timing_define_flag=timing_power_off;
+			}
+			else{
+			   run_t.timer_timing_define_flag=timing_donot;
+		       run_t.timer_works_transform_flag=0;
+
+
+			}
 	
 		}
 		    
@@ -172,6 +179,7 @@ void RunPocess_Command_Handler(void)
 			case 1:
             run_t.step_run_power_off_tag=0;
             run_t.power_on_send_to_mb_times=36;
+			run_t.timer_timing_define_ok=0;
 			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
 
