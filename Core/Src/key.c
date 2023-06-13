@@ -198,15 +198,12 @@ void Process_Key_Handler(uint8_t keylabel)
 		  	   	SendData_Buzzer();//single_buzzer_fun();
 
 		          run_t.ai_model_flag =AI_NO_MODE;
-			  	  run_t.temp_set_timer_timing_flag =1;
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
-
+				  run_t.confirm_timer_input_number=1;
+			      run_t.input_timer_timing_numbers_flag =1;
 			  
-			  
-
-			
-		    }
+          }
 	       
 		 }
 	  	
@@ -221,19 +218,32 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			SendData_Buzzer();//single_buzzer_fun();
 
+            switch(run_t.input_timer_timing_numbers_flag){
 
-			if(run_t.ai_model_flag ==AI_MODE){
-				run_t.ai_model_flag =AI_NO_MODE;
+              case 0:
+
+					if(run_t.ai_model_flag ==AI_MODE){
+						run_t.ai_model_flag =AI_NO_MODE;
+						run_t.timer_timing_define_flag=timing_success;
+
+					}
+					else{
+						run_t.ai_model_flag =AI_MODE;
+
+					    run_t.timer_timing_define_flag=timing_donot;
+
+					}
+
+			break;
+
+			case 1:
+				run_t.confirm_timer_input_number=0;
+				run_t.input_timer_timing_numbers_flag =0;
 				run_t.timer_timing_define_flag=timing_success;
+				run_t.gTimer_Counter=0;
+			break;
 
-			}
-			else{
-				run_t.ai_model_flag =AI_MODE;
-			    run_t.timer_timing_define_flag=timing_donot;
-
-			}
-
-				
+            	}	
 
 			}
 		}
@@ -436,11 +446,14 @@ void SetTimer_Temperature_Number_Value(void)
 	switch(run_t.temp_set_timer_timing_flag){
 
 	case TIMER_TIMING:
-	if(run_t.gTimer_key_timing > 4  && set_timer_flag ==0 && run_t.gPower_On==RUN_POWER_ON){
-				
-		set_timer_flag++;
-		run_t.gTimer_key_timing =0;
+	if(run_t.gTimer_key_timing > 5  && run_t.confirm_timer_input_number  ==0 && run_t.gPower_On==RUN_POWER_ON){
+		run_t.gTimer_key_timing =0;		
+		run_t.confirm_timer_input_number=2;
+	    run_t.input_timer_timing_numbers_flag =0;
+		run_t.timer_timing_define_flag=timing_donot;
+		
         run_t.gTimer_Counter=0;
+		#if 0
 		if(run_t.timer_dispTime_hours ==0 ){
 		  
 			set_timer_flag=0;
@@ -458,9 +471,32 @@ void SetTimer_Temperature_Number_Value(void)
             run_t.gTimer_Counter=0;
 			
 		}
-	
-	}
+	   #endif 
+	 }
 
+	 switch(run_t.input_timer_timing_numbers_flag){
+
+      case 1:
+           if(run_t.gTimer_smg_timing < 13){
+	              LED_AI_ON();
+           	}
+		   else if(run_t.gTimer_smg_timing > 12 && run_t.gTimer_smg_timing < 27){
+		   	     LED_AI_OFF();
+		   	
+		   	}
+		   else{
+			run_t.gTimer_smg_timing=0;
+
+			
+		   }
+
+	  break;
+
+
+      }
+
+	
+    #if 0
 	//set timer timing  smg blink timing 
 	if(run_t.set_timer_special_value == timing_success  && run_t.gPower_On==RUN_POWER_ON){
 		   
@@ -501,7 +537,7 @@ void SetTimer_Temperature_Number_Value(void)
 			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
 		}
 	   }
-	
+	  #endif 
 	  break;
 
 	}

@@ -140,6 +140,8 @@ typedef struct __RUN{
    //timer ref
  
    uint8_t timer_timing_define_flag;
+   uint8_t input_timer_timing_numbers_flag;
+   uint8_t confirm_timer_input_number;
 
  
 
