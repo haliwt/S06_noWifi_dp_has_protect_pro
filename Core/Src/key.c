@@ -101,7 +101,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //long key key if be pressed down 
 			{
-				if(++key_t.on_time>10000)// 80000 long key be down
+				if(++key_t.on_time>70000)// 80000 long key be down
 				{
 				    key_t.value = key_t.value|0x80; //key.value = 0x02 | 0x80  =0x82
                     key_t.on_time = 0;
@@ -197,21 +197,19 @@ void Process_Key_Handler(uint8_t keylabel)
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
 		  	   	SendData_Buzzer();//single_buzzer_fun();
 
-		    switch(run_t.ai_model_flag){
-
-			  case AI_NO_MODE:
+		          run_t.ai_model_flag =AI_NO_MODE;
 			  	  run_t.temp_set_timer_timing_flag =1;
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
 
-			  break;
+			  
 			  
 
 			
 		    }
 	       
 		 }
-	  	}
+	  	
 		 run_t.keyvalue = 0xff;
 	  break;
 
@@ -225,10 +223,12 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			if(run_t.ai_model_flag ==AI_MODE){
 				run_t.ai_model_flag =AI_NO_MODE;
+				run_t.timer_timing_define_flag=timing_success;
 
 			}
 			else{
 				run_t.ai_model_flag =AI_MODE;
+			    run_t.timer_timing_define_flag=timing_donot;
 
 			}
 
@@ -419,13 +419,13 @@ void Process_Key_Handler(uint8_t keylabel)
 }
 /****************************************************************
 	*
-	*Function Name :void SetTimer_Temperature_Number_Blink(void)
+	*Function Name :void SetTimer_Temperature_Number_Value(void)
 	*Function : set timer timing how many ?
 	*Input Parameters :NO
 	*Retrurn Parameter :NO
 	*
 *****************************************************************/
-void SetTimer_Temperature_Number_Blink(void)
+void SetTimer_Temperature_Number_Value(void)
 {
 
     static uint8_t m,n,p,q,counter_timesb,send_timing_value,counter_times;

@@ -185,7 +185,7 @@ typedef struct __RUN{
    uint8_t minutes_one_bit;
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
-   uint8_t send_works_times_to_app;
+ 
    uint8_t gTimer_smg_display;
    
  
