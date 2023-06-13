@@ -167,7 +167,7 @@ uint8_t KEY_Scan(void)
 void Process_Key_Handler(uint8_t keylabel)
 {
    static uint8_t m,n,p,q,power_on_off_flag;
-   static uint8_t power_flag;
+   static uint8_t power_flag,mode_key_times;
     switch(keylabel){
 
       case POWER_KEY_ID:
@@ -182,7 +182,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		 else{
 
 		    SendData_PowerOff(0);
-            HAL_Delay(200);
+            HAL_Delay(5);
 		    run_t.gRunCommand_label =RUN_POWER_OFF;
 	        run_t.power_on_recoder_times++ ;
 		   }
@@ -220,6 +220,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 
 			SendData_Buzzer();//single_buzzer_fun();
+
 
 			if(run_t.ai_model_flag ==AI_MODE){
 				run_t.ai_model_flag =AI_NO_MODE;
@@ -270,14 +271,14 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			case 1: //set timer timing value 
 				 run_t.gTimer_key_timing =0;
-					 run_t.dispTime_hours ++;
-		             if(run_t.dispTime_hours > 24){
-						run_t.dispTime_hours=0;
+					 run_t.timer_dispTime_hours ++;
+		             if(run_t.timer_dispTime_hours > 24){
+						run_t.timer_dispTime_hours=0;
 					}
 						
 							
-					m = run_t.dispTime_hours /10 ;
-					run_t.hours_two_bit =run_t.dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
+					m = run_t.timer_dispTime_hours /10 ;
+					run_t.hours_two_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
 					
 				    run_t.minutes_one_bit=0;//p=0;
 					q=0;
@@ -324,16 +325,16 @@ void Process_Key_Handler(uint8_t keylabel)
 	    	
 			
 				run_t.gTimer_key_timing =0;
-				run_t.dispTime_hours --;
-				if(run_t.dispTime_hours < 0){
-					run_t.dispTime_hours=24 ;
-				    run_t.dispTime_minutes =0;
+				run_t.timer_dispTime_hours --;
+				if(run_t.timer_dispTime_hours < 0){
+					run_t.timer_dispTime_hours=24 ;
+				    run_t.timer_dispTime_minutes =0;
 					 // run_t.dispTime_minutes = run_t.dispTime_minutes - 30;
 					
 				}
 
-                  m = run_t.dispTime_hours /10 ;
-				  run_t.hours_two_bit = run_t.dispTime_hours  %10;//n = run_t.dispTime_hours  %10;
+                  m = run_t.timer_dispTime_hours /10 ;
+				  run_t.hours_two_bit = run_t.timer_dispTime_hours  %10;//n = run_t.dispTime_hours  %10;
 
 				  run_t.minutes_one_bit=0;//p = 0;
 				  q = 0;

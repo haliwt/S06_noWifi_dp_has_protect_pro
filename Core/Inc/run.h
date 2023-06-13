@@ -137,7 +137,7 @@ typedef struct __RUN{
    uint8_t rx_mb_data_tag;
    uint8_t rx_mb_answer_tag ;
 
-   //wifi icon
+   //timer ref
  
    uint8_t timer_timing_define_flag;
 
@@ -192,6 +192,9 @@ typedef struct __RUN{
 
 	int8_t dispTime_hours;
 	int8_t dispTime_minutes;
+
+	int8_t timer_dispTime_hours;
+   int8_t timer_dispTime_minutes;
 	
 
 	uint16_t gTimer_usart_error;

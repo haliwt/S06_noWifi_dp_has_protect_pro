@@ -44,22 +44,22 @@ static void Display_Timing_Value(void)
 	case timing_success:
 	   if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
-		run_t.dispTime_minutes -- ;
-		run_t.send_app_timer_total_minutes_data--;
-	    if(run_t.dispTime_minutes <  0 ){
+		run_t.timer_dispTime_minutes -- ;
+	
+	    if(run_t.timer_dispTime_minutes <  0 ){
 			 
-		   run_t.dispTime_hours -- ;
-		   run_t.dispTime_minutes =59;
+		   run_t.timer_dispTime_hours -- ;
+		   run_t.timer_dispTime_minutes =59;
          }
 
 		
 		
-		 if(run_t.dispTime_hours < 0 ){
+		 if(run_t.timer_dispTime_hours < 0 ){
 		 
 				
 			run_t.gTimer_Counter = 57 ;
-			run_t.dispTime_hours=0;
-			run_t.dispTime_minutes=0;
+			run_t.timer_dispTime_hours=0;
+			run_t.timer_dispTime_minutes=0;
 			run_t.timer_timing_define_flag=timing_power_off;
 	
 		}
