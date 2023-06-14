@@ -63,7 +63,7 @@ const unsigned char segNumber[]={
 
 const unsigned char segNumber_Low[]={
  
-         seg_a+seg_b+seg_c+seg_d,        		        // char "0"  0x00
+         seg_a+seg_b+seg_c+seg_d,        		// char "0"  0x00
 		 seg_b+seg_c,                           // char "1"  0x01
 		 seg_a+seg_b+seg_d,              		// char "2"  0x02
 		 seg_a+seg_b+seg_c+seg_d,               // char "3"  0x03
@@ -75,11 +75,12 @@ const unsigned char segNumber_Low[]={
 		 seg_a+seg_b+seg_c+seg_d,        		// char "9"  0x09
 		 seg_a+seg_b+seg_c,                     // char "A"  0x0A
 		 seg_c+seg_d,                           // char "b"  0x0B
-		 seg_a+seg_d,							// char "C"  0X0C
-		 seg_b+seg_c+seg_d,						// char "d"  0x0D
+		 seg_d,									// char "c"  0X0C
+		 0,										// char "r"  0x0D
 		 seg_a+seg_d,                           // char "E"  0X0E
 		 seg_a,                                 // char "F"  0X0F
-         0                                      // char "NLL"  0x16
+         0                                      // char "NLL"  0x10
+         
 
 
 
@@ -98,8 +99,8 @@ const unsigned char segNumber_High[]={
 		 seg_f+seg_g,        		     // char "9"  0x09
 		 seg_e+seg_f+seg_g,              // char "A"  0x0A
 		 seg_e+seg_f+seg_g,              // char "b"  0x0B
-		 seg_e+seg_f,					 // char "C"  0X0C
-		 seg_e+seg_g,					 // char "d"  0x0D
+		 seg_e+seg_f,					 // char "c"  0X0C
+		 seg_e+seg_g,					 // char "r"  0x0D
 		 seg_e+seg_f+seg_g,              // char "E"  0X0E
 		 seg_e+seg_f+seg_g,              // char "F"  0X0F
          0                               // char "NLL"  0x16

@@ -150,7 +150,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 		 case FAN_REMOVE_WARNING:
 
-		   run_t.fan_warning =0;
+		  // run_t.fan_warning =0;
 
 		 break;
 

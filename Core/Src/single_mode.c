@@ -40,7 +40,7 @@ static void Timer_Timing_Donot_Display(void);
 static void Display_Timing_Value(void)
 {
 
-   static uint8_t timer_display_flag;
+   static uint8_t timer_display_flag, alternate_flag;
 	switch(run_t.timer_timing_define_flag){
 
 	case timing_success:
@@ -88,15 +88,80 @@ static void Display_Timing_Value(void)
 
 	   	}
 
-	   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
-		   timer_display_flag=0;
-		   run_t.timer_works_transform_flag=0;
+	   
+       if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+		   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
+			   timer_display_flag=0;
+			   run_t.timer_works_transform_flag=0;
 
-           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+	           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
-	   }
-	 
-       WorksTime_DonotDisplay_Fun();
+		   }
+		 
+	      
+      }
+	  else{
+
+	     if(run_t.gTimer_error_digital < 1){//10ms * 51= 510
+
+		      
+               if(alternate_flag ==0){
+			   	  alternate_flag=1;
+                     
+			     if(run_t.ptc_warning ==1){
+                 
+					Display_Error_Digital(0x01,0);
+			     }
+				 else {
+			        if(run_t.fan_warning ==1){
+
+					  
+                      Display_Error_Digital(0x02,0);
+
+			        }
+
+				 }
+			    
+
+               }
+			   else{
+
+			      alternate_flag=0;
+				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
+
+					     Display_Error_Digital(0x02,0);
+
+				   	}
+				    else  if(run_t.ptc_warning ==1 && run_t.fan_warning ==0){
+                       
+					    Display_Error_Digital(0x01,0);
+			        }
+					else  if(run_t.ptc_warning ==0 && run_t.fan_warning ==1){
+                       
+					    Display_Error_Digital(0x02,0);
+			        }
+
+
+			   }
+			   
+
+		   }
+		   else if(run_t.gTimer_error_digital > 0 && run_t.gTimer_error_digital < 2 ){
+
+ 				Display_Error_Digital(0x10,1);
+		   }
+		   else if(run_t.gTimer_error_digital > 1){
+
+			  run_t.gTimer_error_digital=0;
+
+
+			 }
+
+
+	  }
+
+	   WorksTime_DonotDisplay_Fun();
+	   
 	break;
 
 
@@ -114,7 +179,10 @@ static void Display_Timing_Value(void)
 	case timing_donot:
 		 
          Timer_Timing_Donot_Display();
-	     Display_Works_Time_Fun();
+		
+	         Display_Works_Time_Fun();
+
+		 
 	     
 
 	break;
@@ -365,7 +433,9 @@ static void Display_SetTemperature_Value(void)
 
 static void Display_Works_Time_Fun(void)
 {
-     static uint8_t works_timing_flag;
+     static uint8_t works_timing_flag,alternate_flag;
+
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;
@@ -390,13 +460,72 @@ static void Display_Works_Time_Fun(void)
             }
 
      	}
-
-       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
-          works_timing_flag=0;
-		  run_t.timer_works_transform_flag=1;
-		 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
-	  
+       
+	       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
+	          works_timing_flag=0;
+			  run_t.timer_works_transform_flag=1;
+			 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+		  
+	        }
         }
+		else{
+
+		    if(run_t.gTimer_error_digital < 1){//10ms * 51= 510
+
+		      
+               if(alternate_flag ==0){
+			   	  alternate_flag=1;
+                     
+			     if(run_t.ptc_warning ==1){
+                 
+					Display_Error_Digital(0x01,0);
+			     }
+				 else {
+			        if(run_t.fan_warning ==1){
+
+					  
+                      Display_Error_Digital(0x02,0);
+
+			        }
+
+				 }
+			    
+
+               }
+			   else{
+
+			      alternate_flag=0;
+				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
+
+					     Display_Error_Digital(0x02,0);
+
+				   	}
+				    else  if(run_t.ptc_warning ==1 && run_t.fan_warning ==0){
+                       
+					    Display_Error_Digital(0x01,0);
+			        }
+					else  if(run_t.ptc_warning ==0 && run_t.fan_warning ==1){
+                       
+					    Display_Error_Digital(0x02,0);
+			        }
+
+
+			   }
+			   
+
+		   }
+		   else if(run_t.gTimer_error_digital > 0 && run_t.gTimer_error_digital  < 2 ){
+
+ 				Display_Error_Digital(0x10,1);
+		   }
+		    else if(run_t.gTimer_error_digital > 1){
+
+			  run_t.gTimer_error_digital=0;
+
+
+			 }
+
+		}
 
 
 
