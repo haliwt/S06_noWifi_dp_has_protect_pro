@@ -102,7 +102,7 @@ static void Display_Timing_Value(void)
       }
 	  else{
 
-	     if(run_t.gTimer_error_digital < 1){//10ms * 51= 510
+	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600
 
 		      
                if(alternate_flag ==0){
@@ -146,11 +146,11 @@ static void Display_Timing_Value(void)
 			   
 
 		   }
-		   else if(run_t.gTimer_error_digital > 0 && run_t.gTimer_error_digital < 2 ){
+		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital < 121 ){
 
  				Display_Error_Digital(0x10,1);
 		   }
-		   else if(run_t.gTimer_error_digital > 1){
+		   else if(run_t.gTimer_error_digital > 119){
 
 			  run_t.gTimer_error_digital=0;
 
@@ -472,7 +472,7 @@ static void Display_Works_Time_Fun(void)
         }
 		else{
 
-		    if(run_t.gTimer_error_digital < 1){//10ms * 51= 510
+		    if(run_t.gTimer_error_digital < 60){//10ms * 51= 510
 
 		      
                if(alternate_flag ==0){
@@ -516,11 +516,11 @@ static void Display_Works_Time_Fun(void)
 			   
 
 		   }
-		   else if(run_t.gTimer_error_digital > 0 && run_t.gTimer_error_digital  < 2 ){
+		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital  < 121 ){
 
  				Display_Error_Digital(0x10,1);
 		   }
-		    else if(run_t.gTimer_error_digital > 1){
+		    else if(run_t.gTimer_error_digital > 119){
 
 			  run_t.gTimer_error_digital=0;
 

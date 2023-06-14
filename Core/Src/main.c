@@ -129,7 +129,7 @@ static uint8_t power_on_off_flag;
 
 		  case 1:
 		  	       
-            
+             Decode_Handler();
             if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP){
               //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
               run_t.keyvalue= KEY_Normal_Scan(0);
@@ -139,7 +139,7 @@ static uint8_t power_on_off_flag;
 			 
            
 			
-			  Decode_Handler();
+			 
 			  RunPocess_Command_Handler();
               USART1_Cmd_Error_Handler();
 
