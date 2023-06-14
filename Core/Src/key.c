@@ -314,7 +314,7 @@ void Process_Key_Handler(uint8_t keylabel)
 					}
 					else{
 
-					   run_t.timer_dispTime_minutes =30;
+					   run_t.timer_dispTime_minutes =0;
 
 
 					}
