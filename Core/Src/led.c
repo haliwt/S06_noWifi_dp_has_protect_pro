@@ -142,7 +142,7 @@ void Panel_Led_OnOff_Function(void)
 
 	 }
 
-	 if(run_t.gUltrasonic == 1){
+	 if(run_t.gFan == 1){
          ULTRASONIC_LED_OnOff(1);
 	 }
 	 else{

@@ -295,11 +295,16 @@ void RunPocess_Command_Handler(void)
 	      	break;
 
 			case 1:
-            run_t.step_run_power_on_tag=0;
+       
 			run_t.power_off_send_to_mb_times= 20;
-			 run_t.gPower_On=RUN_POWER_OFF;
+			run_t.gPower_On=RUN_POWER_OFF;
+			 
 			
-		     Power_Off_Fun();
+			 run_t.gFan_RunContinue =1;
+			 run_t.gTimer_fan_continue=0;
+			 
+	
+		    // Power_Off_Fun();
 
 		  
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
@@ -343,12 +348,29 @@ void RunPocess_Command_Handler(void)
 
 	  case POWER_OFF_PROCESS://4
 
-	   if(run_t.gPower_On ==RUN_POWER_OFF  && POWER_KEY_VALUE() == KEY_UP){
-	   	        if(power_off_set_flag==0){
+	   if(run_t.gPower_On ==RUN_POWER_OFF && POWER_KEY_VALUE()  ==KEY_UP ){
+	   	     if(power_off_set_flag==0){
 					power_off_set_flag++;
                    Power_Off_Fun();
-	   	        }
-              
+				
+	   	      }
+
+			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
+            
+			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1){
+                   
+					LED_FAN_ON() ;
+				 }
+				 else if(run_t.gTimer_fan_continue > 59){
+            
+				   LED_FAN_OFF() ;
+				   run_t.gFan_RunContinue =0;
+
+				 }
+                 
+
+			 
+                
 				Breath_Led();
 		 
 		

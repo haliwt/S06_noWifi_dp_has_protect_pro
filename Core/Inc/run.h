@@ -103,7 +103,7 @@ typedef struct __RUN{
    uint8_t  fan_warning;
 
 
-   uint8_t  gUltrasonic;
+   uint8_t  gFan;
    uint8_t  power_on_send_to_mb_times;
    uint8_t step_run_power_on_tag;
    uint8_t step_run_power_off_tag;
@@ -196,6 +196,7 @@ typedef struct __RUN{
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
    uint8_t gTimer_run_ico;
+   uint8_t gTimer_fan_continue;
  
  
    

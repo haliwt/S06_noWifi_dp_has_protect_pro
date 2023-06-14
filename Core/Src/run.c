@@ -63,7 +63,7 @@ void Power_Off(void)
             SMG_POWER_OFF()	;
 			run_t.gPlasma=0;
 			run_t.gDry=0;
-			run_t.gUltrasonic =0;
+			run_t.gFan =0;
 			
 
 				
@@ -191,7 +191,7 @@ void Power_On_Fun(void)
 		run_t.gPlasma=1;
 		run_t.gDry =1;
 		run_t.gBug =1;
-	   	run_t.gUltrasonic =1;
+	   	run_t.gFan =1;
 		run_t.ai_model_flag =AI_MODE;
 
   
@@ -200,15 +200,18 @@ void Power_On_Fun(void)
     run_t.time_led_flag=1;
 	Power_ON_Led();
 
-	
-         
+	run_t.dispTime_hours=0;
+    run_t.dispTime_minutes=0;
+	run_t.timer_dispTime_hours =0;
+	run_t.timer_dispTime_minutes=0;
+		
         
 
-	  hour_decade=(run_t.dispTime_hours ) /10;
-	  hour_unit=(run_t.dispTime_hours ) %10;
+	  hour_decade=0;
+	  hour_unit=0;
     
-	  minutes_one = run_t.dispTime_minutes /10;
-      minutes_two = run_t.dispTime_minutes %10;
+	  minutes_one = 0;
+      minutes_two = 0;
 	  
 	   SMG_POWER_ON(); //WT.EDIT 2023.03.02
       

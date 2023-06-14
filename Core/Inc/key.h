@@ -83,8 +83,8 @@ typedef enum{
 	 PLASMA_ON = 0x20,
 	 PLASMA_OFF = 0x21,
 
-	 ULTRASONIC_ON =0x10,
-	 ULTRASONIC_OFF = 0x11
+	 FAN_ON =0x10,
+	 FAN_OFF = 0x11
 
 }works_t;
 

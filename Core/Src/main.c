@@ -111,18 +111,15 @@ static uint8_t power_on_off_flag;
 
     /* USER CODE BEGIN 3 */
 	 //S06 -touch key 
-
-
-
-	  switch(run_t.power_times){
+     switch(run_t.power_times){
 
           case 0:
 		        HAL_Delay(2000);
 				run_t.gPower_On=RUN_POWER_OFF;
-		        //run_t.step_run_power_off_tag=1;
 				run_t.gRunCommand_label =POWER_OFF_PROCESS;
 				
 				run_t.power_times=1;
+				run_t.gTimer_fan_continue =0;
                 run_t.first_power_on_times=1;
 
 	      break;
@@ -137,10 +134,7 @@ static uint8_t power_on_off_flag;
               Key_TheSecond_Scan();
               Process_Key_Handler(run_t.keyvalue);
 			 
-           
-			
-			 
-			  RunPocess_Command_Handler();
+              RunPocess_Command_Handler();
               USART1_Cmd_Error_Handler();
 
 			

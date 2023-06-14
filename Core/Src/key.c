@@ -449,16 +449,19 @@ void Process_Key_Handler(uint8_t keylabel)
 		 case FAN_KEY_ID: //0x08: //Fan KEY 
               if(run_t.gPower_On ==RUN_POWER_ON){
                    
-                if(run_t.gUltrasonic==0){
- 					run_t.gUltrasonic =1; //tur ON
- 					SendData_Set_Command(ULTRASONIC_ON);
+                if(run_t.gFan==0){
+ 					run_t.gFan =1; //tur ON
+ 					SendData_Set_Command(FAN_ON);
 						HAL_Delay(10);
+						
 			     }
                 else{
                
-					run_t.gUltrasonic =0;
-					SendData_Set_Command(ULTRASONIC_OFF);
-				HAL_Delay(10);
+					run_t.gFan =0;
+					SendData_Set_Command(FAN_OFF);
+				    HAL_Delay(10);
+					run_t.gPlasma =0;
+					run_t.gDry =0;
                     
                  }
 				  
@@ -613,8 +616,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
-		   // run_t.gPower_On =RUN_POWER_OFF;
-			//run_t.gRunCommand_label =POWER_OFF_PROCESS;
+		  
 			SendData_PowerOff(0);
 			Power_Off_Fun();
 		     
