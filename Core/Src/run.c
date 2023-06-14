@@ -214,10 +214,10 @@ void Power_On_Fun(void)
       
 
 
-	  run_t.hours_two_bit = hour_unit;
-	  run_t.minutes_one_bit =  minutes_one;
+	  run_t.hours_two_unit_bit = hour_unit;
+	  run_t.minutes_one_decade_bit =  minutes_one;
       
-	 TM1639_Write_4Bit_Time(hour_decade,run_t.hours_two_bit,run_t.minutes_one_bit,minutes_two,0);
+	 TM1639_Write_4Bit_Time(hour_decade,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,minutes_two,0);
       Display_DHT11_Value();
     
 }

@@ -305,20 +305,29 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			case 1: //set timer timing value 
 				 run_t.gTimer_key_timing =0;
+				 run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
+			     if(run_t.timer_dispTime_minutes >59){
 					 run_t.timer_dispTime_hours ++;
 		             if(run_t.timer_dispTime_hours > 24){
 						run_t.timer_dispTime_hours=0;
+						run_t.timer_dispTime_minutes=0;
+					}
+					else{
+
+					   run_t.timer_dispTime_minutes =30;
+
+
 					}
 						
-							
-					m = run_t.timer_dispTime_hours /10 ;
-					run_t.hours_two_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
+			     }		
+					run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
+					run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
 					
-				    run_t.minutes_one_bit=0;//p=0;
-					q=0;
-				
+				    run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
+					 
+				    run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
 
-					 TM1639_Write_4Bit_Time(m,run_t.hours_two_bit, run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00" 
+					 TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 			
                 
 				
@@ -359,24 +368,37 @@ void Process_Key_Handler(uint8_t keylabel)
 	    	
 			
 				run_t.gTimer_key_timing =0;
-				run_t.timer_dispTime_hours --;
-				if(run_t.timer_dispTime_hours < 0){
-					run_t.timer_dispTime_hours=24 ;
-				    run_t.timer_dispTime_minutes =0;
-					 // run_t.dispTime_minutes = run_t.dispTime_minutes - 30;
-					
+				run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes -30;
+		        if(run_t.timer_dispTime_minutes < 0){
+					run_t.timer_dispTime_hours--;
+                   if(run_t.timer_dispTime_hours <0){
+                         
+				      run_t.timer_dispTime_hours=24;
+					  run_t.timer_dispTime_minutes=0;
+
+				   }
+				   else{
+
+				     run_t.timer_dispTime_minutes =30;
+
+
+				   }
+				  
 				}
+				
+				
 
-                  m = run_t.timer_dispTime_hours /10 ;
-				  run_t.hours_two_bit = run_t.timer_dispTime_hours  %10;//n = run_t.dispTime_hours  %10;
+			run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
+			run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
 
-				  run_t.minutes_one_bit=0;//p = 0;
-				  q = 0;
+			run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
 
-				TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00"    
-              //  HAL_Delay(100);
-	
-			
+			run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
+
+			TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+
+
+
 		  
 		  break;
 	   	  }

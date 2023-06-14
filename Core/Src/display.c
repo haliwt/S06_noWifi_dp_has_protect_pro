@@ -42,40 +42,20 @@ void Display_DHT11_Value(void)
 
 /**********************************************************************
 *
-*Functin Name: void DisplayTiming_KEY_Add_Subtract_Fun(void)
+*Functin Name: void Display_GMT(uint8_t hours,uint8_t minutes)
 *Function : Timer of key be pressed handle
 *Input Ref:  key of value
 *Return Ref: NO
 *
 **********************************************************************/
-void DisplayTiming_KEY_Add_Subtract_Fun(void)
-{
-      
-	  static uint8_t m,n,p,q;
-
-	if(run_t.gPower_On==RUN_POWER_ON){
-    
-		p=run_t.dispTime_hours  /10%10;
-		run_t.hours_two_bit =run_t.dispTime_hours  %10;//q=run_t.dispTime_hours  %10;  //
-		run_t.minutes_one_bit= run_t.dispTime_minutes  /10%10;//m = run_t.dispTime_minutes  /10%10;
-		n=	run_t.dispTime_minutes %10;
-
-		TM1639_Write_4Bit_Time(p,run_t.hours_two_bit,run_t.minutes_one_bit,n,0) ; // timer   mode  "H0: xx"
-
-
-		run_t.add_key_times =0;
-		run_t.dec_key_times =0;
-		
-	}
- }
 void Display_GMT(uint8_t hours,uint8_t minutes)
 { 
-    static uint8_t m,n,p,q;
-	m = hours /10 %10;
-	run_t.hours_two_bit =	hours%10; 
-	run_t.minutes_one_bit = minutes/10 %10;
+    static uint8_t m,q;
+	m = hours /10 ;
+	run_t.hours_two_unit_bit =	hours%10; 
+	run_t.minutes_one_decade_bit= minutes/10 ;
 	q=  minutes%10;
-	TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00"
+	TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
 
 
 }
@@ -85,10 +65,10 @@ void Display_GMT(uint8_t hours,uint8_t minutes)
 static void TimeColon_Smg_Blink_Fun(void)
 {
 	if(run_t.gTimer_colon < 2){
-		  SmgBlink_Colon_Function(run_t.hours_two_bit ,run_t.minutes_one_bit,0);
+		  SmgBlink_Colon_Function(run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,0);
 	   }
 	   else if(run_t.gTimer_colon >  1	&&	run_t.gTimer_colon < 3){
-		   SmgBlink_Colon_Function(run_t.hours_two_bit ,run_t.minutes_one_bit,1);
+		   SmgBlink_Colon_Function(run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,1);
 
 	  }
 	  else{
