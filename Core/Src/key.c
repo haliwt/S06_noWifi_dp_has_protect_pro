@@ -33,15 +33,15 @@ uint8_t KEY_Scan(void)
 //	{
 //		   key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
 //	}
-   if(DEC_KEY_VALUE()  ==1 ) //DEC_KEY_ID = 0x04
-	{
-		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
-	}
-    else if(ADD_KEY_VALUE() ==1 ) //ADD_KEY_ID = 0x08
-	{
-		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
-	 }
-	 else if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
+//   if(DEC_KEY_VALUE()  ==1 ) //DEC_KEY_ID = 0x04
+//	{
+//		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
+//	}
+//    else if(ADD_KEY_VALUE() ==1 ) //ADD_KEY_ID = 0x08
+//	{
+//		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
+//	 }
+	 if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
 	{
 		  key_t.read &= ~0x10; // 0xFf & 0xEF =  0xEF
 	}
@@ -209,6 +209,8 @@ void Process_Key_Handler(uint8_t keylabel)
 	  	
 		 run_t.keyvalue = 0xff;
 	  break;
+
+	  case AI_KEY_ID:
 
 	  case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
 		if(run_t.gPower_On ==RUN_POWER_ON){
@@ -646,8 +648,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case DEC_KEY_Pin:
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
-
-
+          
+	 	run_t.keyvalue  = DEC_KEY_ID;
 
 
 	  }
@@ -658,7 +660,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
 
-
+            run_t.keyvalue  = ADD_KEY_ID;
 
 
 	  }
