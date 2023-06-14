@@ -592,7 +592,7 @@ void SetTimer_Temperature_Number_Value(void)
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    #if 1
-   static uint8_t power_on_off_flag;
+   static uint8_t power_on_off_flag,m,n;
 
 
   
@@ -658,7 +658,66 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
          if(run_t.ptc_warning ==0){
 		 SendData_Buzzer();
-	 	 run_t.keyvalue  = DEC_KEY_ID;
+	 	 //run_t.keyvalue  = DEC_KEY_ID;
+	 	  switch(run_t.temp_set_timer_timing_flag){
+
+		 	case 0: //set temperature value
+	    
+			//setup temperature of value,minimum 20,maximum 40
+			run_t.wifi_set_temperature--;
+			if(run_t.wifi_set_temperature<20) run_t.wifi_set_temperature=40;
+	        else if(run_t.wifi_set_temperature >40)run_t.wifi_set_temperature=40;
+
+	        m =  run_t.wifi_set_temperature / 10 ;
+			n =  run_t.wifi_set_temperature % 10; //
+
+			
+			 TM1639_Write_2bit_SetUp_TempData(m,n,0);
+			// HAL_Delay(100);
+		      run_t.set_temperature_flag=1;
+			  run_t.gTimer_key_temp_timing=0;
+			 
+	    	
+		   break;
+
+		   case 1: //set timer timing value
+	    	
+			
+				run_t.gTimer_key_timing =0;
+				run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes -30;
+		        if(run_t.timer_dispTime_minutes < 0){
+					run_t.timer_dispTime_hours--;
+                   if(run_t.timer_dispTime_hours <0){
+                         
+				      run_t.timer_dispTime_hours=24;
+					  run_t.timer_dispTime_minutes=0;
+
+				   }
+				   else{
+
+				     run_t.timer_dispTime_minutes =30;
+
+
+				   }
+				  
+				}
+				
+				
+
+			run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
+			run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
+
+			run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
+
+			run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
+
+			TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+
+
+
+		  
+		  break;
+	   	  }
 
          }
 
@@ -673,7 +732,59 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		  if(run_t.ptc_warning ==0){
 				 SendData_Buzzer();
 
-            run_t.keyvalue  = ADD_KEY_ID;
+          //  run_t.keyvalue  = ADD_KEY_ID;
+
+			  switch(run_t.temp_set_timer_timing_flag){
+
+		    case 0:  //set temperature value 
+                run_t.wifi_set_temperature ++;
+	            if(run_t.wifi_set_temperature < 20){
+				    run_t.wifi_set_temperature=20;
+				}
+				
+				if(run_t.wifi_set_temperature > 40)run_t.wifi_set_temperature= 20;
+				
+			    m =  run_t.wifi_set_temperature / 10 ;
+				n =  run_t.wifi_set_temperature % 10; //
+   
+                TM1639_Write_2bit_SetUp_TempData(m,n,0);
+				
+			
+				   run_t.set_temperature_flag=1;
+				   run_t.gTimer_key_temp_timing=0;
+				   
+			
+			break;
+
+			case 1: //set timer timing value 
+				 run_t.gTimer_key_timing =0;
+				 run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
+			     if(run_t.timer_dispTime_minutes >59){
+					 run_t.timer_dispTime_hours ++;
+		             if(run_t.timer_dispTime_hours ==24 || run_t.timer_dispTime_hours >24){
+						run_t.timer_dispTime_hours=0;
+						run_t.timer_dispTime_minutes=0;
+					}
+					else{
+
+					   run_t.timer_dispTime_minutes =0;
+
+
+					}
+						
+			     }		
+					run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
+					run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
+					
+				    run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
+					 
+				    run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
+
+					 TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+			
+                
+				
+	  	    }
 
 		  }
 	  }
