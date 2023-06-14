@@ -240,7 +240,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			case 1:
 				run_t.confirm_timer_input_number=0;
 				run_t.input_timer_timing_numbers_flag =0;
-			    if(run_t.timer_dispTime_hours >0){
+			    if(run_t.timer_dispTime_minutes >0){
 				 run_t.timer_timing_define_flag=timing_success;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
@@ -506,25 +506,7 @@ void SetTimer_Temperature_Number_Value(void)
         run_t.temp_set_timer_timing_flag=0;
 		
         run_t.gTimer_Counter=0;
-		#if 0
-		if(run_t.timer_dispTime_hours ==0 ){
-		  
-			set_timer_flag=0;
-			timing_flag=0;
-			run_t.set_timer_special_value = timing_donot;
-            run_t.timer_dispTime_minutes =0;
-			run_t.temp_set_timer_timing_flag=0;
-			run_t.timer_timing_define_flag=timing_donot;
-
-	    }
-		else{
-			
-			run_t.set_timer_special_value = timing_success;
-			run_t.gTimer_smg_timing =0; //couter time of smg blink timing 
-            run_t.gTimer_Counter=0;
-			
-		}
-	   #endif 
+	
 	 }
 
 	 switch(run_t.input_timer_timing_numbers_flag){
@@ -549,48 +531,6 @@ void SetTimer_Temperature_Number_Value(void)
       }
 
 	
-    #if 0
-	//set timer timing  smg blink timing 
-	if(run_t.set_timer_special_value == timing_success  && run_t.gPower_On==RUN_POWER_ON){
-		   
-		if(run_t.gTimer_smg_timing < 13){
-
-			m=run_t.timer_dispTime_hours  /10;
-			run_t.hours_two_bit=run_t.timer_dispTime_hours  %10;//n=run_t.dispTime_hours  %10;
-			run_t.minutes_one_bit=0;//p =0;
-			q=  0;
-			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
-
-		}
-		else if(run_t.gTimer_smg_timing > 12 && run_t.gTimer_smg_timing < 27){
-			run_t.hours_two_bit=0;
-			run_t.minutes_one_bit = 0;
-		  TM1639_Write_4Bit_Time(0,run_t.hours_two_bit,run_t.minutes_one_bit,0,1) ;
-		}
-		else{
-			run_t.gTimer_smg_timing=0;
-
-			timing_flag ++;
-		}
-
-		if(timing_flag > 3){
-			set_timer_flag=0;
-			timing_flag=0;
-		    send_timing_value = 1;
-		   	run_t.set_timer_special_value=0 ;
-			run_t.timer_dispTime_minutes=0;
-			run_t.temp_set_timer_timing_flag=0;
-		    run_t.timer_timing_define_flag=timing_success;
-			
-			run_t.gTimer_Counter=0;
-		
-			run_t.hours_two_bit=run_t.timer_dispTime_hours  %10;
-			run_t.minutes_one_bit = p;
-		
-			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
-		}
-	   }
-	  #endif 
 	  break;
 
 	}
