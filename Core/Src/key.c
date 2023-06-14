@@ -243,17 +243,22 @@ void Process_Key_Handler(uint8_t keylabel)
 				 run_t.timer_timing_define_flag=timing_success;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
+               
 				
 				 
 
 			    }
 				else{
 
-				    run_t.timer_timing_define_ok = 0;
+				   
 					run_t.timer_timing_define_flag=timing_donot;
 					run_t.ai_model_flag =1;
-					run_t.timer_works_transform_flag =0;
-				   run_t.temp_set_timer_timing_flag=0;
+					run_t.timer_works_transform_flag =0; //at once display AI mode 
+				  
+				  run_t.timer_timing_define_ok = 0;
+
+				  run_t.temp_set_timer_timing_flag=0;
+               
 
 
 				}

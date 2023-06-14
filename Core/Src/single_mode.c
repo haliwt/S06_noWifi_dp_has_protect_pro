@@ -44,6 +44,10 @@ static void Display_Timing_Value(void)
 	switch(run_t.timer_timing_define_flag){
 
 	case timing_success:
+
+	   switch(run_t.timer_timing_define_ok){
+
+	   case 1:
 	   if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
 		timer_display_flag=1;
@@ -59,22 +63,25 @@ static void Display_Timing_Value(void)
 		
 		 if(run_t.timer_dispTime_hours < 0 ){
 		 
-			if(run_t.timer_timing_define_ok==1){ 
-				run_t.gTimer_Counter = 57 ;
-				run_t.timer_dispTime_hours=0;
-				run_t.timer_dispTime_minutes=0;
-				run_t.timer_timing_define_flag=timing_power_off;
-			}
-			else{
-			   run_t.timer_timing_define_flag=timing_donot;
-		       run_t.timer_works_transform_flag=0;
-
-
-			}
-	
-		}
+			run_t.gTimer_Counter = 57 ;
+			run_t.timer_dispTime_hours=0;
+			run_t.timer_dispTime_minutes=0;
+			run_t.timer_timing_define_flag=timing_power_off;
+			
+			
+	      }
 		    
         }
+	    break;
+
+		case 0:
+			run_t.timer_timing_define_flag=timing_donot;
+		    run_t.timer_works_transform_flag=0;
+			run_t.ai_model_flag =1;
+
+		break;
+
+	   	}
 
 	   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
 		   timer_display_flag=0;
@@ -83,16 +90,13 @@ static void Display_Timing_Value(void)
            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
 	   }
-      
+	 
        WorksTime_DonotDisplay_Fun();
 	break;
 
 
 	case timing_power_off:
-        
-       
-		
-		SendData_PowerOff(0);
+        SendData_PowerOff(0);
 		HAL_Delay(5);
 		
 	  run_t.power_on_recoder_times++; //this is data must be change if not don't "breath led"
@@ -397,13 +401,15 @@ static void Display_Works_Time_Fun(void)
  * 
  * Function Name: static void Timer_Timing_Donot_Display(void)
  * Function :function of pointer 
- * 
+ * Input Ref:NO
  *
  * 
 *****************************************************************/
 static void Timer_Timing_Donot_Display(void)
 {
-     if(run_t.gTimer_Counter > 59){
+     
+ 
+     if(run_t.gTimer_Counter > 59 && run_t.timer_timing_define_ok==1){
 	    run_t.gTimer_Counter =0;
 		run_t.timer_dispTime_minutes -- ;
 	
@@ -415,17 +421,16 @@ static void Timer_Timing_Donot_Display(void)
 
 		
 		
-		 if(run_t.timer_dispTime_hours < 0 ){
-		 
-				
-			run_t.gTimer_Counter = 57 ;
-			run_t.timer_dispTime_hours=0;
-			run_t.timer_dispTime_minutes=0;
-			run_t.timer_timing_define_flag=timing_power_off;
-	
-		}
-		    
+		if(run_t.timer_dispTime_hours <0){ 
+				run_t.gTimer_Counter = 57 ;
+				run_t.timer_dispTime_hours=0;
+				run_t.timer_dispTime_minutes=0;
+				run_t.timer_timing_define_flag=timing_power_off;
+			}
+			
         }
+
+
 
 }
 
