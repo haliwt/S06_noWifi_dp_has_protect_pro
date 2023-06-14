@@ -231,7 +231,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
      TM1639_Start();
      TM1639_Write_OneByte(0xCA);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_Low[twobit]|0x80);//display "2 :"
+         TM1639_Write_OneByte(segNumber_Low[twobit]);//display "2 :"
      }
      else {
 	 	  
@@ -244,12 +244,12 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
 
     TM1639_Write_OneByte(0xCB);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_High[twobit]|0x80|seg_h);//display "2 :"
+         TM1639_Write_OneByte(segNumber_High[twobit]|seg_h);//display "2 :"
    
      }
      else {
       
-        TM1639_Write_OneByte(0|seg_h);
+        TM1639_Write_OneByte(0x10);
 	 }
 	 
     TM1639_Stop();
@@ -263,7 +263,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
 	    TM1639_Write_OneByte(segNumber_Low[threebit]);//display ""
 
     }
-    else TM1639_Write_OneByte(0);
+    else TM1639_Write_OneByte(0x10);
     TM1639_Stop();
     
     //minute 
@@ -328,11 +328,11 @@ void SmgBlink_Colon_Function(uint8_t twobit,uint8_t threebit,uint8_t sel)
   
      if(sel==0){
 
-        TM1639_Write_OneByte(segNumber_High[twobit]|0x80|seg_h); 
+        TM1639_Write_OneByte(segNumber_High[twobit]|seg_h); 
       }
 	  else {
 
-	      TM1639_Write_OneByte(segNumber_High[twobit]|0x80);	 
+	      TM1639_Write_OneByte(segNumber_High[twobit]);	 
      }
 
 	 

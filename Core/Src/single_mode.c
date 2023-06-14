@@ -328,8 +328,10 @@ void RunPocess_Command_Handler(void)
 		   Display_Timing_Value();
 
 		   Display_SetTemperature_Value(); 
-	      
-	       Display_TimeColon_Blink_Fun();
+
+		   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+	            Display_TimeColon_Blink_Fun();
+		   	}
 
 	   }
        
