@@ -116,7 +116,7 @@ void Display_TimeColon_Blink_Fun(void)
 
 	   run_t.gTimer_time_colon =0;
 
-	if(FAN_KEY_VALUE()  !=1 && PLASMA_KEY_VALUE()  !=1 && DRY_KEY_VALUE()  !=1 && WIFI_KEY_VALUE()!=1){
+	if(FAN_KEY_VALUE()  !=1 && PLASMA_KEY_VALUE()  !=1 && DRY_KEY_VALUE()  !=1 && AI_KEY_VALUE()!=1){
 
           continue_flag = 1;
 	}

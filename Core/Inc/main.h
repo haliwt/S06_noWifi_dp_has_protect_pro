@@ -83,7 +83,7 @@ void Error_Handler(void);
 #define DRY_KEY_Pin 					          GPIO_PIN_2
 #define DRY_KEY_GPIO_Port 				      GPIOB
 
-#define WIFI_KEY_Pin 					          GPIO_PIN_10
+#define AI_KEY_Pin 					          GPIO_PIN_10
 #define WIFI_KEY_GPIO_Port 				      GPIOB
 
 

@@ -17,7 +17,7 @@
 #define FAN_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,FAN_KEY_Pin)
 #define PLASMA_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,PLASMA_KEY_Pin)
 #define DRY_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,DRY_KEY_Pin)
-#define WIFI_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,WIFI_KEY_Pin)
+#define AI_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,AI_KEY_Pin)
 
 
 
@@ -103,7 +103,7 @@ typedef enum{
    DEC_KEY_ID = 0x04,
    ADD_KEY_ID = 0x08,
 
-   ULTRASONIC_KEY_ID = 0x10,
+   FAN_KEY_ID = 0x10,
    PLASMA_KEY_ID = 0x20,
    DRY_KEY_ID = 0x40,
    AI_KEY_ID =0x80,
@@ -157,7 +157,7 @@ extern key_types key_t;
 uint8_t KEY_Scan(void);
 
 
-
+uint8_t KEY_Normal_Scan(uint8_t mode);
 
 void SplitDispose_Key(uint8_t value);
 

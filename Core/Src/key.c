@@ -41,7 +41,12 @@ uint8_t KEY_Scan(void)
 //	{
 //		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
 //	 }
-	 if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
+
+    if(AI_KEY_VALUE() ==1 ) //WIFI_KEY_ID = 0x80
+	{
+		key_t.read &= ~0x80; // 0x1f & 0x7F =  0x7F
+	}
+    else if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
 	{
 		  key_t.read &= ~0x10; // 0xFf & 0xEF =  0xEF
 	}
@@ -53,11 +58,7 @@ uint8_t KEY_Scan(void)
 	{
 		  key_t.read &= ~0x40; // 0xFf & 0xBF =  0xBF
 	}
-    else if(WIFI_KEY_VALUE() ==1 ) //WIFI_KEY_ID = 0x80
-	{
-		key_t.read &= ~0x80; // 0x1f & 0x7F =  0x7F
-	}
-	
+
 	
 	
    
@@ -281,7 +282,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  	 if(run_t.gPower_On ==RUN_POWER_ON){
 
 		   if(run_t.ptc_warning ==0){
-			SendData_Buzzer();//single_buzzer_fun();
+		//	SendData_Buzzer();//single_buzzer_fun();
 
 		  switch(run_t.temp_set_timer_timing_flag){
 
@@ -344,7 +345,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
           if(run_t.ptc_warning ==0){
 	   
-			SendData_Buzzer();
+		//	SendData_Buzzer();
 		 switch(run_t.temp_set_timer_timing_flag){
 
 		 	case 0: //set temperature value
@@ -445,7 +446,7 @@ void Process_Key_Handler(uint8_t keylabel)
            run_t.keyvalue = 0xff;
         break;
 
-		 case ULTRASONIC_KEY_ID: //0x08: //Fan KEY 
+		 case FAN_KEY_ID: //0x08: //Fan KEY 
               if(run_t.gPower_On ==RUN_POWER_ON){
                    
                 if(run_t.gUltrasonic==0){
@@ -592,10 +593,13 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    #if 1
    static uint8_t power_on_off_flag;
-   
+
+
+  
+  
    switch(GPIO_Pin){
 
-     HAL_Delay(40);
+      HAL_Delay(20);
      case POWER_KEY_Pin:
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
@@ -624,6 +628,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case MODEL_KEY_Pin:
       if(run_t.gPower_On ==RUN_POWER_ON){
 
+	      
+
           if(run_t.recoder_start_conuter_flag==0){
 			run_t.recoder_start_conuter_flag++;
 			run_t.gTimer_mode_key_start_counter=1;
@@ -639,6 +645,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		}
 
 
+	    
+		 
 
 	  }
 
@@ -648,8 +656,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case DEC_KEY_Pin:
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
-          
-	 	run_t.keyvalue  = DEC_KEY_ID;
+         if(run_t.ptc_warning ==0){
+		 SendData_Buzzer();
+	 	 run_t.keyvalue  = DEC_KEY_ID;
+
+         }
 
 
 	  }
@@ -659,13 +670,17 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case ADD_KEY_Pin:
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
+		  if(run_t.ptc_warning ==0){
+				 SendData_Buzzer();
 
             run_t.keyvalue  = ADD_KEY_ID;
 
-
+		  }
 	  }
 
 	 break;
+
+	
 
     }
  #endif 
@@ -701,11 +716,30 @@ void Key_TheSecond_Scan(void)
 		}
 	}
 
-	
-
-
-
 }
+
+//按键处理函数
+//返回按键值
+//mode:0,不支持连续按;1,支持连续按;
+//0，没有任何按键按下
+//1，WKUP按下 WK_UP
+//注意此函数有响应优先级,KEY0>KEY1>KEY2>WK_UP!!
+uint8_t KEY_Normal_Scan(uint8_t mode)
+{
+    static uint8_t key_up=1;     //按键松开标志
+    if(mode==1)key_up=1;    //支持连按
+    if(key_up&&(AI_KEY_VALUE()==1||FAN_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
+    {
+        HAL_Delay(20);
+        key_up=0;
+        if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = AI_KEY_ID;
+        else if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;
+        else if(PLASMA_KEY_VALUE()==1)  return run_t.keyvalue  = PLASMA_KEY_ID;
+        else if(FAN_KEY_VALUE()==1) return run_t.keyvalue  = FAN_KEY_ID;        
+    }else if(AI_KEY_VALUE()==0 && DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0 && FAN_KEY_VALUE()==0)key_up=1;
+    return 0;   //无按键按下
+}
+
 
 
 

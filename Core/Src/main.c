@@ -130,8 +130,9 @@ static uint8_t power_on_off_flag;
 		  case 1:
 		  	       
             
-            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP){
-              run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP){
+              //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+              run_t.keyvalue= KEY_Normal_Scan(0);
              }
               Key_TheSecond_Scan();
               Process_Key_Handler(run_t.keyvalue);
