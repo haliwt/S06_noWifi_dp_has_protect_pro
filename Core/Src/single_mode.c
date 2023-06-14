@@ -362,7 +362,7 @@ void RunPocess_Command_Handler(void)
 					LED_FAN_ON() ;
 				 }
 				 else if(run_t.gTimer_fan_continue > 59){
-            
+                    run_t.gTimer_fan_continue =67;
 				   LED_FAN_OFF() ;
 				   run_t.gFan_RunContinue =0;
 
