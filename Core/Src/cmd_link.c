@@ -340,30 +340,23 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		break;
 
 		}
-      
+        __HAL_UART_CLEAR_OREFLAG(&huart1);
 		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
 }
 void USART1_Cmd_Error_Handler(void)
 {
    uint32_t temp;
-   if(run_t.gTimer_usart_error >57){
+   if(run_t.gTimer_usart_error >8){
 	  	run_t.gTimer_usart_error=0;
 	    
          
-    if(__HAL_UART_GET_IT(&huart1,UART_FLAG_ORE)!=RESET){
-       
-		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_OREF);
-		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_RTOF);//UART_CLEAR_TXFECF
-           __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_TXFECF);
-            __HAL_UART_CLEAR_IT(&huart1,UART_IT_RXNE);
-          temp = USART1->RDR;
-		  
-     
-		  UART_Start_Receive_IT(&huart1,inputBuf,1);
+        __HAL_UART_CLEAR_OREFLAG(&huart1);
+        temp = USART1->RDR;
+		UART_Start_Receive_IT(&huart1,inputBuf,1);
        
 		}
-      }
+      
          
 } 
         

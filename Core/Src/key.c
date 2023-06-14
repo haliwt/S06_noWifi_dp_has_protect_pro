@@ -29,10 +29,10 @@ uint8_t KEY_Scan(void)
 //	}
 //    else 
 
-	if(MODEL_KEY_VALUE() ==1 )
-	{
-		   key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
-	}
+//	if(MODEL_KEY_VALUE() ==1 )
+//	{
+//		   key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
+//	}
    if(DEC_KEY_VALUE()  ==1 ) //DEC_KEY_ID = 0x04
 	{
 		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
@@ -80,7 +80,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //  short  key be down ->continunce be pressed key
 			{
-				if(++key_t.on_time>15 )//25 //10000  0.5us
+				if(++key_t.on_time>35 )//25 //10000  0.5us
 				{
 					//run_t.power_times++;
                     key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0xFE ^ 0xFF = 0x01
@@ -612,49 +612,98 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			SendData_PowerOff(0);
 			Power_Off_Fun();
 		     
-				  
-            
-		
-            }
+		   }
 		
 
 		}
 
      break;
 
+	 case MODEL_KEY_Pin:
+      if(run_t.gPower_On ==RUN_POWER_ON){
+
+          if(run_t.recoder_start_conuter_flag==0){
+			run_t.recoder_start_conuter_flag++;
+			run_t.gTimer_mode_key_start_counter=1;
+			  run_t.gTimer_mode_key_counter=0;
+
+		 }
+		 if(run_t.gTimer_mode_key_counter> 3 || run_t.gTimer_mode_key_counter==3){
+                        
+		       run_t.keyvalue  = MODE_LONG_KEY_ID;
+			   run_t.recoder_start_conuter_flag=0;	
+		       run_t.gTimer_mode_key_start_counter=0;
+
+		}
+
+
+
+	  }
+
+
+	 break;
+
+	 case DEC_KEY_Pin:
+	 	if(run_t.gPower_On ==RUN_POWER_ON){
+
+
+
+
+
+	  }
+
+	 break;
+
+	 case ADD_KEY_Pin:
+	 	if(run_t.gPower_On ==RUN_POWER_ON){
+
+
+
+
+
+	  }
+
+	 break;
+
     }
  #endif 
 }
 
-    #if 0
+void Key_TheSecond_Scan(void)
+{
+	
+    
+    if(run_t.gTimer_mode_key_start_counter ==1 && run_t.gPower_On ==RUN_POWER_ON){
 
-	 case KEY_ADD_Pin:
-	 
+		if(MODEL_KEY_VALUE()    ==KEY_UP){
+			if(run_t.gTimer_mode_key_counter < 2){
 
-	 	if(ADD_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1 ){
-          run_t.recoder_start_conuter_flag=0;
-		run_t.gKey_command_tag = ADD_KEY_ITEM;
-
-
+				run_t.keyvalue  = MODEL_KEY_ID;
+				run_t.gTimer_mode_key_start_counter=0;
+			    run_t.recoder_start_conuter_flag=0;	
+                return ;
+			}
 		}
+        else if(MODEL_KEY_VALUE()    ==KEY_DOWN){
+			if(run_t.gTimer_mode_key_counter> 3 || run_t.gTimer_mode_key_counter==3){
 
-	 break;
-
-	 case KEY_DEC_Pin:
+			run_t.keyvalue  = MODE_LONG_KEY_ID;
+			run_t.gTimer_mode_key_start_counter=0;
+			run_t.recoder_start_conuter_flag=0;	
 		
-		if(DEC_KEY_VALUE() ==KEY_DOWN && run_t.power_times==1){
-        
-           run_t.recoder_start_conuter_flag=0;
-		 run_t.gKey_command_tag = DEC_KEY_ITEM;
+
+			 return ;
+			}
 
 
 		}
-	 
+	}
 
-	 break;
+	
 
 
-   #endif 
+
+}
 
 
 

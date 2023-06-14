@@ -71,11 +71,11 @@ void Error_Handler(void);
 #define TM1639_SCLK_GPIO_Port GPIOA
 
 //key input GPIO
-#define POWER_KEY_Pin 					        GPIO_PIN_7
-#define POWER_KEY_GPIO_Port 			      GPIOC
+#define POWER_KEY_Pin 					        GPIO_PIN_7 //D3 ->
+#define POWER_KEY_GPIO_Port 			      	GPIOC
 
-#define FAN_KEY_Pin 					          GPIO_PIN_0
-#define FAN_KEY_GPIO_Port 				      GPIOB
+#define FAN_KEY_Pin 					        GPIO_PIN_0
+#define FAN_KEY_GPIO_Port 				        GPIOB
 
 #define PLASMA_KEY_Pin 					        GPIO_PIN_1
 #define PLASMA_KEY_GPIO_Port 			      GPIOB
@@ -88,17 +88,17 @@ void Error_Handler(void);
 
 
 
-#define MODEL_KEY_Pin 					        GPIO_PIN_10
-#define MODEL_KEY_GPIO_Port 				    GPIOA
+#define MODEL_KEY_Pin 					        	GPIO_PIN_10 //D2
+#define MODEL_KEY_GPIO_Port 				    	GPIOA
 
-#define DEC_KEY_Pin 					          GPIO_PIN_11
-#define DEC_KEY_GPIO_Port 				      GPIOA
+#define DEC_KEY_Pin 					          	GPIO_PIN_11
+#define DEC_KEY_GPIO_Port 				      		GPIOA
 
-#define ADD_KEY_Pin 					          GPIO_PIN_12
-#define ADD_KEY_GPIO_Port 				      GPIOA
+#define ADD_KEY_Pin 					          	GPIO_PIN_12
+#define ADD_KEY_GPIO_Port 				      		GPIOA
 
-#define TOUCH_KEY_IC_1_Pin                    GPIO_PIN_13
-#define TOUCK_KEY_IC_1_GPIO_Port              GPIOC
+#define TOUCH_KEY_IC_1_Pin                  		GPIO_PIN_13
+#define TOUCK_KEY_IC_1_GPIO_Port              		GPIOC
 
 #define TOUCH_KEY_IC_2_Pin                   GPIO_PIN_14
 #define TOUCK_KEY_IC_2_GPIO_Port             GPIOC

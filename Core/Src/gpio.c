@@ -97,15 +97,15 @@ void MX_GPIO_Init(void)
   // HAL_GPIO_Init(POWER_KEY_GPIO_Port, &GPIO_InitStruct);
 
    /*Configure GPIO pins : PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = TOUCH_KEY_IC_1_Pin|TOUCH_KEY_IC_2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+//  GPIO_InitStruct.Pin = TOUCH_KEY_IC_1_Pin|TOUCH_KEY_IC_2_Pin;
+//  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+//  GPIO_InitStruct.Pull = GPIO_NOPULL;
+//  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin PAPin */
   GPIO_InitStruct.Pin = MODEL_KEY_Pin|DEC_KEY_Pin|ADD_KEY_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;//GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 

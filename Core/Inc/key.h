@@ -4,6 +4,8 @@
 
 
 #define TOUCH_KEY_IC_1_VALUE()      HAL_GPIO_ReadPin(GPIOC,TOUCH_KEY_IC_1_Pin)
+#define TOUCH_KEY_IC_2_VALUE()      HAL_GPIO_ReadPin(GPIOC,TOUCH_KEY_IC_2_Pin)
+
 
 
 #define POWER_KEY_VALUE()            HAL_GPIO_ReadPin(GPIOC ,POWER_KEY_Pin)
@@ -161,6 +163,8 @@ void SplitDispose_Key(uint8_t value);
 void Process_Key_Handler(uint8_t keylabel);
 
 void SetTimer_Temperature_Number_Value(void);
+
+void Key_TheSecond_Scan(void);
 
 
 #endif 
