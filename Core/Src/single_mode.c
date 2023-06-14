@@ -75,9 +75,14 @@ static void Display_Timing_Value(void)
 	    break;
 
 		case 0:
-			run_t.timer_timing_define_flag=timing_donot;
-		    run_t.timer_works_transform_flag=0;
-			run_t.ai_model_flag =1;
+			
+			if(run_t.gTimer_Counter > 59){
+	          run_t.gTimer_Counter =0;
+
+			  run_t.timer_timing_define_flag=timing_donot;
+		      run_t.timer_works_transform_flag=0;
+			  run_t.ai_model_flag =1;
+		    }
 
 		break;
 

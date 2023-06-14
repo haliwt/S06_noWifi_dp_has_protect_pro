@@ -225,6 +225,7 @@ void Process_Key_Handler(uint8_t keylabel)
 					if(run_t.ai_model_flag ==AI_MODE){
 						run_t.ai_model_flag =AI_NO_MODE;
 						run_t.timer_timing_define_flag=timing_success;
+					     run_t.gTimer_Counter=0;
 
 					}
 					else{
