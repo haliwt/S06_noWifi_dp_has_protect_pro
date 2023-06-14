@@ -311,7 +311,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				 run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
 			     if(run_t.timer_dispTime_minutes >59){
 					 run_t.timer_dispTime_hours ++;
-		             if(run_t.timer_dispTime_hours ==24){
+		             if(run_t.timer_dispTime_hours ==24 || run_t.timer_dispTime_hours >24){
 						run_t.timer_dispTime_hours=0;
 						run_t.timer_dispTime_minutes=0;
 					}

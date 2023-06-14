@@ -211,7 +211,7 @@ static void DisplayPanel_DHT11_Value(void)
        Display_DHT11_Value();
   
   }
-  if(run_t.gTimer_display_dht11 > 10 && run_t.set_temperature_flag==0){
+  if(run_t.gTimer_display_dht11 > 32 && run_t.set_temperature_flag==0){
 	    run_t.gTimer_display_dht11=0;
        	Display_DHT11_Value();
      
@@ -245,7 +245,7 @@ void RunPocess_Command_Handler(void)
 			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
 				run_t.power_on_send_to_mb_times++;
               SendData_PowerOff(1);
-			  HAL_Delay(100);
+			  HAL_Delay(5);
 
 
 			}
@@ -287,7 +287,7 @@ void RunPocess_Command_Handler(void)
 
 				
 	           SendData_PowerOff(0);
-	           HAL_Delay(100);
+	           HAL_Delay(2);
 		   }
            
             

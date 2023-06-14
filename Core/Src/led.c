@@ -111,7 +111,8 @@ void ALL_LED_Off(void)
 *******************************************************************************************/  
 void Panel_Led_OnOff_Function(void)
 {
-	
+	if(run_t.gTimer_run_ico > 30){ //30* 10ms =300ms
+		run_t.gTimer_run_ico=0;
 	LED_POWER_ON();
 	if(run_t.ai_model_flag ==AI_MODE){
        LED_AI_ON();
@@ -156,7 +157,7 @@ void Panel_Led_OnOff_Function(void)
 	 	TIME_LED_OnOff(0);
 
     
-	
+	}
 
 	
  
