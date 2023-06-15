@@ -470,10 +470,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
   
    switch(GPIO_Pin){
 
-      HAL_Delay(10);
+      HAL_Delay(50);
      case POWER_KEY_Pin:
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
+	    run_t.gTimer_time_colon=0;
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
 			
@@ -590,7 +591,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 
-		     HAL_Delay(5);
+		   
 
 
 		  
@@ -637,12 +638,21 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			case 1: //set timer timing value 
 				 run_t.gTimer_key_timing =0;
-				 run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
+				 if(run_t.timer_dispTime_hours !=24)
+				 		run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
+				 else if(run_t.timer_dispTime_hours ==24)
+				 	    run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 60;
 			     if(run_t.timer_dispTime_minutes >59){
 					 run_t.timer_dispTime_hours ++;
-		             if(run_t.timer_dispTime_hours ==24 || run_t.timer_dispTime_hours >24){
-						run_t.timer_dispTime_hours=0;
+		             if(run_t.timer_dispTime_hours ==24){
 						run_t.timer_dispTime_minutes=0;
+					}
+					else if(run_t.timer_dispTime_hours >24){
+
+					   run_t.timer_dispTime_hours=0;
+					   run_t.timer_dispTime_minutes=0;
+
+
 					}
 					else{
 
@@ -661,7 +671,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 					 TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 			
-                HAL_Delay(5);
+            
 				
 	  	    }
 
@@ -683,6 +693,7 @@ void Key_TheSecond_Scan(void)
     if(run_t.gTimer_mode_key_start_counter ==1 && run_t.gPower_On ==RUN_POWER_ON){
 
 		if(MODEL_KEY_VALUE()    ==KEY_UP){
+			 run_t.gTimer_time_colon=0;
 			if(run_t.gTimer_mode_key_counter < 2){
 
 				run_t.keyvalue  = MODEL_KEY_ID;
@@ -692,6 +703,7 @@ void Key_TheSecond_Scan(void)
 			}
 		}
         else if(MODEL_KEY_VALUE()    ==KEY_DOWN){
+			 run_t.gTimer_time_colon=0;
 			if(run_t.gTimer_mode_key_counter> 3 || run_t.gTimer_mode_key_counter==3){
 
 			run_t.keyvalue  = MODE_LONG_KEY_ID;
