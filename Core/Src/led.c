@@ -210,10 +210,8 @@ static void Power_Breath_Two(void)
 
 	  
 	   LED_POWER_ON();
-	   Delay(led_i);
        LED_POWER_OFF();
 	   Delay(2000+led_i);
-  
       
 
 	}
