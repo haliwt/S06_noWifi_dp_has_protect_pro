@@ -27,7 +27,7 @@ static void delay_led_times(uint16_t t);
 
 static void Power_Breath_Two(void);
 
-static void Delay(uint16_t count);
+static void Delay(int16_t count);
 
 
 /***********************************************************
@@ -200,8 +200,9 @@ static void Power_Breath_Two(void)
         j++;
 		LED_POWER_OFF();
 		Delay(j);
-	   LED_POWER_ON();
-	   Delay(2000-j);
+        LED_POWER_ON();
+        Delay(2000-j);
+        
 
     }
     else if(led_k>3999 && led_k <6001){
@@ -211,7 +212,7 @@ static void Power_Breath_Two(void)
 	   LED_POWER_ON();
 	   Delay(led_i);
        LED_POWER_OFF();
-	   Delay(8000-led_i);
+	   Delay(2000+led_i);
   
       
 
@@ -233,11 +234,18 @@ static void Power_Breath_Two(void)
 
 }
 
-static void Delay(uint16_t count)
+static void Delay(int16_t count)
 {
-   while(count){
+   
+    if(count ==0 || count <0){
+       return;
+    
+    }
+    else{
+    while(count){
 
        count--;
+   }
    }
 
 }
