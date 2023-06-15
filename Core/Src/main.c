@@ -30,6 +30,7 @@
 #include "single_mode.h"
 #include "display.h"
 #include "interrupt_manager.h"
+#include "delay.h"
 //#include "delay.h"
 
 
@@ -97,6 +98,7 @@ static uint8_t power_on_off_flag;
   MX_GPIO_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
+  delay_init(24);
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start_IT(&htim3);
      UART_Start_Receive_IT(&huart1,inputBuf,1);

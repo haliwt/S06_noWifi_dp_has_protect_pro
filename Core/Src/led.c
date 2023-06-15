@@ -1,6 +1,11 @@
 #include "led.h"
 #include "run.h"
 #include "key.h"
+#include "delay.h"
+
+
+volatile uint32_t led_k,led_i;
+
 
 void (*panel_led_fun)(void);
 
@@ -14,11 +19,15 @@ static void Power_BreathOnOff(void);
 
 static void AI_Led_OnOff(uint8_t sel);
 
-static void ULTRASONIC_LED_OnOff(uint8_t sel);
+static void FAN_LED_OnOff(uint8_t sel);
 
 static void LED_Breath_Fun(void);
 
 static void delay_led_times(uint16_t t);
+
+static void Power_Breath_Two(void);
+
+static void Delay(uint16_t count);
 
 
 /***********************************************************
@@ -79,7 +88,7 @@ void KeyLed_Power_On(void)
 
 }
 
-static void ULTRASONIC_LED_OnOff(uint8_t sel)
+static void FAN_LED_OnOff(uint8_t sel)
 {
 
 	if(sel==1)LED_FAN_ON();
@@ -143,10 +152,10 @@ void Panel_Led_OnOff_Function(void)
 	 }
 
 	 if(run_t.gFan == 1){
-         ULTRASONIC_LED_OnOff(1);
+         FAN_LED_OnOff(1);
 	 }
 	 else{
-         ULTRASONIC_LED_OnOff(0);
+         FAN_LED_OnOff(0);
 	 }
 	 
 
@@ -170,47 +179,57 @@ void Panel_Led_OnOff_Function(void)
 *
 *
 **************************************************************/
-//static void Power_BreathOnOff(void)
-//{
-//    
-//    
-//     static uint32_t k;
-//   
-//    k++;
-//	
-//
-//	if(k<40001){
-//
-//		LED_POWER_ON();
-//		LED_POWER_OFF();
-//
-//    }
-//          
-//   if(k>40000 && k <80002){//if(k>40000 && k <80000){
-//
-//	     LED_POWER_OFF();
-//		
-//
-//	}
-//	if(k>80000 && k< 160002){
-//
-//	    LED_POWER_TOGGLE();
-//		LED_POWER_OFF();
-//	 }
-//
-//	if(k>160000 && k< 320001){
-//		LED_POWER_OFF();
-//
-//        
-//	}
-//
-//	if(k > 320000){
-//	    k=0;
-//
-//
-//	}
-//
-//}
+static void Power_Breath_Two(void)
+{
+    
+    
+    
+    static uint32_t i;
+    led_k++;
+
+	if(led_k<2001){
+        i=0;
+		LED_POWER_ON();
+		Delay(led_k);
+	   LED_POWER_OFF();
+	   Delay(6000-led_k);
+
+    }
+    else if(led_k>1999 && led_k <5001){
+		led_i++;
+
+	  
+	   LED_POWER_ON();
+	   Delay(led_i);
+       LED_POWER_OFF();
+	   Delay(8000-led_i);
+       LED_POWER_OFF();
+      
+
+	}
+    else if(led_k>4999){
+        led_k =30000;
+        i++; 
+      if(i<50000){
+          LED_POWER_OFF();
+      }
+      else{
+        led_i=0;
+		led_k=0;
+      }
+	}
+	
+
+}
+
+static void Delay(uint16_t count)
+{
+   while(count){
+
+       count--;
+   }
+
+}
 
 static void Power_BreathOnOff(void)
 {
@@ -252,7 +271,8 @@ void Breath_Led(void)
 {
     
    
-    Power_BreathOnOff();
+   // Power_BreathOnOff();
+   Power_Breath_Two();
 
 
    
@@ -260,7 +280,14 @@ void Breath_Led(void)
 
 
 
-
+/***************************************************************
+*
+*Function Name: void Panel_Led_OnOff_RunCmd(void (*panelledHandler)(void))
+*Function : display temperature and humidity and times led 
+*
+*
+*
+**************************************************************/
 void Panel_Led_OnOff_RunCmd(void (*panelledHandler)(void))
 {
 

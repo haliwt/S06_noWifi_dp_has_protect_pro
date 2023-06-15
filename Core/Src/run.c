@@ -140,11 +140,13 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
          case PTC_WARNING:
 		 	run_t.ptc_warning =1;
+		 	run_t.gDry =0;
 
 	     break;
 
 		 case FAN_WARNING:
 		 	run_t.fan_warning =1;
+		 	run_t.gFan =0;
 
 		 break;
 
@@ -200,6 +202,11 @@ void Power_On_Fun(void)
     run_t.time_led_flag=1;
 	Power_ON_Led();
 
+	run_t.fan_warning=0;
+	run_t.ptc_warning=0;
+	
+    run_t.gTimer_Counter=0;
+    run_t.gTimes_time_seconds=0;
 	run_t.dispTime_hours=0;
     run_t.dispTime_minutes=0;
 	run_t.timer_dispTime_hours =0;

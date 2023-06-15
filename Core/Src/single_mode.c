@@ -104,9 +104,8 @@ static void Display_Timing_Value(void)
 
 	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600
 
-		      
-               if(alternate_flag ==0){
-			   	  alternate_flag=1;
+		        if(alternate_flag ==0){
+			   	
                      
 			     if(run_t.ptc_warning ==1){
                  
@@ -126,7 +125,7 @@ static void Display_Timing_Value(void)
                }
 			   else{
 
-			      alternate_flag=0;
+			      alternate_flag=2;
 				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
 
 					     Display_Error_Digital(0x02,0);
@@ -139,6 +138,7 @@ static void Display_Timing_Value(void)
 					else  if(run_t.ptc_warning ==0 && run_t.fan_warning ==1){
                        
 					    Display_Error_Digital(0x02,0);
+					    if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
 			        }
 
 
@@ -148,7 +148,9 @@ static void Display_Timing_Value(void)
 		   }
 		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital < 121 ){
 
+                  alternate_flag++;
  				Display_Error_Digital(0x10,1);
+ 				if( alternate_flag==2) alternate_flag=0;
 		   }
 		   else if(run_t.gTimer_error_digital > 119){
 
@@ -357,7 +359,7 @@ void RunPocess_Command_Handler(void)
 
 			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
             
-			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1){
+			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1 && run_t.fan_warning==0){
                    
 					LED_FAN_ON() ;
 				 }
@@ -498,7 +500,7 @@ static void Display_Works_Time_Fun(void)
 
 		      
                if(alternate_flag ==0){
-			   	  alternate_flag=1;
+			   	  
                      
 			     if(run_t.ptc_warning ==1){
                  
@@ -518,7 +520,7 @@ static void Display_Works_Time_Fun(void)
                }
 			   else{
 
-			      alternate_flag=0;
+			      alternate_flag=2;
 				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
 
 					     Display_Error_Digital(0x02,0);
@@ -539,8 +541,9 @@ static void Display_Works_Time_Fun(void)
 
 		   }
 		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital  < 121 ){
-
+		   		alternate_flag++;
  				Display_Error_Digital(0x10,1);
+ 				if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
 		   }
 		    else if(run_t.gTimer_error_digital > 119){
 
