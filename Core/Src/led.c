@@ -193,7 +193,7 @@ static void Power_Breath_Two(void)
 		LED_POWER_ON();
 		Delay(led_k);
 	   LED_POWER_OFF();
-	   Delay(2000-led_k);
+	   Delay(4000-led_k);
 
     }
     if(led_k>1999 && led_k <4001){
@@ -211,7 +211,7 @@ static void Power_Breath_Two(void)
 	  
 	   LED_POWER_ON();
        LED_POWER_OFF();
-	   Delay(2000+led_i);
+	   Delay(2300+led_i);
       
 
 	}
