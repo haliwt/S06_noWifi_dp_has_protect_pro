@@ -470,8 +470,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
   
    switch(GPIO_Pin){
 
-      HAL_Delay(20);
+      HAL_Delay(10);
      case POWER_KEY_Pin:
+
+	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
 			
@@ -496,10 +498,13 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
      break;
 
 	 case MODEL_KEY_Pin:
+
+	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(MODEL_KEY_Pin);
+	
       if(run_t.gPower_On ==RUN_POWER_ON){
 
 	      
-
+          run_t.gTimer_time_colon=0;
           if(run_t.recoder_start_conuter_flag==0){
 			run_t.recoder_start_conuter_flag++;
 			run_t.gTimer_mode_key_start_counter=1;
@@ -524,9 +529,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 break;
 
 	 case DEC_KEY_Pin:
+	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
          if(run_t.ptc_warning ==0){
+		 	 run_t.gTimer_time_colon=0;
 		 SendData_Buzzer();
 	 	 //run_t.keyvalue  = DEC_KEY_ID;
 	 	  switch(run_t.temp_set_timer_timing_flag){
@@ -583,6 +590,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 
+		     HAL_Delay(5);
 
 
 		  
@@ -597,12 +605,13 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 break;
 
 	 case ADD_KEY_Pin:
+	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
 		  if(run_t.ptc_warning ==0){
 				 SendData_Buzzer();
 
-          //  run_t.keyvalue  = ADD_KEY_ID;
+                run_t.gTimer_time_colon=0;
 
 			  switch(run_t.temp_set_timer_timing_flag){
 
@@ -652,7 +661,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 					 TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 			
-                
+                HAL_Delay(5);
 				
 	  	    }
 

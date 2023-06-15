@@ -108,40 +108,30 @@ static void TimeColon_Smg_Blink_Fun(void)
 
 void Display_TimeColon_Blink_Fun(void)
 {
-    static uint8_t  continue_flag=0, continue_2_flag=0;
+
 
 
  
-   if(run_t.gTimer_time_colon >27){ //10*20ms=300ms
+   if(run_t.gTimer_time_colon >80){ //10*20ms=300ms
 
 	   run_t.gTimer_time_colon =0;
 
+   if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP){
+
 	if(FAN_KEY_VALUE()  !=1 && PLASMA_KEY_VALUE()  !=1 && DRY_KEY_VALUE()  !=1 && AI_KEY_VALUE()!=1){
 
-          continue_flag = 1;
-	}
-	
-
-	
-	if(POWER_KEY_VALUE() !=1 && MODEL_KEY_VALUE()!=1 && DEC_KEY_VALUE() !=1 && ADD_KEY_VALUE()!=1){
-
-	                 continue_2_flag = 1;
-
-	}
-	
-
-   if(run_t.set_temperature_flag==0 && run_t.set_temperature_special_value==0 && run_t.set_timer_special_value==0 && run_t.temp_set_timer_timing_flag==0\
-   	    && continue_flag==1 && continue_2_flag==1){	
+          
+	  if(run_t.set_temperature_flag==0 && run_t.set_temperature_special_value==0 && run_t.set_timer_special_value==0 && run_t.temp_set_timer_timing_flag==0){	
 				 	
-                     continue_2_flag = 0;
-			         continue_flag=0;
+                  
 					TimeColon_Smg_Blink_Fun();
 					
 
 	}
 	}
+   	}
 	
-
+   	}
 }
 
 
