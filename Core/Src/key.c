@@ -11,7 +11,6 @@
 
 key_types key_t;
 
-volatile uint8_t key_counter_counter_1,key_counter_counter_2;
 /***********************************************************
 *
 *
@@ -169,8 +168,8 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t m,n,p,q,power_on_off_flag;
-   static uint8_t power_flag,mode_key_times;
+   static uint8_t power_on_off_flag;
+
     switch(keylabel){
 
       case POWER_KEY_ID:
@@ -361,8 +360,8 @@ void Process_Key_Handler(uint8_t keylabel)
 void SetTimer_Temperature_Number_Value(void)
 {
 
-    static uint8_t m,n,p,q,counter_timesb,send_timing_value,counter_times;
-    static uint8_t timing_flag,set_timer_flag,set_temp_flag,define_timer_times;
+    
+    static uint8_t set_temp_flag, counter_times;
 	
 	//set timer timing value 
 	switch(run_t.temp_set_timer_timing_flag){
@@ -429,9 +428,9 @@ void SetTimer_Temperature_Number_Value(void)
           }
 		  else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
 		  	
-			  m =  run_t.wifi_set_temperature / 10 ;
-			  n =  run_t.wifi_set_temperature % 10; //
-			  TM1639_Write_2bit_SetUp_TempData(m,n,0);
+			 // m =  run_t.set_temperature_decade_value / 10 ;
+			 // n =  run_t.set_temperature_unit_value % 10; //
+			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 
 		  }
 		  else{
@@ -449,9 +448,9 @@ void SetTimer_Temperature_Number_Value(void)
 			  run_t.temperature_set_flag =1;
 			  
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
-			  m =  run_t.wifi_set_temperature / 10 ;
-			  n =  run_t.wifi_set_temperature % 10; //
-			  TM1639_Write_2bit_SetUp_TempData(m,n,0);
+			//  m =  run_t.set_temperature_decade_value / 10 ;
+			//  n =  run_t.set_temperature_decade_value % 10; //
+			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 	       
 	       }
 	  }
@@ -465,8 +464,8 @@ void SetTimer_Temperature_Number_Value(void)
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
    #if 1
-   static uint8_t power_on_off_flag,m,n;
 
+   volatile static  uint8_t set_up_temperature_value;
 
   
   
@@ -533,7 +532,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 case DEC_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
-		  key_counter_counter_1++;
+
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
          if(run_t.ptc_warning ==0){
@@ -545,18 +544,20 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		 	case 0: //set temperature value
 	    
 			//setup temperature of value,minimum 20,maximum 40
-			run_t.wifi_set_temperature--;
-			if(run_t.wifi_set_temperature<20) run_t.wifi_set_temperature=40;
-	        else if(run_t.wifi_set_temperature >40)run_t.wifi_set_temperature=40;
+			set_up_temperature_value--;
+			if(set_up_temperature_value<20) set_up_temperature_value=40;
+	        else if(set_up_temperature_value >40)set_up_temperature_value=40;
 
-	        m =  run_t.wifi_set_temperature / 10 ;
-			n =  run_t.wifi_set_temperature % 10; //
+	        run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
+			run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
 
 			
-			 TM1639_Write_2bit_SetUp_TempData(m,n,0);
-			// HAL_Delay(100);
+			// TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			
 		      run_t.set_temperature_flag=1;
 			  run_t.gTimer_key_temp_timing=0;
+			  run_t.gTimer_time_colon=0;
+			  run_t.display_timer_timing_flag=2;
 			 
 	    	
 		   break;
@@ -639,7 +640,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 case ADD_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
-		  key_counter_counter_2++;
+	
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
 		  if(run_t.ptc_warning ==0){
@@ -650,22 +651,23 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			  switch(run_t.temp_set_timer_timing_flag){
 
 		    case 0:  //set temperature value 
-                run_t.wifi_set_temperature ++;
-	            if(run_t.wifi_set_temperature < 20){
-				    run_t.wifi_set_temperature=20;
+                set_up_temperature_value ++;
+	            if(set_up_temperature_value < 20){
+				    set_up_temperature_value=20;
 				}
 				
-				if(run_t.wifi_set_temperature > 40)run_t.wifi_set_temperature= 20;
+				if(set_up_temperature_value > 40)set_up_temperature_value= 20;
 				
-			    m =  run_t.wifi_set_temperature / 10 ;
-				n =  run_t.wifi_set_temperature % 10; //
+			   run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
+			   run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
    
-                TM1639_Write_2bit_SetUp_TempData(m,n,0);
+             
 				
 			
 				   run_t.set_temperature_flag=1;
 				   run_t.gTimer_key_temp_timing=0;
-				   
+				   run_t.gTimer_time_colon=0;
+				     run_t.display_timer_timing_flag=2;
 			
 			break;
 
@@ -716,11 +718,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 					   case 30:
 							run_t.minutes_one_decade_bit= 3;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-
-					   case 60:
-							run_t.minutes_one_decade_bit= 6;
 							run_t.minutes_one_unit_bit= 0;
 					   break;
 

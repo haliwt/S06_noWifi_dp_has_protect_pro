@@ -331,6 +331,12 @@ void RunPocess_Command_Handler(void)
 
                 break;
 
+				case 2:
+					run_t.display_timer_timing_flag=0;
+
+					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+				break;
+
                 case 0:
                     RunLocal_Smg_Process();
 
@@ -415,7 +421,7 @@ static void Display_SetTemperature_Value(void)
                run_t.gTimer_temp_delay =0;
 		 
 		  
-		  if(run_t.wifi_set_temperature <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
+		  if(run_t.set_temperature_decade_value <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
 	  
 				run_t.gDry = 0;
 
@@ -424,7 +430,7 @@ static void Display_SetTemperature_Value(void)
 			    
                 
 		  }
-		  else if((run_t.wifi_set_temperature -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
+		  else if((run_t.set_temperature_decade_value -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
 	  
 		     run_t.gDry = 1;
 	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
