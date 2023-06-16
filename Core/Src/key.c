@@ -10,6 +10,8 @@
 
 
 key_types key_t;
+
+volatile uint8_t key_counter_counter_1,key_counter_counter_2;
 /***********************************************************
 *
 *
@@ -531,6 +533,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 case DEC_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
+		  key_counter_counter_1++;
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
          if(run_t.ptc_warning ==0){
@@ -582,16 +585,45 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
 				
 
-			run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
-			run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
+			    if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
+					      run_t.hours_two_decade_bit = 1 ;
+					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; //n = run_t.dispTime_hours  %10;
+			    }
+				else if(run_t.timer_dispTime_hours > 19 ){
+					
+				  run_t.hours_two_decade_bit = 2 ;
+				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; //n = run_t.dispTime_hours  %10;
 
-			run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
+				}
+				else{
 
-			run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
+					       run_t.hours_two_decade_bit =0;
+						   run_t.hours_two_unit_bit= run_t.timer_dispTime_hours;
+				}
 
-			TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+				switch(run_t.timer_dispTime_minutes){
 
-		   
+					   case 30:
+							run_t.minutes_one_decade_bit= 3;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+
+					   case 60:
+							run_t.minutes_one_decade_bit= 6;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+
+					   case 0:
+							run_t.minutes_one_decade_bit= 0;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+					
+
+					}
+                 run_t.display_timer_timing_flag=1;
+		//	TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+
+		     run_t.gTimer_time_colon =0;
 
 
 		  
@@ -607,6 +639,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 case ADD_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
+		  key_counter_counter_2++;
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
 		  if(run_t.ptc_warning ==0){
@@ -661,17 +694,47 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 					}
 						
-			     }		
-					run_t.hours_two_decade_bit= run_t.timer_dispTime_hours /10 ;
-					run_t.hours_two_unit_bit =run_t.timer_dispTime_hours  %10; //n = run_t.dispTime_hours  %10;
-					
-				    run_t.minutes_one_decade_bit=run_t.timer_dispTime_minutes /10;
-					 
-				    run_t.minutes_one_unit_bit=run_t.timer_dispTime_minutes % 10;
+			     }
 
-					 TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+				if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
+					      run_t.hours_two_decade_bit = 1 ;
+					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; //n = run_t.dispTime_hours  %10;
+			    }
+				else if(run_t.timer_dispTime_hours > 19 ){
+					
+				  run_t.hours_two_decade_bit = 2 ;
+				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; //n = run_t.dispTime_hours  %10;
+
+				}
+				else{
+
+					       run_t.hours_two_decade_bit =0;
+						   run_t.hours_two_unit_bit= run_t.timer_dispTime_hours;
+				}
+
+					switch(run_t.timer_dispTime_minutes){
+
+					   case 30:
+							run_t.minutes_one_decade_bit= 3;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+
+					   case 60:
+							run_t.minutes_one_decade_bit= 6;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+
+					   case 0:
+							run_t.minutes_one_decade_bit= 0;
+							run_t.minutes_one_unit_bit= 0;
+					   break;
+					
+
+					}
+                    run_t.display_timer_timing_flag=1;
+					// TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 			
-            
+              run_t.gTimer_time_colon =0;
 				
 	  	    }
 
@@ -733,6 +796,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
     if(key_up&&(AI_KEY_VALUE()==1||FAN_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
         HAL_Delay(20);
+		run_t.gTimer_time_colon =0;
         key_up=0;
         if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = AI_KEY_ID;
         else if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;

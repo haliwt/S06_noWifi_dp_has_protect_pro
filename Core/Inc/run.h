@@ -122,6 +122,7 @@ typedef struct __RUN{
    uint8_t set_up_temp_flag;
    uint8_t gSet_up_times;
    uint8_t auto_model_shut_off_ptc_flag;
+   uint8_t display_timer_timing_flag;
   
    
 

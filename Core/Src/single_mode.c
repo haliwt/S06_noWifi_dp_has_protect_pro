@@ -235,6 +235,7 @@ void RunPocess_Command_Handler(void)
 
       case RUN_POWER_ON:
 	  	    run_t.step_run_power_off_tag=0;
+            run_t.gTimer_time_colon =0;
            
            switch(run_t.step_run_power_on_tag){
 
@@ -318,35 +319,35 @@ void RunPocess_Command_Handler(void)
 	  case UPDATE_DATA: //3
 
 	   
-       
-       if(run_t.step_run_power_off_tag==1){
-           run_t.step_run_power_off_tag=0;
-         run_t.gRunCommand_label =POWER_OFF_PROCESS;
-         Power_Off_Fun();
-       
-       }else{
-          if(POWER_KEY_VALUE() == KEY_UP){
+		if(POWER_KEY_VALUE() == KEY_UP){
 
-		   RunLocal_Smg_Process();
-	     
-		  
-		   SetTimer_Temperature_Number_Value();
+            switch(run_t.display_timer_timing_flag){
 
-		   Display_Timing_Value();
+                case 1:
+                    run_t.display_timer_timing_flag=0;
 
-		   Display_SetTemperature_Value(); 
+                    TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
+                
 
-		   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-	            Display_TimeColon_Blink_Fun();
-		   	}
+                break;
 
-	   }
-       
-       
-       }
-	   
+                case 0:
+                    RunLocal_Smg_Process();
 
-	  break;
+                    SetTimer_Temperature_Number_Value();
+
+                    Display_Timing_Value();
+
+                    Display_SetTemperature_Value(); 
+
+                    if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+                        Display_TimeColon_Blink_Fun();
+                    }
+                break;
+             }
+
+		}
+     break;
 
 	  case POWER_OFF_PROCESS://4
 
