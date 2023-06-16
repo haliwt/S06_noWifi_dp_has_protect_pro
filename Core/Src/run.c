@@ -13,7 +13,7 @@ uint8_t power_on_off_flag;
 
 void Power_Off(void);
 
-static void Receive_Wifi_Cmd(uint8_t cmd);
+
 
 
 
@@ -86,7 +86,7 @@ void Power_Off(void)
 **********************************************************************/
 void Receive_MainBoard_Data_Handler(uint8_t cmd)
 {
-	static uint8_t m,n,p,q,i;
+	
 	static uint8_t hum1,hum2,temp1,temp2; 
 	
     switch(cmd){
@@ -204,11 +204,12 @@ void Power_On_Fun(void)
 
 	run_t.fan_warning=0;
 	run_t.ptc_warning=0;
+
+	run_t.works_dispTime_hours=0;
+	run_t.works_dispTime_minutes=0;
+	run_t.gTimes_time_seconds =0;
 	
     run_t.gTimer_Counter=0;
-    run_t.gTimes_time_seconds=0;
-	run_t.dispTime_hours=0;
-    run_t.dispTime_minutes=0;
 	run_t.timer_dispTime_hours =0;
 	run_t.timer_dispTime_minutes=0;
 		

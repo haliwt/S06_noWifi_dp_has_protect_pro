@@ -14,17 +14,7 @@ static void DRY_LED_OnOff(uint8_t sel);
 static void PLASMA_LED_OnOff(uint8_t sel);
 
 static void TIME_LED_OnOff(uint8_t sel);
-
-static void Power_BreathOnOff(void);
-
-static void AI_Led_OnOff(uint8_t sel);
-
 static void FAN_LED_OnOff(uint8_t sel);
-
-static void LED_Breath_Fun(void);
-
-static void delay_led_times(uint16_t t);
-
 static void Power_Breath_Two(void);
 
 static void Delay(int16_t count);
@@ -37,21 +27,6 @@ static void Delay(int16_t count);
 *
 *
 ************************************************************/
-static void AI_Led_OnOff(uint8_t sel)
-{
-
-    if(run_t.ai_model_flag ==1){
-
-           LED_AI_ON();
-
-	}
-    else{
-		 LED_AI_OFF();
-
-    }
-
-
-}
 
 static void DRY_LED_OnOff(uint8_t sel)
 {
@@ -108,8 +83,6 @@ void ALL_LED_Off(void)
 
 }
 
-
-
 /*******************************************************************************************
  	*
  	* Function Name:void Panel_Led_OnOff_Function(void)
@@ -122,6 +95,7 @@ void Panel_Led_OnOff_Function(void)
 {
 	if(run_t.gTimer_run_ico > 30){ //30* 10ms =300ms
 		run_t.gTimer_run_ico=0;
+		
 	LED_POWER_ON();
 	if(run_t.ai_model_flag ==AI_MODE){
        LED_AI_ON();
@@ -181,9 +155,6 @@ void Panel_Led_OnOff_Function(void)
 **************************************************************/
 static void Power_Breath_Two(void)
 {
-    
-    
-    
     static uint32_t i,j;
     led_k++;
 
@@ -248,6 +219,7 @@ static void Delay(int16_t count)
 
 }
 
+#if 0
 static void Power_BreathOnOff(void)
 {
     
@@ -281,7 +253,7 @@ static void Power_BreathOnOff(void)
 
 }
 
-
+#endif 
 
 
 void Breath_Led(void)

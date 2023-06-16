@@ -428,8 +428,6 @@ void SetTimer_Temperature_Number_Value(void)
           }
 		  else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
 		  	
-			 // m =  run_t.set_temperature_decade_value / 10 ;
-			 // n =  run_t.set_temperature_unit_value % 10; //
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 
 		  }
@@ -448,8 +446,7 @@ void SetTimer_Temperature_Number_Value(void)
 			  run_t.temperature_set_flag =1;
 			  
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
-			//  m =  run_t.set_temperature_decade_value / 10 ;
-			//  n =  run_t.set_temperature_decade_value % 10; //
+		
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 	       
 	       }
@@ -463,7 +460,7 @@ void SetTimer_Temperature_Number_Value(void)
 ***********************************************************/
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
-   #if 1
+ 
 
    volatile static  uint8_t set_up_temperature_value;
 
@@ -588,12 +585,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			    if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
 					      run_t.hours_two_decade_bit = 1 ;
-					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; //n = run_t.dispTime_hours  %10;
+					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; 
 			    }
 				else if(run_t.timer_dispTime_hours > 19 ){
 					
 				  run_t.hours_two_decade_bit = 2 ;
-				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; //n = run_t.dispTime_hours  %10;
+				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; 
 
 				}
 				else{
@@ -609,11 +606,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 							run_t.minutes_one_unit_bit= 0;
 					   break;
 
-					   case 60:
-							run_t.minutes_one_decade_bit= 6;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-
+		
 					   case 0:
 							run_t.minutes_one_decade_bit= 0;
 							run_t.minutes_one_unit_bit= 0;
@@ -622,7 +615,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 					}
                  run_t.display_timer_timing_flag=1;
-		//	TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
+
 
 		     run_t.gTimer_time_colon =0;
 
@@ -661,13 +654,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			   run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
 			   run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
    
-             
-				
-			
-				   run_t.set_temperature_flag=1;
-				   run_t.gTimer_key_temp_timing=0;
-				   run_t.gTimer_time_colon=0;
-				     run_t.display_timer_timing_flag=2;
+              run_t.set_temperature_flag=1;
+			  run_t.gTimer_key_temp_timing=0;
+			  run_t.gTimer_time_colon=0;
+			  run_t.display_timer_timing_flag=2;
 			
 			break;
 
@@ -700,12 +690,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 				if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
 					      run_t.hours_two_decade_bit = 1 ;
-					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; //n = run_t.dispTime_hours  %10;
+					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; 
 			    }
 				else if(run_t.timer_dispTime_hours > 19 ){
 					
 				  run_t.hours_two_decade_bit = 2 ;
-				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; //n = run_t.dispTime_hours  %10;
+				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; 
 
 				}
 				else{
@@ -743,7 +733,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	
 
     }
- #endif 
+ 
 }
 
 void Key_TheSecond_Scan(void)

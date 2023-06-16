@@ -203,7 +203,7 @@ void SendData_Remaining_Time(uint8_t tdata,uint8_t tdata_2)
 *******************************************************************************/
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-     uint8_t total_value ;
+   
 	if(huart==&huart1) // Motor Board receive data (filter)
 	{
 		switch(state)

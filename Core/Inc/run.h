@@ -204,9 +204,6 @@ typedef struct __RUN{
    
  
 
-	int8_t dispTime_hours;
-	int8_t dispTime_minutes;
-
 	int8_t timer_dispTime_hours;
    int8_t timer_dispTime_minutes;
 	
@@ -214,8 +211,7 @@ typedef struct __RUN{
 	uint16_t gTimer_usart_error;
 	uint16_t gTimer_error_digital ;
    
-   uint16_t send_app_timer_total_minutes_data;
-   uint16_t send_app_wokes_total_minutes_data;
+  
 
 
    

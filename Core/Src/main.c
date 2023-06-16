@@ -74,7 +74,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-static uint8_t power_on_off_flag;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -206,7 +206,7 @@ void SystemClock_Config(void)
   */
 void Error_Handler(void)
 {
-  uint32_t temp;
+  
     /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();

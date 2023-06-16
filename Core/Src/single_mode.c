@@ -15,7 +15,7 @@ void (*single_add_fun)(void);
 void (*single_buzzer_fun)(void);
 void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
-static void Setup_Timer_Times(void);
+
 
 static void Display_Timing_Value(void);
 static void RunLocal_Smg_Process(void);
@@ -260,6 +260,9 @@ void RunPocess_Command_Handler(void)
             run_t.step_run_power_off_tag=0;
             run_t.power_on_send_to_mb_times=36;
 			run_t.timer_timing_define_ok=0;
+			
+			
+			
 			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
 
@@ -473,7 +476,7 @@ static void Display_Works_Time_Fun(void)
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;
 			run_t.works_dispTime_minutes++; //1 minute 
-			run_t.send_app_wokes_total_minutes_data++;
+		
             run_t.send_app_wokes_minutes_two++;
 			if(run_t.works_dispTime_minutes> 59){ //1 hour
 			run_t.works_dispTime_minutes=0;
@@ -482,11 +485,7 @@ static void Display_Works_Time_Fun(void)
 			run_t.works_dispTime_hours =0;
 			}
         
-            if(run_t.send_app_wokes_total_minutes_data >255){
-               run_t.send_app_wokes_minutes_one++;
-               run_t.send_app_wokes_minutes_two=0;
-               run_t.send_app_wokes_total_minutes_data=0;
-            }
+            
 		
     
           
@@ -617,7 +616,7 @@ static void WorksTime_DonotDisplay_Fun(void)
 		   run_t.gTimes_time_seconds=0;
 		 
 		   run_t.works_dispTime_minutes++; //1 minute 
-		   run_t.send_app_wokes_total_minutes_data++;
+		
 		   run_t.send_app_wokes_minutes_two++;
 		   if(run_t.works_dispTime_minutes> 59){ //1 hour
 		   run_t.works_dispTime_minutes=0;
@@ -626,11 +625,7 @@ static void WorksTime_DonotDisplay_Fun(void)
 		   run_t.works_dispTime_hours =0;
 		   }
 	   
-		   if(run_t.send_app_wokes_total_minutes_data >255){
-			  run_t.send_app_wokes_minutes_one++;
-			  run_t.send_app_wokes_minutes_two=0;
-			  run_t.send_app_wokes_total_minutes_data=0;
-		   }
+		   
 	   
    
 		 
