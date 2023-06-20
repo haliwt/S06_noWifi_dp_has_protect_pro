@@ -101,8 +101,8 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
         temp2 = run_t.gReal_humtemp[1]%10;
 
          //temperature 
-         TM1639_Write_2bit_TempData(temp1,temp2); //TM1639_Write_2bit_HumData(temp1,temp2);//TM1639_Write_2bit_TempData(temp1,temp2);
-	      TM1639_Write_2bit_HumData(hum1,hum2);//TM1639_Write_2bit_TempData(hum1,hum2);//TM1639_Write_2bit_HumData(hum1,hum2);
+         TM1639_Write_2bit_TempData(temp1,temp2); 
+	      TM1639_Write_2bit_HumData(hum1,hum2);
 	      
         }
 

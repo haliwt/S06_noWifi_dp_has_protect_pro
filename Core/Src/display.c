@@ -32,9 +32,9 @@ void Display_DHT11_Value(void)
 	temp2 = run_t.gReal_humtemp[1]%10;
 
     if(run_t.set_temperature_flag==0){
-	  TM1639_Write_2bit_TempData(temp1,temp2);//  TM1639_Write_2bit_HumData(temp1,temp2);// TM1639_Write_2bit_TempData(temp1,temp2);//
+	  TM1639_Write_2bit_TempData(temp1,temp2);
     }
-	TM1639_Write_2bit_HumData(hum1,hum2);//TM1639_Write_2bit_TempData(hum1,hum2);//TM1639_Write_2bit_HumData(hum1,hum2);//
+	TM1639_Write_2bit_HumData(hum1,hum2);
 	
 
 

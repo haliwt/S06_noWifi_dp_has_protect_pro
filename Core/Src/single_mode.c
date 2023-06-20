@@ -454,11 +454,13 @@ static void RunLocal_Smg_Process(void)
 *******************************************************/
 static void Display_SetTemperature_Value(void)
 {
-	 if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay >60){
+	
+    static uint8_t set_temperature_value;
+    if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay >60){
                run_t.gTimer_temp_delay =0;
 		 
-		  
-		  if(run_t.set_temperature_decade_value <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
+		  set_temperature_value= run_t.set_temperature_decade_value*10+ run_t.set_temperature_unit_value;
+		  if(set_temperature_value <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
 	  
 				run_t.gDry = 0;
 
@@ -467,7 +469,7 @@ static void Display_SetTemperature_Value(void)
 			    
                 
 		  }
-		  else if((run_t.set_temperature_decade_value -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
+		  else if((set_temperature_value= -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
 	  
 		     run_t.gDry = 1;
 	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
