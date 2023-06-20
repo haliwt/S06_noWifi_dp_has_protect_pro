@@ -197,13 +197,15 @@ void Process_Key_Handler(uint8_t keylabel)
 	  	if(run_t.gPower_On ==RUN_POWER_ON){
 
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
-		  	   	SendData_Buzzer();//single_buzzer_fun();
+		  	  
 
 		          run_t.ai_model_flag =AI_NO_MODE;
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
 				  run_t.confirm_timer_input_number=1;
 			      run_t.input_timer_timing_numbers_flag =1;
+                 	SendData_Buzzer();//single_buzzer_fun();
+                    HAL_Delay(100);
 			  
           }
 	       
@@ -288,9 +290,11 @@ void Process_Key_Handler(uint8_t keylabel)
                }
                else{
                     run_t.gDry =1;
+					run_t.gFan =1;
 					SendData_Set_Command(DRY_ON);
                  }  
 			   }
+		    }
 			keylabel= 0xff;	
          break;
 
@@ -305,12 +309,13 @@ void Process_Key_Handler(uint8_t keylabel)
 			   	}  
                 else{
                    run_t.gPlasma = 1;
+				   run_t.gFan =1;
 				   SendData_Set_Command(PLASMA_ON);
 				}
 				   
 		       
 			 }
-          	}
+          
            run_t.keyvalue = 0xff;
         break;
 
@@ -534,7 +539,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
          if(run_t.ptc_warning ==0){
 		 	 run_t.gTimer_time_colon=0;
-		 SendData_Buzzer();
+		// SendData_Buzzer();
 	 	 //run_t.keyvalue  = DEC_KEY_ID;
 	 	  switch(run_t.temp_set_timer_timing_flag){
 
@@ -637,7 +642,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 	if(run_t.gPower_On ==RUN_POWER_ON){
 
 		  if(run_t.ptc_warning ==0){
-				 SendData_Buzzer();
+				// SendData_Buzzer();
 
                 run_t.gTimer_time_colon=0;
 
@@ -770,16 +775,16 @@ void Key_TheSecond_Scan(void)
 
 }
 
-//°´¼ü´¦Àíº¯Êý
-//·µ»Ø°´¼üÖµ
-//mode:0,²»Ö§³ÖÁ¬Ðø°´;1,Ö§³ÖÁ¬Ðø°´;
-//0£¬Ã»ÓÐÈÎºÎ°´¼ü°´ÏÂ
-//1£¬WKUP°´ÏÂ WK_UP
-//×¢Òâ´Ëº¯ÊýÓÐÏìÓ¦ÓÅÏÈ¼¶,KEY0>KEY1>KEY2>WK_UP!!
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½Ø°ï¿½ï¿½ï¿½Öµ
+//mode:0,ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;1,Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
+//0ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ÎºÎ°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//1ï¿½ï¿½WKUPï¿½ï¿½ï¿½ï¿½ WK_UP
+//×¢ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½,KEY0>KEY1>KEY2>WK_UP!!
 uint8_t KEY_Normal_Scan(uint8_t mode)
 {
-    static uint8_t key_up=1;     //°´¼üËÉ¿ª±êÖ¾
-    if(mode==1)key_up=1;    //Ö§³ÖÁ¬°´
+    static uint8_t key_up=1;     //ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½Ö¾
+    if(mode==1)key_up=1;    //Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if(key_up&&(AI_KEY_VALUE()==1||FAN_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
         HAL_Delay(20);
@@ -790,7 +795,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
         else if(PLASMA_KEY_VALUE()==1)  return run_t.keyvalue  = PLASMA_KEY_ID;
         else if(FAN_KEY_VALUE()==1) return run_t.keyvalue  = FAN_KEY_ID;        
     }else if(AI_KEY_VALUE()==0 && DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0 && FAN_KEY_VALUE()==0)key_up=1;
-    return 0;   //ÎÞ°´¼ü°´ÏÂ
+    return 0;   //ï¿½Þ°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 

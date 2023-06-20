@@ -25,16 +25,17 @@ void Display_DHT11_Value(void)
   static uint8_t hum1,hum2; 
   static uint8_t temp1,temp2;
 
-	hum1 =  run_t.gReal_humtemp[0]/10 %10;  //Humidity 
+	hum1 =  run_t.gReal_humtemp[0]/10;  //Humidity 
 	hum2 =  run_t.gReal_humtemp[0]%10;
 
-	temp1 = run_t.gReal_humtemp[1]/10 %10;  // temperature
+	temp1 = run_t.gReal_humtemp[1]/10 ;  // temperature
 	temp2 = run_t.gReal_humtemp[1]%10;
 
     if(run_t.set_temperature_flag==0){
-	     TM1639_Write_2bit_TempData(temp1,temp2);
+	  TM1639_Write_2bit_TempData(temp1,temp2);//  TM1639_Write_2bit_HumData(temp1,temp2);// TM1639_Write_2bit_TempData(temp1,temp2);//
     }
-	TM1639_Write_2bit_HumData(hum1,hum2);
+	TM1639_Write_2bit_HumData(hum1,hum2);//TM1639_Write_2bit_TempData(hum1,hum2);//TM1639_Write_2bit_HumData(hum1,hum2);//
+	
 
 
 }  
@@ -109,10 +110,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 void Display_TimeColon_Blink_Fun(void)
 {
 
-
-
- 
-   if(run_t.gTimer_time_colon >50){ //10*20ms=300ms
+   if(run_t.gTimer_time_colon >80){ //10*20ms=300ms
 
 	   run_t.gTimer_time_colon =0;
 	   TimeColon_Smg_Blink_Fun();

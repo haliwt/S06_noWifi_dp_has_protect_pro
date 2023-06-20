@@ -122,7 +122,7 @@ typedef struct __RUN{
    uint8_t set_up_temp_flag;
    uint8_t gSet_up_times;
    uint8_t auto_model_shut_off_ptc_flag;
-   uint8_t display_timer_timing_flag;
+   volatile uint8_t display_timer_timing_flag;
   
    
 
@@ -137,7 +137,7 @@ typedef struct __RUN{
    uint8_t temperature_set_flag;
 
    uint8_t gTimes_time_seconds;
-   uint8_t set_temperature_flag;
+   volatile uint8_t set_temperature_flag;
   
 	
    uint8_t gReal_humtemp[2];
@@ -163,13 +163,13 @@ typedef struct __RUN{
    /***/
    uint8_t 	gTimer_numbers_one_two_blink;
    uint8_t gTimer_temp_delay;
-   uint8_t set_temperature_decade_value;
-    uint8_t set_temperature_unit_value;
-   uint8_t gTimer_time_colon;
+   volatile uint8_t set_temperature_decade_value;
+   volatile   uint8_t set_temperature_unit_value;
+   volatile uint8_t gTimer_time_colon;
  
    uint8_t ai_model_flag;
 
-   uint8_t temp_set_timer_timing_flag;
+   volatile uint8_t temp_set_timer_timing_flag;
    uint8_t gTimer_key_timing;
    uint8_t power_on_recoder_times;
 
@@ -178,7 +178,7 @@ typedef struct __RUN{
   
    uint8_t gTimer_smg_timing;
    uint8_t gTimer_temperature;
-   uint8_t gTimer_key_temp_timing;
+   volatile uint8_t gTimer_key_temp_timing;
 
    uint8_t send_app_wokes_minutes_two;
    uint8_t send_app_wokes_minutes_one;
@@ -190,11 +190,11 @@ typedef struct __RUN{
    uint8_t works_dispTime_minutes;
    uint8_t works_dispTime_hours;
 
-   uint8_t gTimer_colon;
-   uint8_t hours_two_decade_bit;
-   uint8_t hours_two_unit_bit;
-   uint8_t minutes_one_decade_bit;
-   uint8_t minutes_one_unit_bit;
+   volatile  uint8_t gTimer_colon;
+   volatile   uint8_t hours_two_decade_bit;
+   volatile   uint8_t hours_two_unit_bit;
+   volatile   uint8_t minutes_one_decade_bit;
+   volatile   uint8_t minutes_one_unit_bit;
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
    uint8_t gTimer_run_ico;
@@ -204,8 +204,8 @@ typedef struct __RUN{
    
  
 
-	int8_t timer_dispTime_hours;
-   int8_t timer_dispTime_minutes;
+  volatile int8_t timer_dispTime_hours;
+  volatile int8_t timer_dispTime_minutes;
 	
 
 	uint16_t gTimer_usart_error;

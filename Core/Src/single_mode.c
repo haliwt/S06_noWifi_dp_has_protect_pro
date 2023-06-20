@@ -231,11 +231,13 @@ static void DisplayPanel_DHT11_Value(void)
 void RunPocess_Command_Handler(void)
 {
    static uint8_t power_off_set_flag;
+   static uint8_t  step_state;
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
 	  	    run_t.step_run_power_off_tag=0;
             run_t.gTimer_time_colon =0;
+	       run_t.set_temperature_decade_value=40;
            
            switch(run_t.step_run_power_on_tag){
 
@@ -321,41 +323,73 @@ void RunPocess_Command_Handler(void)
 
 	  case UPDATE_DATA: //3
 
-	   
-		if(POWER_KEY_VALUE() == KEY_UP){
-
-            switch(run_t.display_timer_timing_flag){
+	           switch(run_t.display_timer_timing_flag){
 
                 case 1:
+					
                     run_t.display_timer_timing_flag=0;
+			     
 
                     TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
-                
+                     SendData_Buzzer();
+                     HAL_Delay(100);
 
                 break;
 
 				case 2:
+					
 					run_t.display_timer_timing_flag=0;
 
 					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+                    SendData_Buzzer();
+                    HAL_Delay(100);
 				break;
 
                 case 0:
-                    RunLocal_Smg_Process();
 
-                    SetTimer_Temperature_Number_Value();
+				    switch(step_state){
 
-                    Display_Timing_Value();
+					case 0:
+						
+	                    RunLocal_Smg_Process();
+						step_state=1;
+	                    
+						break;
 
-                    Display_SetTemperature_Value(); 
+						case 1:
 
-                    if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-                        Display_TimeColon_Blink_Fun();
-                    }
+	                    SetTimer_Temperature_Number_Value();
+
+						step_state=2;
+					break;
+
+					case 2:
+					
+
+		                    Display_Timing_Value();
+							step_state=3;
+
+					break;
+
+					case 3:
+
+	                    Display_SetTemperature_Value(); 
+						step_state=4;
+
+					break;
+
+					case 4:
+
+		                    if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+		                        Display_TimeColon_Blink_Fun();
+		                    }
+							step_state=0;
+                    break;
+				    }
                 break;
              }
 
-		}
+	
      break;
 
 	  case POWER_OFF_PROCESS://4

@@ -267,6 +267,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             if(run_t.rx_mb_data_tag==PANEL_DATA){
             
                  run_t.gReal_humtemp[0]=inputBuf[0]; //Humidity value 
+                  
                   state = 4; 
                 
              }
@@ -340,14 +341,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		break;
 
 		}
-        __HAL_UART_CLEAR_OREFLAG(&huart1);
+       // __HAL_UART_CLEAR_OREFLAG(&huart1);
 		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
 }
 void USART1_Cmd_Error_Handler(void)
 {
    uint32_t temp;
-   if(run_t.gTimer_usart_error >8){
+   if(run_t.gTimer_usart_error >4){
 	  	run_t.gTimer_usart_error=0;
 	    
          

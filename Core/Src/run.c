@@ -94,15 +94,15 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
       case PANEL_DATA://0X02
 	   
         if(run_t.gPower_On ==RUN_POWER_ON){
-        hum1 =  run_t.gReal_humtemp[0]/10 %10;  //Humidity 
+        hum1 =  run_t.gReal_humtemp[0]/10 ;  //Humidity 
         hum2 =  run_t.gReal_humtemp[0]%10;
         
-        temp1 = run_t.gReal_humtemp[1]/10 %10;  // temperature
+        temp1 = run_t.gReal_humtemp[1]/10 ;  // temperature
         temp2 = run_t.gReal_humtemp[1]%10;
 
          //temperature 
-          TM1639_Write_2bit_TempData(temp1,temp2);
-	      TM1639_Write_2bit_HumData(hum1,hum2);
+         TM1639_Write_2bit_TempData(temp1,temp2); //TM1639_Write_2bit_HumData(temp1,temp2);//TM1639_Write_2bit_TempData(temp1,temp2);
+	      TM1639_Write_2bit_HumData(hum1,hum2);//TM1639_Write_2bit_TempData(hum1,hum2);//TM1639_Write_2bit_HumData(hum1,hum2);
 	      
         }
 
@@ -229,7 +229,7 @@ void Power_On_Fun(void)
 	  run_t.minutes_one_decade_bit =  minutes_one;
       
 	 TM1639_Write_4Bit_Time(hour_decade,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,minutes_two,0);
-      Display_DHT11_Value();
+     Display_DHT11_Value();
     
 }
 
