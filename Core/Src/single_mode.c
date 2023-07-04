@@ -312,7 +312,7 @@ void RunPocess_Command_Handler(void)
 			 run_t.gTimer_fan_continue=0;
 			 
 	
-		    // Power_Off_Fun();
+		     //Power_Off_Fun();
 
 		  
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
@@ -387,6 +387,11 @@ void RunPocess_Command_Handler(void)
                     break;
 				    }
                 break;
+                    
+                    case 4:
+                        run_t.gRunCommand_label= POWER_OFF_PROCESS;
+                        Power_Off_Fun();
+                    break;
              }
 
 	
@@ -469,7 +474,7 @@ static void Display_SetTemperature_Value(void)
 			    
                 
 		  }
-		  else if((set_temperature_value= -3) > run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] < 37){
+		  else if((set_temperature_value= -3) >= run_t.gReal_humtemp[1]){
 	  
 		     run_t.gDry = 1;
 	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On

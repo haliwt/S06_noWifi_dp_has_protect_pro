@@ -184,7 +184,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		 else{
 
 		    SendData_PowerOff(0);
-            HAL_Delay(5);
+            HAL_Delay(2);
 		    run_t.gRunCommand_label =RUN_POWER_OFF;
 	        run_t.power_on_recoder_times++ ;
 		   }
@@ -205,7 +205,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				  run_t.confirm_timer_input_number=1;
 			      run_t.input_timer_timing_numbers_flag =1;
                  	SendData_Buzzer();//single_buzzer_fun();
-                    HAL_Delay(100);
+                    HAL_Delay(2);
 			  
           }
 	       
@@ -473,7 +473,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
   
    switch(GPIO_Pin){
 
-      HAL_Delay(50);
+      HAL_Delay(30);
      case POWER_KEY_Pin:
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
@@ -486,10 +486,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             if(run_t.gPower_On ==RUN_POWER_OFF){
 				
                 run_t.gRunCommand_label = RUN_POWER_ON;
+                run_t.display_timer_timing_flag =0;
 				SendData_PowerOff(1);
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
+            run_t.display_timer_timing_flag =4;
 		  
 			SendData_PowerOff(0);
 			Power_Off_Fun();
