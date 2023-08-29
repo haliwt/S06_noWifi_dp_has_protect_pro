@@ -484,7 +484,7 @@ static void Display_SetTemperature_Value(void)
 	    
 	  }
       else{ //no define set up temperature value 
-          if(run_t.gReal_humtemp[1] >39 && run_t.gTimer_temp_delay >119){//envirment temperature
+          if(run_t.gReal_humtemp[1] >40 && run_t.gTimer_temp_delay >119){//envirment temperature
 	            run_t.gTimer_temp_delay =0;
 				run_t.gDry = 0;
                 run_t.auto_model_shut_off_ptc_flag =1;
@@ -492,7 +492,7 @@ static void Display_SetTemperature_Value(void)
 
              }
              
-             if(run_t.gReal_humtemp[1] < 36 && run_t.auto_model_shut_off_ptc_flag ==1 &&  run_t.gTimer_temp_delay >119){
+             if(run_t.gReal_humtemp[1] < 38 && run_t.auto_model_shut_off_ptc_flag ==1 &&  run_t.gTimer_temp_delay >119){
                   run_t.gTimer_temp_delay =0;
                   run_t.gDry = 1;
 	              SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
