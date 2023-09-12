@@ -17,7 +17,7 @@ void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
 
 
-static void Display_Timing_Value(void);
+static void Display_SmgTiming_Value(void);
 static void RunLocal_Dht11_Data_Process(void);
 
 static void DisplayPanel_DHT11_Value(void);
@@ -38,7 +38,7 @@ static void Display_SmgFan_Speed_Value(void);
 *Return Ref:NO
 *
 ******************************************************************************/
-static void Display_Timing_Value(void)
+static void Display_SmgTiming_Value(void)
 {
 
    static uint8_t timer_display_flag, alternate_flag;
@@ -183,47 +183,13 @@ static void Display_Timing_Value(void)
 		 
          Timer_Timing_Donot_Display();
 		
-	         Display_Works_Time_Fun();
+	    Display_Works_Time_Fun();
     break;
 
 	}
     
  }
 
-/******************************************************************************
-*
-*Function Name:static void Display_SmgFan_Speed_Value(void)
-*Funcion:display setup timer times  //__asm("NOP");//等待1个指令周期，系统主频24M
-*Iinput Ref:NO
-*Return Ref:NO
-*
-******************************************************************************/
-#if 0
-static void Display_SmgFan_Speed_Value(void)
-{
-
-    if(run_t.gFan == 1){
-	switch(run_t.gFan_level){
-
-	case fan_speed_max:
-
-	 
-
-	
-	 
-   break;
-
-   case fan_speed_min:
-		
-
-  break;
-
-	  }
-   }
-    
- }
-#endif 
-   
 /******************************************************************************
 *
 *Function Name:void Single_RunCmd(void)
@@ -370,6 +336,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
+                         run_t.gTimer_Counter=60;
 
                       }
 
@@ -398,6 +365,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
+                            run_t.gTimer_Counter=60;
 
                         }
 
@@ -428,7 +396,7 @@ void RunPocess_Command_Handler(void)
                         switch(run_t.gFan){
 
                          case 0:
-					       Display_Timing_Value();
+					       Display_SmgTiming_Value();
                          break;
 
                          case 1:
@@ -461,7 +429,7 @@ void RunPocess_Command_Handler(void)
 
                         case 0:
                             if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-                            Display_TimeColon_Blink_Fun();
+                                Display_TimeColon_Blink_Fun();
                             }
                         break;
 
@@ -471,7 +439,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
-
+                             run_t.gTimer_Counter=60;
                         }
 
                         break;
