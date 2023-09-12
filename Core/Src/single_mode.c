@@ -336,7 +336,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
-                         run_t.gTimer_Counter=60;
+                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
                       }
 
@@ -365,7 +365,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
-                            run_t.gTimer_Counter=60;
+                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
                         }
 
@@ -405,7 +405,7 @@ void RunPocess_Command_Handler(void)
                          if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                            run_t.gFan =0;
-                           run_t.gTimer_Counter=60;
+                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
                          }
 
@@ -439,7 +439,7 @@ void RunPocess_Command_Handler(void)
                         if(run_t.gTimer_display_fan_level > 2){
                             run_t.gTimer_display_fan_level=0;
                             run_t.gFan =0;
-                             run_t.gTimer_Counter=60;
+                           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
                         }
 
                         break;
