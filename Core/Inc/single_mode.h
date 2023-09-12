@@ -17,11 +17,12 @@ extern void (*single_ai_fun)(uint8_t cmd);
 extern void (*single_add_fun)(void);
 extern void (*sendAi_usart_fun)(uint8_t senddat);
 extern void (*dispose_key)(uint8_t dsdat);
-
+extern void (*display_fan_speed_value)(uint8_t fan_level);
 
 void Scan_KeyMode(void);
 void Single_RunCmd(void);
 
+void Smg_DisplayFan_Speed_Level_Init(void);
 
 void RunReference_Fun(void);
 
@@ -35,7 +36,10 @@ void Single_SendAi_Usart_RunCmd(void(*sendaiHandler)(uint8_t seddat));
 
 void SplitDispose_Key_RunCmd(void(*keyHandler)(uint8_t dat));
 
+void Smg_DisplayFan_Leve(void(*fandisplayHandler)(uint8_t fan_level));
+
 void RunPocess_Command_Handler(void);
+
 
 #endif 
 

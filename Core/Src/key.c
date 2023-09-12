@@ -353,6 +353,7 @@ void Process_Key_Handler(uint8_t keylabel)
  					SendData_Set_Command(FAN_ON);
 					HAL_Delay(5);
                     run_t.gTimer_display_fan_level=0;
+                    display_fan_speed_value(run_t.gFan_level);
 						
 			     }
                 else{
@@ -361,6 +362,7 @@ void Process_Key_Handler(uint8_t keylabel)
 					SendData_Set_Command(FAN_OFF);
 				    HAL_Delay(5);
                     run_t.gTimer_display_fan_level=0;
+                    display_fan_speed_value(run_t.gFan_level);
 				
                     
                  }

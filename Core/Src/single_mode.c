@@ -15,6 +15,7 @@ void (*single_add_fun)(void);
 void (*single_buzzer_fun)(void);
 void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
+void (*display_fan_speed_value)(uint8_t fan_level);
 
 
 static void Display_SmgTiming_Value(void);
@@ -25,11 +26,16 @@ static void Display_SetTemperature_Value(void);
 static void Display_Works_Time_Fun(void);
 static void WorksTime_DonotDisplay_Fun(void);
 static void Timer_Timing_Donot_Display(void);
-static void Display_SmgFan_Speed_Value(void);
+
+static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level);
 
 
 
+void Smg_DisplayFan_Speed_Level_Init(void)
+{
+      Smg_DisplayFan_Leve(Smg_DisplayFan_Level_Value_Fun);
 
+}
 /******************************************************************************
 *
 *Function Name:static void Setup_Timer_Times(void)
@@ -332,13 +338,14 @@ void RunPocess_Command_Handler(void)
 
                      case 1:
 
-                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-                        if(run_t.gTimer_display_fan_level > 2){
-                            run_t.gTimer_display_fan_level=0;
-                            run_t.gFan =0;
-                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-
-                      }
+//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+//                        if(run_t.gTimer_display_fan_level > 2){
+//                            run_t.gTimer_display_fan_level=0;
+//                            run_t.gFan =0;
+//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//
+//                      }
+                        display_fan_speed_value(run_t.gFan_level);
 
                     break;
 
@@ -361,14 +368,15 @@ void RunPocess_Command_Handler(void)
                       break;
                       case 1:
 
-                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-                        if(run_t.gTimer_display_fan_level > 2){
-                            run_t.gTimer_display_fan_level=0;
-                            run_t.gFan =0;
-                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+//                        if(run_t.gTimer_display_fan_level > 2){
+//                            run_t.gTimer_display_fan_level=0;
+//                            run_t.gFan =0;
+//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//
+//                        }
 
-                        }
-
+                         display_fan_speed_value(run_t.gFan_level);
                         break;
                      }
 				break;
@@ -401,13 +409,15 @@ void RunPocess_Command_Handler(void)
 
                          case 1:
 
-                         TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-                         if(run_t.gTimer_display_fan_level > 2){
-                            run_t.gTimer_display_fan_level=0;
-                           run_t.gFan =0;
-                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//                         TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+//                         if(run_t.gTimer_display_fan_level > 2){
+//                            run_t.gTimer_display_fan_level=0;
+//                           run_t.gFan =0;
+//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//
+//                         }
+                           display_fan_speed_value(run_t.gFan_level);
 
-                         }
 
                          break;
 
@@ -435,12 +445,13 @@ void RunPocess_Command_Handler(void)
 
                         case 1:
 
-                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-                        if(run_t.gTimer_display_fan_level > 2){
-                            run_t.gTimer_display_fan_level=0;
-                            run_t.gFan =0;
-                           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-                        }
+//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+//                        if(run_t.gTimer_display_fan_level > 2){
+//                            run_t.gTimer_display_fan_level=0;
+//                            run_t.gFan =0;
+//                           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+//                        }
+                           display_fan_speed_value(run_t.gFan_level);
 
                         break;
                     }
@@ -726,18 +737,26 @@ static void WorksTime_DonotDisplay_Fun(void)
 		   if(run_t.works_dispTime_hours > 24){
 		   run_t.works_dispTime_hours =0;
 		   }
-	   
-		   
-	   
-   
-		 
-		   }
-	 
-	   }
+	       }
+  }
 //	while(run_t.send_works_times_to_app==1){
 //		   run_t.send_works_times_to_app=0;
 //	   SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
 //	   }
+}
+
+static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
+{
+
+    
+    TM1639_Write_4Bit_Fan_Level(fan_level);
+    if(run_t.gTimer_display_fan_level > 2){
+        run_t.gTimer_display_fan_level=0;
+        run_t.gFan =0;
+        Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+
+    }
+
 }
 /****************************************************************
  * 
@@ -769,5 +788,12 @@ void SplitDispose_Key_RunCmd(void(*keyHandler)(uint8_t dat))
   dispose_key = keyHandler;
 
 }
+
+void Smg_DisplayFan_Leve(void(*fandisplayHandler)(uint8_t fan_level))
+{
+   display_fan_speed_value = fandisplayHandler;
+
+}
+
 
 
