@@ -8,7 +8,7 @@
   *
   * S06 display panel by s03 mainboard to tencent cloud order
   *
-  *
+  * mass version 1.0 no wifi displayPanel DATA.2023.08.29
   .
   *
   ******************************************************************************

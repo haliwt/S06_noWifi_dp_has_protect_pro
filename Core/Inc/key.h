@@ -128,10 +128,18 @@ typedef enum{
 
 typedef enum{
 
-   AI_NO_MODE,
+   NO_AI_MODE,
    AI_MODE
 
 }ai_mode_state;
+
+typedef enum{
+
+   fan_speed_max,
+   fan_speed_min
+
+
+}fan_level_state;
 
 
 typedef  struct  _state_

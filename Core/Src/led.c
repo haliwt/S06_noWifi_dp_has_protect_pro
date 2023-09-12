@@ -108,6 +108,7 @@ void Panel_Led_OnOff_Function(void)
     if(run_t.gDry==1){
 		 
 	     DRY_LED_OnOff(1);
+      
 
      }
 	 else{
@@ -118,6 +119,7 @@ void Panel_Led_OnOff_Function(void)
 	 if(run_t.gPlasma==1){
 	 	
 	     PLASMA_LED_OnOff(1);
+        
 
      }
 	 else{
@@ -126,10 +128,13 @@ void Panel_Led_OnOff_Function(void)
 	 }
 
 	 if(run_t.gFan == 1){
-         FAN_LED_OnOff(1);
+         FAN_LED_OnOff(1); //display fan of grass is one 
+         
 	 }
 	 else{
-         FAN_LED_OnOff(0);
+        // FAN_LED_OnOff(0);//Fan of led alway turn on
+        FAN_LED_OnOff(1); //display fan of grass is two .
+       
 	 }
 	 
 

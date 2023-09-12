@@ -199,7 +199,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
 		  	  
 
-		          run_t.ai_model_flag =AI_NO_MODE;
+		          run_t.ai_model_flag =NO_AI_MODE;
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
 				  run_t.confirm_timer_input_number=1;
@@ -216,7 +216,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case AI_KEY_ID:
 
-	  case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
+      case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
 		if(run_t.gPower_On ==RUN_POWER_ON){
 
 			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
@@ -229,14 +229,15 @@ void Process_Key_Handler(uint8_t keylabel)
               case 0:
 
 					if(run_t.ai_model_flag ==AI_MODE){
-						run_t.ai_model_flag =AI_NO_MODE;
+						run_t.ai_model_flag =NO_AI_MODE;
+                      
 						run_t.timer_timing_define_flag=timing_success;
 					     run_t.gTimer_Counter=0;
 
 					}
 					else{
 						run_t.ai_model_flag =AI_MODE;
-
+                       
 					    run_t.timer_timing_define_flag=timing_donot;
 
 					}
@@ -259,7 +260,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 				   
 					run_t.timer_timing_define_flag=timing_donot;
-					run_t.ai_model_flag =1;
+					run_t.ai_model_flag =AI_MODE;
 					run_t.timer_works_transform_flag =0; //at once display AI mode 
 				  
 				  run_t.timer_timing_define_ok = 0;
@@ -284,24 +285,37 @@ void Process_Key_Handler(uint8_t keylabel)
 	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
           if(run_t.gPower_On ==RUN_POWER_ON){
 		      if(run_t.ptc_warning ==0){
+
+              switch(run_t.ai_model_flag){ //WT.EDIT 2023.09.12
+
+              case NO_AI_MODE:
 			  if(run_t.gDry== 1){
 				    run_t.gDry =0;
 					SendData_Set_Command(DRY_OFF);
                }
                else{
                     run_t.gDry =1;
-					run_t.gFan =1;
+					
 					SendData_Set_Command(DRY_ON);
                  }  
-			   }
+			   
+              break;
+
+              case AI_MODE:
+
+              break;
+              }
 		    }
+           }
 			keylabel= 0xff;	
          break;
 
 		 case PLASMA_KEY_ID: //0x04: //CIN5  -> plasma ->STERILIZATION KEY 
              if(run_t.gPower_On ==RUN_POWER_ON){
 			
-              
+               switch(run_t.ai_model_flag){
+
+               case NO_AI_MODE:
 			   if(run_t.gPlasma ==1){  //turun off kill 
 			   	
 			       run_t.gPlasma = 0;
@@ -309,34 +323,53 @@ void Process_Key_Handler(uint8_t keylabel)
 			   	}  
                 else{
                    run_t.gPlasma = 1;
-				   run_t.gFan =1;
 				   SendData_Set_Command(PLASMA_ON);
 				}
+
+               break;
+
+               case AI_MODE:
+
+               break;
 				   
 		       
 			 }
+
+            }
           
            run_t.keyvalue = 0xff;
         break;
 
 		 case FAN_KEY_ID: //0x08: //Fan KEY 
               if(run_t.gPower_On ==RUN_POWER_ON){
-                if(run_t.fan_warning ==0){  
-                if(run_t.gFan==0){
+                if(run_t.fan_warning ==0){ 
+
+                switch(run_t.ai_model_flag){
+
+                case NO_AI_MODE:
+                if(run_t.gFan_level==fan_speed_max){
+                    run_t.gFan_level = fan_speed_min;
  					run_t.gFan =1; //tur ON
  					SendData_Set_Command(FAN_ON);
-						HAL_Delay(10);
+					HAL_Delay(5);
+                    run_t.gTimer_display_fan_level=0;
 						
 			     }
                 else{
-               
-					run_t.gFan =0;
+                    run_t.gFan_level=fan_speed_max;
+					run_t.gFan =1;
 					SendData_Set_Command(FAN_OFF);
-				    HAL_Delay(10);
-					run_t.gPlasma =0;
-					run_t.gDry =0;
+				    HAL_Delay(5);
+                    run_t.gTimer_display_fan_level=0;
+				
                     
                  }
+                break;
+
+                case AI_MODE:
+
+                break;
+               }
 				  
 				 
 			}
@@ -469,9 +502,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
    volatile static  uint8_t set_up_temperature_value;
 
-  
-  
-   switch(GPIO_Pin){
+  switch(GPIO_Pin){
 
       HAL_Delay(30);
      case POWER_KEY_Pin:

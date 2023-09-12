@@ -285,16 +285,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				parse_buf[3] =inputBuf[0];
 				 state = 4; 
             }
-			
-
-         
-		    
-			 
-
-         	
-
-            
-        break;
+	    break;
         
 		case 4: //
 
@@ -319,19 +310,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 		 case 5:
 		  parse_buf[5] =inputBuf[0];
-         
-
-		      state=0;
+              state=0;
 			  run_t.decodeFlag=1;
 		      run_t.rx_mb_data_tag=0;
 			  run_t.rx_mb_data_tag=ANSWER_DATA;
-          
-              
-
-
-		 
-
-		 break;
+        break;
            
        
 		

@@ -99,6 +99,7 @@ typedef struct __RUN{
    uint8_t  gDry;
    uint8_t  gBug;
 
+
    uint8_t  ptc_warning;
    uint8_t  fan_warning;
 
@@ -113,8 +114,9 @@ typedef struct __RUN{
    uint8_t recoder_start_conuter_flag;
    uint8_t gTimer_mode_key_start_counter;
    uint8_t gTimer_mode_key_counter;
-
-   uint8_t  gFan_off_flag ;
+   //fan ref
+   uint8_t gFan_level;
+   uint8_t gTimer_display_fan_level;
   
    uint8_t  dry_key;
 

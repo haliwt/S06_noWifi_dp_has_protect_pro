@@ -146,7 +146,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 		 case FAN_WARNING:
 		 	run_t.fan_warning =1;
-		 	run_t.gFan =0;
+		 	
 
 		 break;
 
@@ -161,17 +161,9 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	   }
 
-	  
-
-
-
 	  break;
 
-      
-
-     
-
-	}
+   }
 
 
 }
@@ -193,7 +185,6 @@ void Power_On_Fun(void)
 		run_t.gPlasma=1;
 		run_t.gDry =1;
 		run_t.gBug =1;
-	   	run_t.gFan =1;
 		run_t.ai_model_flag =AI_MODE;
 
   

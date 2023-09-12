@@ -18,13 +18,14 @@ void (*dispose_key)(uint8_t dsdat);
 
 
 static void Display_Timing_Value(void);
-static void RunLocal_Smg_Process(void);
+static void RunLocal_Dht11_Data_Process(void);
 
 static void DisplayPanel_DHT11_Value(void);
 static void Display_SetTemperature_Value(void);
 static void Display_Works_Time_Fun(void);
 static void WorksTime_DonotDisplay_Fun(void);
 static void Timer_Timing_Donot_Display(void);
+static void Display_SmgFan_Speed_Value(void);
 
 
 
@@ -183,21 +184,45 @@ static void Display_Timing_Value(void)
          Timer_Timing_Donot_Display();
 		
 	         Display_Works_Time_Fun();
-
-		 
-	     
-
-	break;
-
-	
+    break;
 
 	}
     
-   
+ }
 
+/******************************************************************************
+*
+*Function Name:static void Display_SmgFan_Speed_Value(void)
+*Funcion:display setup timer times  //__asm("NOP");//等待1个指令周期，系统主频24M
+*Iinput Ref:NO
+*Return Ref:NO
+*
+******************************************************************************/
+#if 0
+static void Display_SmgFan_Speed_Value(void)
+{
+
+    if(run_t.gFan == 1){
+	switch(run_t.gFan_level){
+
+	case fan_speed_max:
+
+	 
 
 	
-}
+	 
+   break;
+
+   case fan_speed_min:
+		
+
+  break;
+
+	  }
+   }
+    
+ }
+#endif 
    
 /******************************************************************************
 *
@@ -328,21 +353,56 @@ void RunPocess_Command_Handler(void)
                 case 1:
 					
                     run_t.display_timer_timing_flag=0;
+                     switch(run_t.gFan){
+
+                     case 0:
 			     
 
                     TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
                      SendData_Buzzer();
                      HAL_Delay(100);
 
+                     break;
+
+                     case 1:
+
+                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+                        if(run_t.gTimer_display_fan_level > 2){
+                            run_t.gTimer_display_fan_level=0;
+                            run_t.gFan =0;
+
+                      }
+
+                    break;
+
+                     }
+
                 break;
 
 				case 2:
 					
 					run_t.display_timer_timing_flag=0;
+                    
+                    switch(run_t.gFan){
+                    
+                     case 0:
 
 					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
                     SendData_Buzzer();
                     HAL_Delay(100);
+
+                      break;
+                      case 1:
+
+                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+                        if(run_t.gTimer_display_fan_level > 2){
+                            run_t.gTimer_display_fan_level=0;
+                            run_t.gFan =0;
+
+                        }
+
+                        break;
+                     }
 				break;
 
                 case 0:
@@ -351,23 +411,41 @@ void RunPocess_Command_Handler(void)
 
 					case 0:
 						
-	                    RunLocal_Smg_Process();
+	                    RunLocal_Dht11_Data_Process();
 						step_state=1;
 	                    
 						break;
 
-						case 1:
+					case 1:
 
+                       
 	                    SetTimer_Temperature_Number_Value();
 
-						step_state=2;
+                       step_state=2;
 					break;
 
 					case 2:
-					
+                        switch(run_t.gFan){
 
-		                    Display_Timing_Value();
-							step_state=3;
+                         case 0:
+					       Display_Timing_Value();
+                         break;
+
+                         case 1:
+
+                         TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+                         if(run_t.gTimer_display_fan_level > 2){
+                            run_t.gTimer_display_fan_level=0;
+                           run_t.gFan =0;
+                           run_t.gTimer_Counter=60;
+
+                         }
+
+                         break;
+
+
+                        }
+					    step_state=3;
 
 					break;
 
@@ -379,11 +457,26 @@ void RunPocess_Command_Handler(void)
 					break;
 
 					case 4:
+                    switch(run_t.gFan){
 
-		                    if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-		                        Display_TimeColon_Blink_Fun();
-		                    }
-							step_state=0;
+                        case 0:
+                            if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+                            Display_TimeColon_Blink_Fun();
+                            }
+                        break;
+
+                        case 1:
+
+                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
+                        if(run_t.gTimer_display_fan_level > 2){
+                            run_t.gTimer_display_fan_level=0;
+                            run_t.gFan =0;
+
+                        }
+
+                        break;
+                    }
+                    step_state=0;
                     break;
 				    }
                 break;
@@ -433,13 +526,13 @@ void RunPocess_Command_Handler(void)
 }
 /*******************************************************
 	*
-	*Function Name: static void RunLocal_Smg_Process(void)
+	*Function Name: static void RunLocal_Dht11_Data_Process(void)
 	*Function : display pannel display conetent
 	*
 	*
 	*
 *******************************************************/
-static void RunLocal_Smg_Process(void)
+static void RunLocal_Dht11_Data_Process(void)
 {
 
      
@@ -451,7 +544,7 @@ static void RunLocal_Smg_Process(void)
 }
 /*******************************************************
 	*
-	*Function Name: static void RunLocal_Smg_Process(void)
+	*Function Name: static void RunLocal_Dht11_Data_Process(void)
 	*Function : display pannel display conetent
 	*
 	*

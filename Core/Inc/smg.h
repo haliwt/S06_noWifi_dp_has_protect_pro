@@ -108,16 +108,7 @@ void TM1639_Write_2bit_SetUp_TempData(uint8_t onebit,uint8_t twobit,uint8_t sel)
 
 void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t sel);
 
-
-
-
-
-
-
-
-
-
-
+void TM1639_Write_4Bit_Fan_Level(uint8_t fan_level);
 void Smg_AllOff(void);
 
 #endif 
