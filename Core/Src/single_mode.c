@@ -50,7 +50,7 @@ static void Display_SmgTiming_Value(void)
    static uint8_t timer_display_flag, alternate_flag;
 	switch(run_t.timer_timing_define_flag){
 
-	case timing_success:
+	case timing_success: //0x01
 
 	   switch(run_t.timer_timing_define_ok){
 
@@ -81,14 +81,14 @@ static void Display_SmgTiming_Value(void)
         }
 	    break;
 
-		case 0:
+		case 0: //NO_AI_MODE don't auto be changed AI_MODE
 			
 			if(run_t.gTimer_Counter > 59){
 	          run_t.gTimer_Counter =0;
 
-			  run_t.timer_timing_define_flag=timing_donot;
+			 // run_t.timer_timing_define_flag=timing_donot; //WT.EDIT 2023.09.12 
 		      run_t.timer_works_transform_flag=0;
-			  run_t.ai_model_flag =1;
+			 // run_t.ai_model_flag =1; //WT.EDIT 2023.09.12
 		    }
 
 		break;
@@ -338,13 +338,6 @@ void RunPocess_Command_Handler(void)
 
                      case 1:
 
-//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-//                        if(run_t.gTimer_display_fan_level > 2){
-//                            run_t.gTimer_display_fan_level=0;
-//                            run_t.gFan =0;
-//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-//
-//                      }
                         display_fan_speed_value(run_t.gFan_level);
 
                     break;
@@ -367,14 +360,6 @@ void RunPocess_Command_Handler(void)
 
                       break;
                       case 1:
-
-//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-//                        if(run_t.gTimer_display_fan_level > 2){
-//                            run_t.gTimer_display_fan_level=0;
-//                            run_t.gFan =0;
-//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-//
-//                        }
 
                          display_fan_speed_value(run_t.gFan_level);
                         break;
@@ -409,13 +394,6 @@ void RunPocess_Command_Handler(void)
 
                          case 1:
 
-//                         TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-//                         if(run_t.gTimer_display_fan_level > 2){
-//                            run_t.gTimer_display_fan_level=0;
-//                           run_t.gFan =0;
-//                            Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-//
-//                         }
                            display_fan_speed_value(run_t.gFan_level);
 
 
@@ -445,12 +423,6 @@ void RunPocess_Command_Handler(void)
 
                         case 1:
 
-//                        TM1639_Write_4Bit_Fan_Level(run_t.gFan_level);
-//                        if(run_t.gTimer_display_fan_level > 2){
-//                            run_t.gTimer_display_fan_level=0;
-//                            run_t.gFan =0;
-//                           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-//                        }
                            display_fan_speed_value(run_t.gFan_level);
 
                         break;
