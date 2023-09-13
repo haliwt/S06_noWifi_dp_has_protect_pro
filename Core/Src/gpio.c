@@ -90,23 +90,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(WIFI_LED_EN_GPIO_Port, &GPIO_InitStruct);
 
-  // /*Configure GPIO pin : PtPin */
-  // GPIO_InitStruct.Pin = POWER_KEY_Pin;
-  // GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  // GPIO_InitStruct.Pull = GPIO_NOPULL;
-  // HAL_GPIO_Init(POWER_KEY_GPIO_Port, &GPIO_InitStruct);
-
-   /*Configure GPIO pins : PAPin PAPin PAPin */
-//  GPIO_InitStruct.Pin = TOUCH_KEY_IC_1_Pin|TOUCH_KEY_IC_2_Pin;
-//  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-//  GPIO_InitStruct.Pull = GPIO_NOPULL;
-//  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PAPin PAPin PAPin */
-//  GPIO_InitStruct.Pin = AI_KEY_Pin;
-//  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-//  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-//  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 
 
   /*Configure GPIO pins : INPUT PBPin =0*/
 

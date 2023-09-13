@@ -508,7 +508,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    volatile static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
-      HAL_Delay(30);
+     HAL_Delay(30);
      case POWER_KEY_Pin:
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
