@@ -84,7 +84,10 @@ typedef enum{
 	 PLASMA_OFF = 0x21,
 
 	 FAN_ON =0x10,
-	 FAN_OFF = 0x11
+	 FAN_OFF = 0x11,
+
+     AI_MODE_ON = 0x30,   //EDIT 2023.09.13 new Add
+     AI_MODE_OFF =0x31
 
 }works_t;
 
