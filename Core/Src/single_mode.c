@@ -17,7 +17,7 @@ void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
 void (*display_fan_speed_value)(uint8_t fan_level);
 
-
+static void Led_Panel_OnOff(void);
 static void Display_SmgTiming_Value(void);
 static void RunLocal_Dht11_Data_Process(void);
 
@@ -332,7 +332,7 @@ void RunPocess_Command_Handler(void)
 
                     TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
                      SendData_Buzzer();
-                     HAL_Delay(100);
+                     HAL_Delay(2);
 
                      break;
 
@@ -356,7 +356,7 @@ void RunPocess_Command_Handler(void)
 
 					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
                     SendData_Buzzer();
-                    HAL_Delay(100);
+                    HAL_Delay(2);
 
                       break;
                       case 1:
@@ -371,7 +371,7 @@ void RunPocess_Command_Handler(void)
 				    switch(step_state){
 
 					case 0:
-						
+						Led_Panel_OnOff();
 	                    RunLocal_Dht11_Data_Process();
 						step_state=1;
 	                    
@@ -380,7 +380,7 @@ void RunPocess_Command_Handler(void)
 					case 1:
 
                        
-	                    SetTimer_Temperature_Number_Value();
+	                    Set_Timing_Temperature_Number_Value();
 
                        step_state=2;
 					break;
@@ -485,13 +485,14 @@ void RunPocess_Command_Handler(void)
 *******************************************************/
 static void RunLocal_Dht11_Data_Process(void)
 {
-
-     
-	 Panel_Led_OnOff_Function() ;//Lcd_PowerOn_Fun();
-	
-	 DisplayPanel_DHT11_Value();
+   DisplayPanel_DHT11_Value();
 
 
+}
+static void Led_Panel_OnOff(void)
+{
+
+    Panel_Led_OnOff_Function() ;//Lcd_PowerOn_Fun();
 }
 /*******************************************************
 	*

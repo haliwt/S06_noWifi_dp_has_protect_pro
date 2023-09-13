@@ -302,7 +302,7 @@ void Power_Off_Led_Off(void)
 
 void Power_ON_Led(void)
 {
-  
+   LED_AI_ON();
    LED_DRY_ON();
    LED_TIME_ON();
    LED_PLASMA_ON();

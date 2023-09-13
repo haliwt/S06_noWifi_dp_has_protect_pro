@@ -174,7 +174,7 @@ void SplitDispose_Key(uint8_t value);
 
 void Process_Key_Handler(uint8_t keylabel);
 
-void SetTimer_Temperature_Number_Value(void);
+void Set_Timing_Temperature_Number_Value(void);
 
 void Key_TheSecond_Scan(void);
 

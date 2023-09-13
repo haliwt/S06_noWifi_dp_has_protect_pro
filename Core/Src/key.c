@@ -168,7 +168,7 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on_off_flag;
+   static uint8_t power_on_off_flag,ai_key;
 
     switch(keylabel){
 
@@ -215,7 +215,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  break;
 
 	  case AI_KEY_ID:
-
+        
       case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
 		if(run_t.gPower_On ==RUN_POWER_ON){
 
@@ -248,18 +248,18 @@ void Process_Key_Handler(uint8_t keylabel)
 			break;
 
 			case 1:
-				run_t.confirm_timer_input_number=0;
-				run_t.input_timer_timing_numbers_flag =0;
-			    if(run_t.timer_dispTime_minutes >0){
+				
+		    if(run_t.timer_dispTime_minutes >0){
 			     SendData_Buzzer();
 				 run_t.timer_timing_define_flag=timing_success;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
-               
-				
-				 }
-				else{
-
+                
+				 run_t.input_timer_timing_numbers_flag =0;
+                 run_t.confirm_timer_input_number=0;
+		    }
+             else{
+                  
 				   run_t.ai_model_flag =AI_MODE;
 				    SendData_Set_Command(AI_MODE_ON);
 				  run_t.timer_timing_define_flag=timing_donot;
@@ -404,13 +404,13 @@ void Process_Key_Handler(uint8_t keylabel)
 }
 /****************************************************************
 	*
-	*Function Name :void SetTimer_Temperature_Number_Value(void)
+	*Function Name :void Set_Timing_Temperature_Number_Value(void)
 	*Function : set timer timing how many ?
 	*Input Parameters :NO
 	*Retrurn Parameter :NO
 	*
 *****************************************************************/
-void SetTimer_Temperature_Number_Value(void)
+void Set_Timing_Temperature_Number_Value(void)
 {
 
     
@@ -424,19 +424,23 @@ void SetTimer_Temperature_Number_Value(void)
 		run_t.gTimer_key_timing =0;		
 		run_t.confirm_timer_input_number=2;
 	    run_t.input_timer_timing_numbers_flag =0;
-		
+       
+		 
 		run_t.timer_dispTime_hours =0;
 		run_t.timer_dispTime_minutes =0;
+//        if(run_t.timer_timing_define_ok ==0){//WT.edit 2023.09.13
+//             run_t.timer_timing_define_flag=timing_donot; 
+//		     run_t.ai_model_flag =1;
+//        }
+        run_t.ai_model_flag =NO_AI_MODE;
 
-		run_t.timer_timing_define_flag=timing_donot;
-		run_t.ai_model_flag =1;
 		run_t.timer_works_transform_flag =0;
         run_t.temp_set_timer_timing_flag=0;
 		
         run_t.gTimer_Counter=0;
 	
 	 }
-
+     //AI of led blink waiting select
 	 switch(run_t.input_timer_timing_numbers_flag){
 
       case 1:
