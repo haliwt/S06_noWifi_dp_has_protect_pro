@@ -341,6 +341,8 @@ void Process_Key_Handler(uint8_t keylabel)
         break;
 
 		 case FAN_KEY_ID: //0x08: //Fan KEY 
+		 #if 1
+              run_t.input_key_interrupt_flag =0;
               if(run_t.gPower_On ==RUN_POWER_ON){
                 if(run_t.fan_warning ==0){ 
 
@@ -376,7 +378,9 @@ void Process_Key_Handler(uint8_t keylabel)
 				 
 			}
 		    }
+           #endif 
 			 run_t.keyvalue = 0xff;
+            
 		 break;
 
 
@@ -503,7 +507,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
  
 
    volatile static  uint8_t set_up_temperature_value;
-
+#if 1
   switch(GPIO_Pin){
 
       HAL_Delay(30);
@@ -770,12 +774,17 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 break;
 
+
+     case FAN_KEY_Pin :
+       //   run_t.keyvalue = FAN_KEY_ID;
+     break;
+
 	
 
     }
  
 }
-
+#endif 
 void Key_TheSecond_Scan(void)
 {
 	
@@ -820,7 +829,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
 {
     static uint8_t key_up=1;     //�����ɿ���־
     if(mode==1)key_up=1;    //֧������
-    if(key_up&&(AI_KEY_VALUE()==1||FAN_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
+    if(key_up&&(AI_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
         HAL_Delay(20);
 		run_t.gTimer_time_colon =0;
@@ -828,8 +837,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
         if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = AI_KEY_ID;
         else if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;
         else if(PLASMA_KEY_VALUE()==1)  return run_t.keyvalue  = PLASMA_KEY_ID;
-        else if(FAN_KEY_VALUE()==1) return run_t.keyvalue  = FAN_KEY_ID;        
-    }else if(AI_KEY_VALUE()==0 && DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0 && FAN_KEY_VALUE()==0)key_up=1;
+    }else if(AI_KEY_VALUE()==0 && DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0)key_up=1;
     return 0;   //�ް�������
 }
 

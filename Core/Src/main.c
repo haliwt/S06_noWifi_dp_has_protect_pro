@@ -131,7 +131,7 @@ int main(void)
 		  case 1:
 		  	       
              Decode_Handler();
-            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP){
+            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP &&  run_t.input_key_interrupt_flag ==0){
               //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
               run_t.keyvalue= KEY_Normal_Scan(0);
              }

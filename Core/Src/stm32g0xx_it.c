@@ -22,6 +22,8 @@
 #include "stm32g0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "run.h"
+#include "key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,4 +191,10 @@ void EXTI4_15_IRQHandler(void)
   /* USER CODE END EXTI4_15_IRQn 1 */
 }
 
+void EXTI0_1_IRQHandler(void)
+{
+   HAL_GPIO_EXTI_IRQHandler(FAN_KEY_Pin);
+   run_t.input_key_interrupt_flag =1;
+   run_t.keyvalue = FAN_KEY_ID;
+}
 /* USER CODE END 1 */
