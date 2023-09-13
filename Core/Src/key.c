@@ -168,7 +168,7 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on_off_flag,ai_key;
+   static uint8_t power_on_off_flag;
 
     switch(keylabel){
 
@@ -216,14 +216,13 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  case AI_KEY_ID:
         
-      case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
-		if(run_t.gPower_On ==RUN_POWER_ON){
+        if(run_t.gPower_On ==RUN_POWER_ON){
 
 			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-               switch(run_t.input_timer_timing_numbers_flag){
+              switch(run_t.input_timer_timing_numbers_flag){
 
               case 0:
-
+                   
 					if(run_t.ai_model_flag ==AI_MODE){
 						run_t.ai_model_flag =NO_AI_MODE;
 						 SendData_Set_Command(AI_MODE_OFF);
@@ -244,52 +243,80 @@ void Process_Key_Handler(uint8_t keylabel)
 					    run_t.timer_timing_define_flag=timing_donot;
 
 					}
+                
 
 			break;
 
 			case 1:
 				
-		    if(run_t.timer_dispTime_minutes >0){
+		    if(run_t.timer_dispTime_minutes >0 || run_t.timer_dispTime_hours > 0){
 			     SendData_Buzzer();
 				 run_t.timer_timing_define_flag=timing_success;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
                 
 				 run_t.input_timer_timing_numbers_flag =0;
+                
                  run_t.confirm_timer_input_number=0;
+              
 		    }
              else{
                   
-				   run_t.ai_model_flag =AI_MODE;
-				    SendData_Set_Command(AI_MODE_ON);
+				   run_t.ai_model_flag =NO_AI_MODE;
+			
+				  SendData_Buzzer();
 				  run_t.timer_timing_define_flag=timing_donot;
 					
-					run_t.timer_works_transform_flag =0; //at once display AI mode 
+				 run_t.timer_works_transform_flag =0; //at once display AI mode 
 				  
 				  run_t.timer_timing_define_ok = 0;
 
 				  run_t.temp_set_timer_timing_flag=0;
-
-                  if(run_t.ptc_warning ==0){
-                   run_t.gDry= 1;
-
-                   }
-                  run_t.gPlasma = 1;
                
-
+                  run_t.input_timer_timing_numbers_flag =0;
 
 				}
 					
-				run_t.gTimer_Counter=0;
+		    run_t.gTimer_Counter=0;
+
+             run_t.keyvalue = 0xFF;
+
+            return ;
 			break;
 
-            	}	
+            }	
 
-			}
+		   }
 		}
-	   run_t.keyvalue = 0xff;
+	   run_t.keyvalue = 0xFF;
 
 	  break;
+
+      case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
+          if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+            if(run_t.ai_model_flag ==AI_MODE){
+			run_t.ai_model_flag =NO_AI_MODE;
+			 SendData_Set_Command(AI_MODE_OFF);
+             run_t.timer_timing_define_flag=timing_success;
+              run_t.gTimer_Counter=0;
+
+			}
+		    else{
+				run_t.ai_model_flag =AI_MODE;
+				SendData_Set_Command(AI_MODE_ON);
+                run_t.timer_timing_define_flag=timing_donot;
+                 if(run_t.ptc_warning ==0){
+                 run_t.gDry= 1;
+
+               }
+                run_t.gPlasma = 1;
+     
+
+			}
+
+          }
+
+      break;
 
 	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
           if(run_t.gPower_On ==RUN_POWER_ON){
@@ -393,6 +420,14 @@ void Process_Key_Handler(uint8_t keylabel)
 		 break;
 
 
+//      case 0xEF:
+//      HAL_Delay(500);
+//      
+//      run_t.input_timer_timing_numbers_flag =0;
+//      run_t.keyvalue = 0xff;
+//      break;
+
+
 	  default:
           
 	  break;
@@ -420,7 +455,7 @@ void Set_Timing_Temperature_Number_Value(void)
 	switch(run_t.temp_set_timer_timing_flag){
 
 	case TIMER_TIMING:
-	if(run_t.gTimer_key_timing > 4  && run_t.confirm_timer_input_number  ==1 && run_t.gPower_On==RUN_POWER_ON){
+	if(run_t.gTimer_key_timing > 5  && run_t.confirm_timer_input_number  ==1 && run_t.gPower_On==RUN_POWER_ON){
 		run_t.gTimer_key_timing =0;		
 		run_t.confirm_timer_input_number=2;
 	    run_t.input_timer_timing_numbers_flag =0;
