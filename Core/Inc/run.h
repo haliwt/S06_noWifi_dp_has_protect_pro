@@ -59,7 +59,7 @@ typedef enum _WIFI_POWER_STATE_{
 typedef struct __RUN{
 
    uint8_t keyvalue;
-   uint8_t input_key_interrupt_flag;
+ 
    
 
    uint8_t power_key;
@@ -118,7 +118,10 @@ typedef struct __RUN{
    //fan ref
    uint8_t gFan_level;
    uint8_t gTimer_display_fan_level;
-  
+   uint8_t fan_key_max;
+   uint8_t fan_key_min;
+
+   //dry ref 
    uint8_t  dry_key;
 
    uint8_t gTimes_minutes_temp;

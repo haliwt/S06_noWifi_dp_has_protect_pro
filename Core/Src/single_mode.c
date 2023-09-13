@@ -424,6 +424,7 @@ void RunPocess_Command_Handler(void)
                         case 1:
 
                            display_fan_speed_value(run_t.gFan_level);
+                           
 
                         break;
                     }
@@ -721,6 +722,24 @@ static void WorksTime_DonotDisplay_Fun(void)
 static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
 {
 
+    static uint8_t fan_max=0xff,fan_min=0xff;
+
+    if(fan_level ==fan_speed_max){
+    
+    if(fan_max != run_t.fan_key_max){
+       fan_max = run_t.fan_key_max;
+      SendData_Set_Command(FAN_LEVEL_MAX);
+
+     }
+   }
+   else{
+
+       if(fan_min != run_t.fan_key_min){
+          fan_min = run_t.fan_key_min;
+          SendData_Set_Command(FAN_LEVEL_MIN);
+   
+        }
+   }
     
     TM1639_Write_4Bit_Fan_Level(fan_level);
     if(run_t.gTimer_display_fan_level > 2){
@@ -729,6 +748,7 @@ static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
         Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
     }
+ 
 
 }
 /****************************************************************

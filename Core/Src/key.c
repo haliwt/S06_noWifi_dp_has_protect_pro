@@ -376,56 +376,7 @@ void Process_Key_Handler(uint8_t keylabel)
            run_t.keyvalue = 0xff;
         break;
 
-		 case FAN_KEY_ID: //0x08: //Fan KEY 
-		 #if 1
-              run_t.input_key_interrupt_flag =0;
-              if(run_t.gPower_On ==RUN_POWER_ON){
-                if(run_t.fan_warning ==0){ 
 
-                switch(run_t.ai_model_flag){
-
-                case NO_AI_MODE:
-                if(run_t.gFan_level==fan_speed_max){
-                    run_t.gFan_level = fan_speed_min;
- 					run_t.gFan =1; //tur ON
- 					SendData_Set_Command(FAN_ON);
-					HAL_Delay(5);
-                    run_t.gTimer_display_fan_level=0;
-                    display_fan_speed_value(run_t.gFan_level);
-						
-			     }
-                else{
-                    run_t.gFan_level=fan_speed_max;
-					run_t.gFan =1;
-					SendData_Set_Command(FAN_OFF);
-				    HAL_Delay(5);
-                    run_t.gTimer_display_fan_level=0;
-                    display_fan_speed_value(run_t.gFan_level);
-				
-                    
-                 }
-                break;
-
-                case AI_MODE:
-
-                break;
-               }
-				  
-				 
-			}
-		    }
-           #endif 
-			 run_t.keyvalue = 0xff;
-            
-		 break;
-
-
-//      case 0xEF:
-//      HAL_Delay(500);
-//      
-//      run_t.input_timer_timing_numbers_flag =0;
-//      run_t.keyvalue = 0xff;
-//      break;
 
 
 	  default:
@@ -555,7 +506,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
  
 
    volatile static  uint8_t set_up_temperature_value;
-#if 1
   switch(GPIO_Pin){
 
       HAL_Delay(30);
@@ -824,7 +774,41 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 
      case FAN_KEY_Pin :
-       //   run_t.keyvalue = FAN_KEY_ID;
+         __HAL_GPIO_EXTI_CLEAR_RISING_IT(FAN_KEY_Pin);
+        if(run_t.gPower_On ==RUN_POWER_ON){
+                if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
+
+               if(run_t.ai_model_flag== NO_AI_MODE){
+
+                
+                if(run_t.gFan_level==fan_speed_max){
+                    run_t.gFan_level = fan_speed_min;
+ 					run_t.gFan =1; //tur ON
+ 					
+					run_t.fan_key_min ++;
+                    run_t.gTimer_display_fan_level=0;
+            
+						
+			     }
+                else{
+                    run_t.fan_key_max ++;
+                    run_t.gFan_level=fan_speed_max;
+					run_t.gFan =1;
+              
+				  
+                    run_t.gTimer_display_fan_level=0;
+             
+				
+                    
+                 }
+                break;
+
+              
+               }
+				  
+				 
+			}
+		 }
      break;
 
 	
@@ -832,7 +816,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
     }
  
 }
-#endif 
+
 void Key_TheSecond_Scan(void)
 {
 	
