@@ -24,24 +24,6 @@ uint8_t KEY_Scan(void)
   uint8_t  reval = 0;
   key_t.read = _KEY_ALL_OFF; //0xFF 
 
-//    if(POWER_KEY_VALUE() ==1){
-//
-//        key_t.read &= ~0x01; // 0xFf & 0xfd =  0xFE
-//	}
-//    else 
-
-//	if(MODEL_KEY_VALUE() ==1 )
-//	{
-//		   key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
-//	}
-//   if(DEC_KEY_VALUE()  ==1 ) //DEC_KEY_ID = 0x04
-//	{
-//		  key_t.read &= ~0x04; // 0xFf & 0xfB =  0xFB
-//	}
-//    else if(ADD_KEY_VALUE() ==1 ) //ADD_KEY_ID = 0x08
-//	{
-//		  key_t.read &= ~0x08; // 0x1f & 0xf7 =  0xF7
-//	 }
 
     if(AI_KEY_VALUE() ==1 ) //WIFI_KEY_ID = 0x80
 	{

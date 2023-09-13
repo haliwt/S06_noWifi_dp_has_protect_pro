@@ -520,10 +520,12 @@ static void Display_SetTemperature_Value(void)
 			    
                 
 		  }
-		  else if((set_temperature_value= -3) >= run_t.gReal_humtemp[1]){
-	  
+		  else if((set_temperature_value -3) >= run_t.gReal_humtemp[1]){
+
+            
 		     run_t.gDry = 1;
 	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+
 				 
 		  }
 	  
@@ -536,15 +538,28 @@ static void Display_SetTemperature_Value(void)
                 run_t.auto_model_shut_off_ptc_flag =1;
 			    SendData_Set_Command(DRY_OFF_NO_BUZZER);
 
-             }
+          }
              
-             if(run_t.gReal_humtemp[1] < 38 && run_t.auto_model_shut_off_ptc_flag ==1 &&  run_t.gTimer_temp_delay >119){
+          if(run_t.gReal_humtemp[1] < 38 && run_t.auto_model_shut_off_ptc_flag ==1 &&  run_t.gTimer_temp_delay >119){
                   run_t.gTimer_temp_delay =0;
+
+                 if(run_t.ai_model_flag == NO_AI_MODE){
+                     if(run_t.gReal_humtemp[1] < 20 || run_t.gReal_humtemp[1] == 20){
+                         run_t.gDry = 1;
+                         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+
+
+                     }
+                  
+                 }
+	             else{
                   run_t.gDry = 1;
 	              SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+
+                 }
              
              
-             }
+           }
 			    
                 
 		  }
