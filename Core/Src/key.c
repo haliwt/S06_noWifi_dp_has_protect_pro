@@ -161,6 +161,7 @@ void Process_Key_Handler(uint8_t keylabel)
  			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
  		
             run_t.gRunCommand_label =RUN_POWER_ON;
+           
               
 		 }
 		 else{
@@ -208,6 +209,7 @@ void Process_Key_Handler(uint8_t keylabel)
 					if(run_t.ai_model_flag ==AI_MODE){
 						run_t.ai_model_flag =NO_AI_MODE;
 						 SendData_Set_Command(AI_MODE_OFF);
+                         HAL_Delay(5);
                       
 						run_t.timer_timing_define_flag=timing_success;
 					     run_t.gTimer_Counter=0;
@@ -216,12 +218,14 @@ void Process_Key_Handler(uint8_t keylabel)
 					else{
 						run_t.ai_model_flag =AI_MODE;
 						SendData_Set_Command(AI_MODE_ON);
+                        HAL_Delay(5);
                          if(run_t.ptc_warning ==0){
                          run_t.gDry= 1;
 
                        }
                         run_t.gPlasma = 1;
-                       
+                        run_t.fan_stop_flag =0;
+                        run_t.manual_dry_turn_off=0;
 					    run_t.timer_timing_define_flag=timing_donot;
 
 					}
@@ -279,6 +283,7 @@ void Process_Key_Handler(uint8_t keylabel)
             if(run_t.ai_model_flag ==AI_MODE){
 			run_t.ai_model_flag =NO_AI_MODE;
 			 SendData_Set_Command(AI_MODE_OFF);
+             HAL_Delay(5);
              run_t.timer_timing_define_flag=timing_success;
               run_t.gTimer_Counter=0;
 
@@ -286,6 +291,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		    else{
 				run_t.ai_model_flag =AI_MODE;
 				SendData_Set_Command(AI_MODE_ON);
+                HAL_Delay(5);
                 run_t.timer_timing_define_flag=timing_donot;
                  if(run_t.ptc_warning ==0){
                  run_t.gDry= 1;
@@ -310,17 +316,20 @@ void Process_Key_Handler(uint8_t keylabel)
 			  if(run_t.gDry== 1){
 				    run_t.gDry =0;
 					SendData_Set_Command(DRY_OFF);
+                    HAL_Delay(5);
+                    run_t.manual_dry_turn_off=1;
                }
                else{
                     run_t.gDry =1;
-					
+					run_t.manual_dry_turn_off=0;
 					SendData_Set_Command(DRY_ON);
+                    HAL_Delay(5);
                  }  
 			   
               break;
 
               case AI_MODE:
-
+ 
               break;
               }
 		    }
@@ -338,10 +347,12 @@ void Process_Key_Handler(uint8_t keylabel)
 			   	
 			       run_t.gPlasma = 0;
 				   SendData_Set_Command(PLASMA_OFF);
+                   HAL_Delay(5);
 			   	}  
                 else{
                    run_t.gPlasma = 1;
 				   SendData_Set_Command(PLASMA_ON);
+                   HAL_Delay(5);
 				}
 
                break;
@@ -760,9 +771,9 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
         if(run_t.gPower_On ==RUN_POWER_ON){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
-               if(run_t.ai_model_flag== NO_AI_MODE){
+               if(run_t.ai_model_flag== NO_AI_MODE && run_t.fan_stop_flag ==0){
 
-                
+             
                 if(run_t.gFan_level==fan_speed_max){
                     run_t.gFan_level = fan_speed_min;
  					run_t.gFan =1; //tur ON
@@ -772,7 +783,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             
 						
 			     }
-                else{
+                else if(run_t.fan_stop_flag ==0){
                     run_t.fan_key_max ++;
                     run_t.gFan_level=fan_speed_max;
 					run_t.gFan =1;

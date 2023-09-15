@@ -81,14 +81,14 @@ static void Display_SmgTiming_Value(void)
         }
 	    break;
 
-		case 0: //NO_AI_MODE don't auto be changed AI_MODE
+		case 0: //NO_AI_MODE by timer timing  auto be changed AI_MODE
 			
 			if(run_t.gTimer_Counter > 59){
 	          run_t.gTimer_Counter =0;
 
-			 // run_t.timer_timing_define_flag=timing_donot; //WT.EDIT 2023.09.12 
-		      run_t.timer_works_transform_flag=0;
-			 // run_t.ai_model_flag =1; //WT.EDIT 2023.09.12
+			 run_t.timer_timing_define_flag=timing_donot; 
+		     run_t.timer_works_transform_flag=0;
+			 run_t.ai_model_flag =1; 
 		    }
 
 		break;
@@ -245,7 +245,7 @@ void RunPocess_Command_Handler(void)
             	run_t.step_run_power_on_tag=1;
             }
 			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
-				run_t.power_on_send_to_mb_times++;
+			  run_t.power_on_send_to_mb_times++;
               SendData_PowerOff(1);
 			  HAL_Delay(5);
 
@@ -379,10 +379,9 @@ void RunPocess_Command_Handler(void)
 
 					case 1:
 
-                       
-	                    Set_Timing_Temperature_Number_Value();
+                      Set_Timing_Temperature_Number_Value();
 
-                       step_state=2;
+                      step_state=2;
 					break;
 
 					case 2:
@@ -488,12 +487,11 @@ static void RunLocal_Dht11_Data_Process(void)
 {
    DisplayPanel_DHT11_Value();
 
-
 }
 static void Led_Panel_OnOff(void)
 {
 
-    Panel_Led_OnOff_Function() ;//Lcd_PowerOn_Fun();
+   Panel_Led_OnOff_Function() ;//Lcd_PowerOn_Fun();
 }
 /*******************************************************
 	*
@@ -514,7 +512,7 @@ static void Display_SetTemperature_Value(void)
 		  if(set_temperature_value <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
 	  
 				run_t.gDry = 0;
-
+                
 		        SendData_Set_Command(DRY_OFF_NO_BUZZER);//PTC turn off
 			    
 			    
@@ -522,11 +520,21 @@ static void Display_SetTemperature_Value(void)
 		  }
 		  else if((set_temperature_value -3) >= run_t.gReal_humtemp[1]){
 
-            
-		     run_t.gDry = 1;
-	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
 
-				 
+            if(run_t.ai_model_flag == NO_AI_MODE && run_t.manual_dry_turn_off ==0){
+
+                run_t.gDry = 1;
+                SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+
+
+            }
+            else{
+            
+    		     run_t.gDry = 1;
+    	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+             
+               
+             }
 		  }
 	  
 	    
@@ -543,28 +551,25 @@ static void Display_SetTemperature_Value(void)
           if(run_t.gReal_humtemp[1] < 38 && run_t.auto_model_shut_off_ptc_flag ==1 &&  run_t.gTimer_temp_delay >119){
                   run_t.gTimer_temp_delay =0;
 
-                 if(run_t.ai_model_flag == NO_AI_MODE){
-                     if(run_t.gReal_humtemp[1] < 20 || run_t.gReal_humtemp[1] == 20){
-                         run_t.gDry = 1;
-                         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
-
-
-                     }
-                  
-                 }
-	             else{
+//                 if(run_t.ai_model_flag == NO_AI_MODE){
+//                     if(run_t.gReal_humtemp[1] < 20 || run_t.gReal_humtemp[1] == 20){
+//                         run_t.gDry = 1;
+//                         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+//
+//
+//                     }
+//                  
+//                 }
+//	            {
+	            if(run_t.ai_model_flag == AI_MODE){
                   run_t.gDry = 1;
 	              SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
 
-                 }
+                }
              
-             
-           }
+          }
 			    
-                
-		  }
-
-
+      }
 
 }
 

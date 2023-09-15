@@ -2,6 +2,7 @@
 #include "run.h"
 #include "key.h"
 #include "delay.h"
+#include "cmd_link.h"
 
 
 volatile uint32_t led_k,led_i;
@@ -93,16 +94,33 @@ void ALL_LED_Off(void)
 *******************************************************************************************/  
 void Panel_Led_OnOff_Function(void)
 {
-	if(run_t.gTimer_run_ico > 30){ //30* 10ms =300ms
+
+   static uint8_t ai_changed_flag;
+   if(run_t.gTimer_run_ico > 30){ //30* 10ms =300ms
 		run_t.gTimer_run_ico=0;
 		
 	LED_POWER_ON();
 	if(run_t.ai_model_flag ==AI_MODE){
        LED_AI_ON();
+       run_t.gDry=1;
+       run_t.gPlasma=1;
+
+       if(ai_changed_flag == 0xff){
+
+         ai_changed_flag=0;
+
+         SendData_Set_Command(FAN_LEVEL_MAX_NO_SOUND);
+
+       }
+
 
 	}
-	else
+	else{
+        
 		LED_AI_OFF() ;
+        
+
+     }
 	 
 	  
     if(run_t.gDry==1){
@@ -127,13 +145,23 @@ void Panel_Led_OnOff_Function(void)
 
 	 }
 
-	 if(run_t.gFan == 1){
+	 if(run_t.gFan == 0 && (run_t.gDry==1 || run_t.gPlasma==1)){
          FAN_LED_OnOff(1); //display fan of grass is one 
+         if(run_t.fan_stop_flag ==1){
+            run_t.fan_stop_flag =0;
+            SendData_Set_Command(FAN_LEVEL_MAX_NO_SOUND);
+
+
+         }
          
-	 }
-	 else{
-        // FAN_LED_OnOff(0);//Fan of led alway turn on
-        FAN_LED_OnOff(1); //display fan of grass is two .
+      } 
+	 else if(run_t.gFan == 0 && (run_t.gDry==0 && run_t.gPlasma==0)){ //WT.DEDIT 20223.09.15
+        if(run_t.ai_model_flag == NO_AI_MODE && run_t.fan_stop_flag ==0){
+            FAN_LED_OnOff(0); //display fan of grass is two .
+            SendData_Set_Command(FAN_STOP);
+            run_t.fan_stop_flag =1;
+            ai_changed_flag=0xff;
+        }
        
 	 }
 	 

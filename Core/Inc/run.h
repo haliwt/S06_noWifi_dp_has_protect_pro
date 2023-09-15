@@ -120,9 +120,11 @@ typedef struct __RUN{
    uint8_t gTimer_display_fan_level;
    uint8_t fan_key_max;
    uint8_t fan_key_min;
+   uint8_t fan_stop_flag;
 
    //dry ref 
    uint8_t  dry_key;
+   uint8_t  manual_dry_turn_off;
 
    uint8_t gTimes_minutes_temp;
    uint8_t set_up_temp_flag;

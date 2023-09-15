@@ -85,6 +85,9 @@ typedef enum{
 
 	 FAN_LEVEL_MIN =0x10,
 	 FAN_LEVEL_MAX = 0x11,
+	 FAN_LEVEL_MAX_NO_SOUND = 0x12,
+	 FAN_STOP = 0x13,
+	 
 
      AI_MODE_ON = 0x30,   //EDIT 2023.09.13 new Add
      AI_MODE_OFF =0x31
