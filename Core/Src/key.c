@@ -182,11 +182,14 @@ void Process_Key_Handler(uint8_t keylabel)
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
 		  	  
 
-		          run_t.ai_model_flag =NO_AI_MODE;
+		         // run_t.ai_model_flag =NO_AI_MODE;
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
 				  run_t.confirm_timer_input_number=1;
 			      run_t.input_timer_timing_numbers_flag =1;
+                  run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
+                  run_t.judge_hours_if_zero =0;
+                  run_t.judge_minutes_if_zero =0;
                  	SendData_Buzzer();//single_buzzer_fun();
                     HAL_Delay(2);
 			  
@@ -235,8 +238,10 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			case 1:
 				
-		    if(run_t.timer_dispTime_minutes >0 || run_t.timer_dispTime_hours > 0){
+		    //if(run_t.timer_dispTime_minutes >0 || run_t.timer_dispTime_hours > 0){
+		    if(run_t.judge_hours_if_zero >0 || run_t.judge_minutes_if_zero >20){
 			     SendData_Buzzer();
+                 HAL_Delay(5);
 				 run_t.timer_timing_define_flag=timing_success;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
@@ -244,13 +249,20 @@ void Process_Key_Handler(uint8_t keylabel)
 				 run_t.input_timer_timing_numbers_flag =0;
                 
                  run_t.confirm_timer_input_number=0;
+                 run_t.ai_model_flag =NO_AI_MODE;
+                
               
 		    }
              else{
                   
-				   run_t.ai_model_flag =NO_AI_MODE;
+				  run_t.ai_model_flag =AI_MODE;
+                  run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
 			
 				  SendData_Buzzer();
+                  HAL_Delay(5);
+
+                  run_t.gDry=1;
+                  run_t.gPlasma=1;
 				  run_t.timer_timing_define_flag=timing_donot;
 					
 				 run_t.timer_works_transform_flag =0; //at once display AI mode 
@@ -260,6 +272,11 @@ void Process_Key_Handler(uint8_t keylabel)
 				  run_t.temp_set_timer_timing_flag=0;
                
                   run_t.input_timer_timing_numbers_flag =0;
+                 
+            
+                 SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
+
+                 HAL_Delay(5);
 
 				}
 					
@@ -407,11 +424,11 @@ void Set_Timing_Temperature_Number_Value(void)
 		 
 		run_t.timer_dispTime_hours =0;
 		run_t.timer_dispTime_minutes =0;
-//        if(run_t.timer_timing_define_ok ==0){//WT.edit 2023.09.13
-//             run_t.timer_timing_define_flag=timing_donot; 
-//		     run_t.ai_model_flag =1;
-//        }
-        run_t.ai_model_flag =NO_AI_MODE;
+
+        if(run_t.judge_hours_if_zero > 0 || run_t.judge_minutes_if_zero >20){
+            run_t.ai_model_flag =NO_AI_MODE;
+
+        }
 
 		run_t.timer_works_transform_flag =0;
         run_t.temp_set_timer_timing_flag=0;
@@ -616,7 +633,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				  
 				}
 				
-				
+				run_t.judge_minutes_if_zero = run_t.timer_dispTime_minutes;
+                run_t.judge_hours_if_zero  = run_t.timer_dispTime_hours;
 
 			    if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
 					      run_t.hours_two_decade_bit = 1 ;
@@ -722,6 +740,9 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 					}
 						
 			     }
+
+                run_t.judge_minutes_if_zero = run_t.timer_dispTime_minutes;
+                run_t.judge_hours_if_zero  = run_t.timer_dispTime_hours;
 
 				if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
 					      run_t.hours_two_decade_bit = 1 ;

@@ -102,8 +102,7 @@ void Panel_Led_OnOff_Function(void)
 	LED_POWER_ON();
 	if(run_t.ai_model_flag ==AI_MODE){
        LED_AI_ON();
-       run_t.gDry=1;
-       run_t.gPlasma=1;
+     
 
        if(ai_changed_flag == 0xff){
 
@@ -126,6 +125,11 @@ void Panel_Led_OnOff_Function(void)
     if(run_t.gDry==1){
 		 
 	     DRY_LED_OnOff(1);
+         if(run_t.ai_model_be_changed_flag == NO_AI_TO_AI_MODE){
+            run_t.ai_model_be_changed_flag++;
+          SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
+                 
+        }
       
 
      }
@@ -137,6 +141,7 @@ void Panel_Led_OnOff_Function(void)
 	 if(run_t.gPlasma==1){
 	 	
 	     PLASMA_LED_OnOff(1);
+        
         
 
      }

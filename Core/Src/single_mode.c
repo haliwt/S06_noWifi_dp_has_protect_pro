@@ -86,9 +86,23 @@ static void Display_SmgTiming_Value(void)
 			if(run_t.gTimer_Counter > 59){
 	          run_t.gTimer_Counter =0;
 
-			 run_t.timer_timing_define_flag=timing_donot; 
+			
 		     run_t.timer_works_transform_flag=0;
-			 run_t.ai_model_flag =1; 
+			
+             run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
+
+            SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
+
+             HAL_Delay(5);
+
+              run_t.timer_timing_define_flag=timing_donot; 
+
+             run_t.ai_model_flag =AI_MODE; 
+             run_t.gDry=1;
+              run_t.gPlasma=1;
+
+
+         
 		    }
 
 		break;
@@ -528,7 +542,7 @@ static void Display_SetTemperature_Value(void)
 
 
             }
-            else{
+            else if(run_t.manual_dry_turn_off ==0){
             
     		     run_t.gDry = 1;
     	         SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On

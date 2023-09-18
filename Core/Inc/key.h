@@ -77,11 +77,15 @@ typedef enum{
 	 DRY_ON = 0x40,
 	 DRY_OFF = 0x41,
 
-   DRY_ON_NO_BUZZER = 0x90,
+     DRY_ON_NO_BUZZER = 0x90,
 	 DRY_OFF_NO_BUZZER = 0x91,
 
 	 PLASMA_ON = 0x20,
 	 PLASMA_OFF = 0x21,
+     PLASM_ON_NO_BUZZER = 0xA0,
+     PLASM_OFF_NO_BUZZER = 0xA1,
+
+     
 
 	 FAN_LEVEL_MIN =0x10,
 	 FAN_LEVEL_MAX = 0x11,
@@ -135,7 +139,8 @@ typedef enum{
 typedef enum{
 
    NO_AI_MODE,
-   AI_MODE
+   AI_MODE,
+   NO_AI_TO_AI_MODE
 
 }ai_mode_state;
 
